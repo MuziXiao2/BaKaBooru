@@ -48,7 +48,7 @@ const handleSubmit = async () => {
   formData.append('image', file.value);
 
   try {
-    const response = await fetch('http://localhost:8080/upload', {
+    const response = await fetch('http://localhost:8080/gallery/0/upload', {
       method: 'POST',
       body: formData,
     });

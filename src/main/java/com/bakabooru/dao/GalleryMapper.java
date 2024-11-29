@@ -8,17 +8,29 @@ import java.util.List;
 
 @Mapper
 public interface GalleryMapper {
-
-    @Select("SELECT g.id AS g_id, g.name AS g_name, i.id AS i_id, i.url AS i_url, i.title AS i_title " +
-            "FROM galleries g LEFT JOIN images i ON g.id = i.gallery_id WHERE g.id = #{galleryId}")
-    @Results({
-            @Result(property = "id", column = "g_id"),
-            @Result(property = "name", column = "g_name"),
-            @Result(property = "images", javaType = List.class, column = "g_id",
-                    many = @Many(select = "com.bakabooru.dao.GalleryMapper.getImagesByGalleryId"))
-    })
-    Gallery getGallery(int galleryId);
-
-    @Select("SELECT id, url, title FROM images WHERE gallery_id = #{galleryId}")
+    @Select("SELECT i.id, i.url, i.title, i.created_at, i.updated_at " +
+            "FROM image i " +
+            "JOIN gallery_image gi ON i.id = gi.image_id " +
+            "WHERE gi.gallery_id = #{galleryId}")
     List<Image> getImagesByGalleryId(int galleryId);
+
+    @Select("SELECT name FROM gallery WHERE id = #{galleryId}")
+    String getGalleryNameByGalleryId(int galleryId);
+
+    @Select("SELECT COUNT(id) FROM image")
+    int getNextImageId();
+
+    // 添加到 gallery 表
+    @Insert("INSERT INTO gallery (name) VALUES (#{name})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void addGallery(Gallery gallery);
+
+    // 添加到 image 表
+    @Insert("INSERT INTO image (url, title) VALUES (#{url}, #{title})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void addImage(Image image);
+
+    // 在 gallery_image 表中建立关联
+    @Insert("INSERT INTO gallery_image (gallery_id, image_id) VALUES (#{galleryId}, #{imageId})")
+    void addGalleryImage(int galleryId, int imageId);
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Image {
-    private String id;
+    private int id;
     private String url;
     private String title;
 }
