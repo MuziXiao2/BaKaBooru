@@ -3,13 +3,13 @@ package com.bakabooru.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gallery {
+public class ImageDTO {
     private String name;
-    private List<ImageVO> images;
+    private String url;
+    private String galleryName;
 }

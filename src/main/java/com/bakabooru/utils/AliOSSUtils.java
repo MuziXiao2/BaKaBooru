@@ -14,6 +14,7 @@ public class AliOSSUtils {
 
     @Autowired
     private AliOSSProperties aliOSSProperties;
+    
 
     public String upload(MultipartFile file) throws IOException {
         //获取阿里云OSS参数
