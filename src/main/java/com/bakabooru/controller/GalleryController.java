@@ -21,22 +21,9 @@ public class GalleryController {
     @Autowired
     private GalleryService galleryService;
 
-    @GetMapping("/gallery/{gallery_id}/images")
+    @GetMapping("/gallery/{gallery_id}")
     public List<Image> getImages(@PathVariable("gallery_id") int galleryId) {
         return galleryService.getGallery(galleryId).getImages();
     }
-
-    @PostMapping("/gallery/{gallery_id}/upload")
-    @ResponseBody
-    public ResponseEntity uploadImage(@PathVariable("gallery_id") int galleryId, @RequestParam("images") List<MultipartFile> imageFiles) throws IOException {
-        for (MultipartFile imageFile : imageFiles) {
-            log.info("文件上传, 文件名: {}", imageFile.getOriginalFilename());
-            Image image = galleryService.addImage(imageFile, galleryId);
-            log.info("文件上传完成,文件访问的url: {}", image.getUrl());
-        }
-        return new ResponseEntity<>(HttpStatus.CREATED);
-
-    }
-
 
 }
