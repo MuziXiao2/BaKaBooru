@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  application:
+    name: backend
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+aliyun:
+  oss:
+    endpoint:
+    access-key-id:
+    access-key-secret:
+    bucket-name:
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Other ###
-/src/main/resources/application.yml
+
