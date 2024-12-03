@@ -2,8 +2,6 @@ package com.bakabooru.service.impl;
 
 import com.bakabooru.dao.ImageMapper;
 import com.bakabooru.pojo.ImageDTO;
-import com.bakabooru.pojo.ImageVO;
-import com.bakabooru.pojo.UploadImageDTO;
 import com.bakabooru.service.ImageService;
 import com.bakabooru.utils.AliOSSUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,13 @@ public class ImageServiceImpl implements ImageService {
     private AliOSSUtils aliOSSUtils;
 
     @Override
-    public void addImage(UploadImageDTO uploadImageDTO, String galleryName) throws IOException {
-        imageMapper.addImage(new ImageDTO(uploadImageDTO.getName(), aliOSSUtils.upload(uploadImageDTO.getFile()), galleryName));
+    public String uploadImage(MultipartFile imageFile) throws IOException {
+        return aliOSSUtils.upload(imageFile);
+    }
+
+    @Override
+    public void addImage(ImageDTO imageDTO, String galleryName) {
+        imageMapper.addImage(imageDTO.getName(), imageDTO.getUrl(), galleryName);
     }
 
     @Override

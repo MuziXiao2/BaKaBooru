@@ -11,9 +11,9 @@
       <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="image in images" :key="image.id" class="mb-4">
         <el-card :body-style="{ padding: '0px' }">
           <el-checkbox v-model="image.selected" @change="updateSelected(image)" class="image-checkbox"></el-checkbox>
-          <img :src="image.url" :alt="image.title" class="image">
+          <img :src="image.url" :alt="image.name" class="image">
           <div style="padding: 14px;">
-            <span>{{ image.title }}</span>
+            <span>{{ image.name }}</span>
           </div>
         </el-card>
       </el-col>
@@ -22,7 +22,8 @@
 </template>
 
 <script setup>
-import {ref, defineProps, defineEmits, watch} from 'vue';
+/* eslint-disable */
+import { ref, defineProps, defineEmits, watch } from 'vue';
 
 const props = defineProps({
   images: {
@@ -50,11 +51,11 @@ const deleteSelected = () => {
 
 watch(() => props.images, (newImages) => {
   newImages.forEach(image => {
-    if (!Object.hasOwn(image, 'selected')) {
+    if (!image.hasOwnProperty('selected')) {
       image.selected = false;
     }
   });
-}, {deep: true, immediate: true});
+}, { deep: true, immediate: true });
 </script>
 
 <style scoped>
@@ -63,7 +64,6 @@ watch(() => props.images, (newImages) => {
   height: 200px;
   object-fit: cover;
 }
-
 .image-checkbox {
   position: absolute;
   top: 10px;

@@ -1,30 +1,13 @@
 <template>
-  <el-menu
-      :default-active="currentGalleryId.toString()"
-      class="el-menu-vertical-demo"
-  >
-    <el-menu-item
-        v-for="gallery in galleries"
-        :key="gallery.id"
-        :index="gallery.id.toString()"
-        @click="selectGallery(gallery.id)"
-    >
-      <span>{{ gallery.name }}</span>
+  <el-menu class="el-menu-vertical-demo">
+    <el-menu-item index="default">
+      <span>默认图库</span>
     </el-menu-item>
   </el-menu>
 </template>
 
 <script setup>
-import {defineProps, defineEmits} from 'vue';
-
-defineProps({
-  galleries: Array,
-  currentGalleryId: Number,
-});
-const emit = defineEmits(['selectGallery']);
-
-const selectGallery = (id) => {
-  emit('selectGallery', id);
-};
+/* eslint-disable */
+// 不再需要 props 和 emit，因为只有一个固定的选项
 </script>
 
