@@ -7,15 +7,21 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Atlas: typeof import('./src/components/AtlasesViews/Atlases/Atlas.vue')['default']
+    Atlases: typeof import('./src/components/AtlasesViews/Atlases.vue')['default']
+    Header: typeof import('./src/components/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
-    Menu: typeof import('./src/components/Menu.vue')['default']
+    Menu: typeof import('./src/components/Header/Menu.vue')['default']
     NAnchor: typeof import('naive-ui')['NAnchor']
     NAnchorLink: typeof import('naive-ui')['NAnchorLink']
+    NCard: typeof import('naive-ui')['NCard']
+    NFlex: typeof import('naive-ui')['NFlex']
+    NInput: typeof import('naive-ui')['NInput']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
@@ -26,9 +32,11 @@ declare module 'vue' {
     NSwitch: typeof import('naive-ui')['NSwitch']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SearchBar: typeof import('./src/components/SearchBar.vue')['default']
-    SourceList: typeof import('./src/components/SourceList.vue')['default']
+    SearchBar: typeof import('./src/components/AtlasesViews/Sider/SearchBar.vue')['default']
+    Sider: typeof import('./src/components/AtlasesViews/Sider.vue')['default']
+    SourceList: typeof import('./src/components/AtlasesViews/Sider/SourceList.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    TopMenu: typeof import('./src/components/Header/TopMenu.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }
