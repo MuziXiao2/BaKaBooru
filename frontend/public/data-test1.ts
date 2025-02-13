@@ -1,15 +1,13 @@
 import type { Source } from '@/types/source'
 
 const data: Source = {
-  key: 'test1',
-  name: 'Test1',
+  name: 'test1',
   type: 'local',
-  count: 3,
   atlases:
     [
       {
         id: 0,
-        name: 'Test1-0',
+        name: 'test1-0',
         images: [
           {
             id: 0,
@@ -19,7 +17,7 @@ const data: Source = {
       },
       {
         id: 1,
-        name: 'Test1-1',
+        name: 'test1-1',
         images: [
           {
             id: 0,
@@ -29,7 +27,7 @@ const data: Source = {
       },
       {
         id: 2,
-        name: 'Test1-2',
+        name: 'test1-2',
         images: [
           {
             id: 0,
@@ -39,7 +37,7 @@ const data: Source = {
       },
       {
         id: 3,
-        name: 'Test1-3',
+        name: 'test1-3',
         images: [
           {
             id: 0,
@@ -49,7 +47,7 @@ const data: Source = {
       },
       {
         id: 4,
-        name: 'Test1-4',
+        name: 'test1-4',
         images: [
           {
             id: 0,
