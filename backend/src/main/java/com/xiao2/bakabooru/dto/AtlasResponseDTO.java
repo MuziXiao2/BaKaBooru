@@ -6,10 +6,18 @@ import lombok.Data;
 @Data
 public class AtlasResponseDTO {
     private Long id;
-    private String name;
 
-    public AtlasResponseDTO(Atlas source) {
-        this.id = source.getId();
-        this.name = source.getName();
+    private String name;
+    private String coverUrl;
+
+    private Long sourceId;
+
+    public AtlasResponseDTO(Atlas atlas) {
+        this.id = atlas.getId();
+
+        this.name = atlas.getName();
+        this.coverUrl = atlas.getCoverUrl();
+
+        this.sourceId = atlas.getSourceId();
     }
 }

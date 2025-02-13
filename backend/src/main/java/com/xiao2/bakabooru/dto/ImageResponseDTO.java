@@ -5,13 +5,17 @@ import lombok.Data;
 
 @Data
 public class ImageResponseDTO {
-    private Long id;
     private String name;
-    private String url;
+    private String fileUrl;
+
+    private Long position;
+    private Long atlasId;
 
     public ImageResponseDTO(Image image) {
-        this.id = image.getId();
         this.name = image.getName();
-        this.url = image.getUrl();
+        this.fileUrl = image.getFileUrl();
+
+        this.position = image.getPosition();
+        this.atlasId = image.getAtlasId();
     }
 }

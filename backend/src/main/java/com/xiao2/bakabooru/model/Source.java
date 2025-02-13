@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Table(name = "source")
 @Data
@@ -17,11 +15,11 @@ public class Source {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
-    private String type;
 
-    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
-    private List<SourceAtlas> sourceAtlases;
+    @Column(name = "type")
+    private String type;
 
     public Source(SourceRequestDTO dto) {
         this.name = dto.getName();

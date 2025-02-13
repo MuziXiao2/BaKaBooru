@@ -5,4 +5,6 @@ import lombok.Data;
 @Data
 public class AtlasRequestDTO {
     private String name;
+
+    private Long sourceId;
 }

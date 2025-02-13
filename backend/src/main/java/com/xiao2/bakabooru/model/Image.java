@@ -16,14 +16,20 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
-    private String url;
+    @Column(name = "file_url")
+    private String fileUrl;
 
-    @OneToOne(mappedBy = "image")
-    private AtlasImage atlasImage;
+    @Column(name = "position")
+    private Long position;
+    @Column(name = "atlas_id")
+    private Long atlasId;
+
 
     public Image(ImageRequestDTO dto) {
         this.name = dto.getName();
-        this.url = dto.getUrl();
+        this.fileUrl = dto.getFileUrl();
+        this.atlasId = dto.getAtlasId();
     }
 }

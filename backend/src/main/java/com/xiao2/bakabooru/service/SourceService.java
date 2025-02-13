@@ -2,7 +2,6 @@ package com.xiao2.bakabooru.service;
 
 import com.xiao2.bakabooru.dto.*;
 import com.xiao2.bakabooru.model.*;
-import com.xiao2.bakabooru.model.SourceAtlas;
 import com.xiao2.bakabooru.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,83 +12,75 @@ import java.util.stream.Collectors;
 @Service
 public class SourceService {
 
-    @Autowired
-    private SourceRepository sourceRepository;
-    @Autowired
-    private AtlasRepository atlasRepository;
-    @Autowired
-    private ImageRepository imageRepository;
-    @Autowired
-    private SourceAtlasRepository sourceAtlasRepository;
-    @Autowired
-    private AtlasImageRepository atlasImageRepository;
 
     /*图源操作*/
+    @Autowired
+    private SourceRepository sourceRepository;
+
+    //添加图源
     public Source addSource(SourceRequestDTO sourceRequestDTO) {
         Source source = new Source(sourceRequestDTO);
         return sourceRepository.save(source);
     }
 
+    //获取所有图源
     public List<SourceResponseDTO> getAllSource() {
         List<Source> sources = sourceRepository.findAll();
-        return sources.stream()
+        return sources
+                .stream()
                 .map(SourceResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
     /*图集操作*/
-    public Atlas addAtlas(Long sourceId, AtlasRequestDTO atlasRequestDTO) {
-        // 创建并保存Atlas对象
+    @Autowired
+    private AtlasRepository atlasRepository;
+
+    // 给图源添加图集
+    public Atlas addAtlas(AtlasRequestDTO atlasRequestDTO) {
+        // 创建Atlas对象
         Atlas atlas = new Atlas(atlasRequestDTO);
+
+        //保存Atlas对象
         atlas = atlasRepository.save(atlas);
-
-        // 找到对应的Source对象
-        Source source = sourceRepository.findById(sourceId)
-                .orElseThrow(() -> new RuntimeException("Source not found"));
-
-
-        // 获取Atlas的位置 (!!!高并发下可能出问题!!!)
-        Long order = sourceAtlasRepository.countBySourceId(sourceId);
-
-        // 创建并保存SourceAtlas对象
-        SourceAtlas sourceAtlas = new SourceAtlas(source, atlas, order);
-        sourceAtlasRepository.save(sourceAtlas);
 
         return atlas;
     }
 
-    public List<AtlasResponseDTO> getAllAtlases(Long sourceId) {
-        return sourceAtlasRepository.
-                findBySourceIdOrderByAtlasOrderAsc(sourceId).stream()
-                .map(SourceAtlas::getAtlas)
+    // 从图源获取所有图集
+    public List<AtlasResponseDTO> getAllAtlas(Long sourceId) {
+        return atlasRepository
+                .findBySourceId(sourceId)
+                .stream()
                 .map(AtlasResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
     /*图片操作*/
-    public Image addImage(Long atlasId, ImageRequestDTO imageRequestDTO) {
-        // 创建并保存Image对象
+    @Autowired
+    private ImageRepository imageRepository;
+
+    // 给图集添加张图片
+    public Image addImage(ImageRequestDTO imageRequestDTO) {
+        // 创建Image对象
         Image image = new Image(imageRequestDTO);
+
+        // 获取Image的position (!!!高并发下可能出问题!!!)
+        Long atlasId = imageRequestDTO.getAtlasId();
+        Long position = imageRepository.countByAtlasId(atlasId);
+        image.setPosition(position);
+
+        // 保存Image对象
         image = imageRepository.save(image);
-
-        // 找到对应的Atlas对象
-        Atlas atlas = atlasRepository.findById(atlasId)
-                .orElseThrow(() -> new RuntimeException("Atlas not found"));
-
-        // 获取Image的位置 (!!!高并发下可能出问题!!!)
-        Long order = atlasImageRepository.countByAtlasId(atlasId);
-
-        // 创建并保存AtlasImage对象
-        AtlasImage atlasImage = new AtlasImage(atlas, image, order);
-        atlasImageRepository.save(atlasImage);
 
         return image;
     }
 
-    public List<ImageResponseDTO> getAllImages(Long atlasId) {
-        return atlasImageRepository
-                .findByAtlasIdOrderByImageOrderAsc(atlasId).stream()
-                .map(AtlasImage::getImage)
+    // 从图集获取所有图片
+    public List<ImageResponseDTO> getAllImage(Long atlasId) {
+        return imageRepository
+                .findByAtlasIdOrderByPositionAsc(atlasId)
+                .stream()
                 .map(ImageResponseDTO::new)
                 .collect(Collectors.toList());
     }

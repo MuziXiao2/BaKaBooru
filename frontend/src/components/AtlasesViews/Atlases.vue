@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import Atlas from '@/components/AtlasesViews/Atlases/Atlas.vue'
-import { useSourceStore } from '@/stores/sourceStore'
-import type { Source } from '@/types/source'
+import { useAtlasStore } from '@/stores/atlasStore.ts'
 
-const sourceStore = useSourceStore()
-const sourceData = sourceStore.getSource as Source
-const atlases = sourceData.atlases
+const atlasStore = useAtlasStore()
+const atlases = atlasStore.atlases
 
 
 </script>
@@ -15,7 +13,7 @@ const atlases = sourceData.atlases
     id="atlases"
     size="small"
   >
-    <n-flex >
+    <n-flex>
       <Atlas v-for="(atlas,index) in atlases" :key="index" :atlas="atlas" />
     </n-flex>
 

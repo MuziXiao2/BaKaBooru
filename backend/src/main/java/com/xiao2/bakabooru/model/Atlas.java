@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-
 @Entity
 @Table(name = "atlas")
 @Data
@@ -18,15 +15,17 @@ public class Atlas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
+    @Column(name = "cover_url")
+    private String coverUrl;
 
-    @OneToOne(mappedBy = "atlas", cascade = CascadeType.ALL)
-    private SourceAtlas sourceAtlas;
-
-    @OneToMany(mappedBy = "atlas", cascade = CascadeType.ALL)
-    private List<AtlasImage> atlasImages;
+    @Column(name = "source_id")
+    private Long sourceId;
 
     public Atlas(AtlasRequestDTO dto) {
         this.name = dto.getName();
+
+        this.sourceId = dto.getSourceId();
     }
 }

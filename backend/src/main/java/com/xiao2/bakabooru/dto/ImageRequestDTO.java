@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class ImageRequestDTO {
     private String name;
-    private String url;
+    private String fileUrl;
+
+    private Long atlasId;
 }

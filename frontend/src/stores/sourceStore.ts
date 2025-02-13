@@ -1,22 +1,25 @@
 import { defineStore } from 'pinia'
-import DataTest1 from '../../public/data-test1.ts'
 import type { Source } from '@/types/source'
+import { getAllSources } from '@/api'
 
 
 export const useSourceStore = defineStore('source', {
   state: () => ({
-    //正在选中图源的name
-    selectedSource: 'test1'
-
+    //图源列表
+    sources: []
   }),
   getters: {
-    getSource: (state): Source | undefined => {
-      return DataTest1 as Source
-    }
+
+
   },
   actions: {
-    setSelectedSource(source: string) {
-      this.selectedSource = source
+    async fetchSources() {
+      try {
+        const response = await getAllSources()
+        this.sources = response.data
+      } catch (error) {
+        console.error('获取图源失败', error)
+      }
     }
   }
 })
