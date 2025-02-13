@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toRefs } from 'vue'
-import type { Atlas } from '@/types/source'
+import type { Atlas } from '@/types/atlas'
 
 
 const props = defineProps<{
@@ -13,10 +13,10 @@ const { atlas } = toRefs(props)
 
 <template>
   <n-card
-    :title="'TEST '+atlas.id"
+    :title="atlas.name"
   >
     <template #cover>
-      <img id="image" :src="atlas.images[0].url">
+      <img id="image" :src="atlas.cover_url">
     </template>
   </n-card>
 </template>
@@ -27,7 +27,7 @@ const { atlas } = toRefs(props)
   max-width: 200px;
 }
 
-#image{
+#image {
   height: 180px;
   object-fit: contain;
 }

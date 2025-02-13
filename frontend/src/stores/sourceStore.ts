@@ -17,6 +17,7 @@ export const useSourceStore = defineStore('source', {
       try {
         const response = await getAllSources()
         this.sources = response.data
+        console.log('[BaKaBooru] 获取图源成功', this.sources)
       } catch (error) {
         console.error('获取图源失败', error)
       }

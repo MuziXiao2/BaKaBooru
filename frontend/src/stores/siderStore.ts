@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useSourceStore } from '@/stores/sourceStore.ts'
-import type { MenuOption } from 'naive-ui'
+import { type MenuOption, NIcon } from 'naive-ui'
 import { type Component, h } from 'vue'
 import {
   InformationCircleOutline as TestIcon,
@@ -16,7 +16,7 @@ function renderIcon(icon: Component) {
 export const useSiderStore = defineStore('sider', {
   state: () => ({
     //正在选中图源的key
-    selectedSourceKey: 0
+    selectedSourceId: 1
   }),
   getters: {
     // 菜单选项
@@ -40,14 +40,17 @@ export const useSiderStore = defineStore('sider', {
         }
       }
 
-      for (let key = 0; key < sources.length; key++) {
+      // 将图源添加到对应type下的children
+      sources.forEach(source => {
         sourceOption[source.type].children.push({
           label: source.name,
-          key: `${key}`,
-          icon: renderIcon(TestIcon)
+          key: `${source.id}`,
+          icon: renderIcon(TestIcon),
+          show:true,
         })
-      }
+      })
 
+      // 其他选项
       const otherOption: MenuOption[] = [
         {
           key: 'divider',
@@ -69,8 +72,8 @@ export const useSiderStore = defineStore('sider', {
     }
   },
   actions: {
-    setSelectedSourceKey(key: number) {
-      this.selectedSourceKey = key
+    setSelectedSourceId(id) {
+      this.selectedSourceId = id
     }
   }
 })

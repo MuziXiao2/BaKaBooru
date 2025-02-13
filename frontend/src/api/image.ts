@@ -6,8 +6,8 @@ import api from './index';
  * @param {Object} data 图片请求数据
  * @returns {Promise} 返回添加图片的请求结果
  */
-export function addImage(atlasId, data) {
-  return api.post(`/sources/${atlasId}`, data);
+export function addImage( data) {
+  return api.post(`/sources`, data);
 }
 
 /**
@@ -16,5 +16,5 @@ export function addImage(atlasId, data) {
  * @returns {Promise} 返回图集下的图片列表
  */
 export function getAllImages(atlasId) {
-  return api.get(`/sources/${atlasId}`);
+  return api.get(`/images/{atlas_id}`);
 }

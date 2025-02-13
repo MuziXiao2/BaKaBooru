@@ -22,7 +22,7 @@ api.interceptors.response.use(response => {
   return response
 }, error => {
   console.error('API 请求错误:', error)
-  return Promise.reject(error)s
+  return Promise.reject(error)
 })
 
 export default api
