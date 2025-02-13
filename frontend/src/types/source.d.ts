@@ -10,9 +10,7 @@ export interface Atlas {
 }
 
 export interface Source {
-  key: string,
   name: string,
   type: string,
-  count: number,
   atlases: Atlas[],
 }

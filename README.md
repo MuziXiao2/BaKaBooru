@@ -1,1 +1,1 @@
-BaKaBooru is a user-friendly personal illustration organizer.
+BaKaBooru is a user-friendly personal artwork management tool.

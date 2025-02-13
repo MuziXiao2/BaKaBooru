@@ -5,8 +5,8 @@ import type { Source } from '@/types/source'
 
 export const useSourceStore = defineStore('source', {
   state: () => ({
-    //正在选中图源的key
-    selectedSource: ''
+    //正在选中图源的name
+    selectedSource: 'test1'
 
   }),
   getters: {
