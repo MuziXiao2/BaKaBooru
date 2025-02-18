@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toRefs } from 'vue'
-import type { Atlas } from '@/types/atlas'
+import Atlas from '@/types/Atlas'
 
 const props = defineProps<{ atlas: Atlas }>()
 const { atlas } = toRefs(props)

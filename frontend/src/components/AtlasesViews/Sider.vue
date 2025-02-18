@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SourceList from '@/components/AtlasesViews/Sider/SourceList.vue'
-import SearchBar from '@/components/AtlasesViews/Sider/SearchBar.vue'
+import Search from '@/components/AtlasesViews/Sider/Search.vue'
+import Options from '@/components/AtlasesViews/Sider/Options.vue'
 </script>
 
 <template>
@@ -9,11 +9,12 @@ import SearchBar from '@/components/AtlasesViews/Sider/SearchBar.vue'
     size="small"
     content-style="padding: 5px;"
   >
-    <!--图源列表-->
-    <SourceList />
+    <!--选项列表-->
+    <Options />
     <hr>
     <!--搜索栏-->
-    <SearchBar />
+    <Search />
+
   </n-card>
 </template>
 
