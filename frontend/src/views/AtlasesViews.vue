@@ -5,7 +5,7 @@ import Atlases from '@/components/AtlasesViews/Atlases.vue'
 </script>
 
 <template>
-  <n-layout has-sider style="height: 100%;">
+  <n-layout has-sider>
     <!--侧边栏-->
     <n-layout-sider
       :show-collapsed-content="true"
@@ -19,9 +19,7 @@ import Atlases from '@/components/AtlasesViews/Atlases.vue'
     </n-layout-sider>
 
     <!--内容-->
-    <n-layout-content
-      :native-scrollbar="false"
-    >
+    <n-layout-content >
       <Atlases />
     </n-layout-content>
 
@@ -29,12 +27,21 @@ import Atlases from '@/components/AtlasesViews/Atlases.vue'
 </template>
 
 <style scoped>
+.n-layout {
+  height: calc(100vh - 43px);
+
+}
+
 .n-layout-sider {
   background: rgba(128, 128, 128, 0.3);
 }
 
 .n-layout-content {
   background: rgba(128, 128, 128, 0.4);
+  padding: 10px;
+
+
+
 }
 
 </style>

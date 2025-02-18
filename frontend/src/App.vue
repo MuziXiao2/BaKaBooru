@@ -10,9 +10,9 @@ import Header from '@/components/Header.vue'
     <!--主体-->
     <router-view />
   </n-layout>
+
 </template>
 
-<style scoped>
-
+<style>
 
 </style>

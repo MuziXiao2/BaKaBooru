@@ -1,4 +1,4 @@
-export interface Atlas {
+export default interface Atlas {
   id: number,
   name: string,
   cover_url: string,

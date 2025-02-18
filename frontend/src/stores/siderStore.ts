@@ -6,6 +6,8 @@ import {
   InformationCircleOutline as TestIcon,
   StarOutline as StarIcon
 } from '@vicons/ionicons5'
+import type { MenuGroupOptionMap } from '@/types/option'
+import type Source from '@/types/source'
 
 
 function renderIcon(icon: Component) {
@@ -22,8 +24,8 @@ export const useSiderStore = defineStore('sider', {
     // 菜单选项
     options: (state) => {
       const sourceStore = useSourceStore()
-      const sources = sourceStore.sources
-      const sourceOption = {
+      const sources: Source[] = sourceStore.sources
+      const sourceOption: MenuGroupOptionMap = {
         local: {
           type: 'group',
           label: '本地图源',
@@ -46,7 +48,7 @@ export const useSiderStore = defineStore('sider', {
           label: source.name,
           key: `${source.id}`,
           icon: renderIcon(TestIcon),
-          show:true,
+          show: true
         })
       })
 
@@ -72,7 +74,7 @@ export const useSiderStore = defineStore('sider', {
     }
   },
   actions: {
-    setSelectedSourceId(id) {
+    setSelectedSourceId(id: number) {
       this.selectedSourceId = id
     }
   }

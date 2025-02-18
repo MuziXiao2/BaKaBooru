@@ -1,17 +1,14 @@
 import { defineStore } from 'pinia'
-import type { Source } from '@/types/source'
+import type Source from '@/types/source'
 import { getAllSources } from '@/api'
 
 
 export const useSourceStore = defineStore('source', {
   state: () => ({
     //图源列表
-    sources: []
+    sources: [] as Source[]
   }),
-  getters: {
-
-
-  },
+  getters: {},
   actions: {
     async fetchSources() {
       try {
