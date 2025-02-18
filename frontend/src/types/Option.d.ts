@@ -1,7 +1,7 @@
 export interface MenuOption {
   key: string;
+  label: string | function;
   icon?: any;
-  label: string;
   show?: boolean;
   disabled?: boolean;
 }
@@ -9,12 +9,12 @@ export interface MenuOption {
 
 export interface MenuGroupOption {
   type: string;
-  label: string;
   key: string;
+  label: string;
   show?: boolean;
   children: MenuOption[]
 }
 
 export interface MenuGroupOptionMap {
-  [key: string]: SourceOption;
+  [key: string]: MenuGroupOption;
 }

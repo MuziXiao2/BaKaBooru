@@ -1,30 +1,43 @@
 import { defineStore } from 'pinia'
 import { useSourceStore } from '@/stores/sourceStore.ts'
-import { type MenuOption, NIcon } from 'naive-ui'
-import { type Component, h } from 'vue'
+import { type MenuOption } from 'naive-ui'
+import {  h } from 'vue'
 import {
   InformationCircleOutline as TestIcon,
+  HomeOutline as HomeIcon,
   StarOutline as StarIcon
 } from '@vicons/ionicons5'
-import type { MenuGroupOptionMap } from '@/types/option'
-import type Source from '@/types/source'
-
-
-function renderIcon(icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
-
+import type { MenuGroupOptionMap } from '@/types/Option'
+import type Source from '@/types/Source'
+import { RouterLink } from 'vue-router'
+import { renderIcon } from '@/utils/icon.ts'
 
 export const useSiderStore = defineStore('sider', {
   state: () => ({
-    //正在选中图源的key
-    selectedSourceId: 1
+
   }),
   getters: {
     // 菜单选项
     options: (state) => {
       const sourceStore = useSourceStore()
       const sources: Source[] = sourceStore.sources
+
+      // 默认选项
+      const defaultOption: MenuOption = {
+        key: 'default',
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: { name: 'default' }
+            },
+            { default: () => '主页' }
+          ),
+        icon: renderIcon(HomeIcon),
+        show: true
+      }
+
+      // 图源选项
       const sourceOption: MenuGroupOptionMap = {
         local: {
           type: 'group',
@@ -45,10 +58,18 @@ export const useSiderStore = defineStore('sider', {
       // 将图源添加到对应type下的children
       sources.forEach(source => {
         sourceOption[source.type].children.push({
-          label: source.name,
           key: `${source.id}`,
+          label: () =>
+            h(
+              RouterLink,
+              {
+                to: { name: 'atlases', params: { id: source.id } }
+              },
+              { default: () => source.name }
+            ),
           icon: renderIcon(TestIcon),
-          show: true
+          show: true,
+          disabled: false
         })
       })
 
@@ -70,12 +91,10 @@ export const useSiderStore = defineStore('sider', {
         }
       ]
 
-      return [sourceOption.local, sourceOption.network, ...otherOption]
+      return [defaultOption, sourceOption.local, sourceOption.network, ...otherOption]
     }
   },
   actions: {
-    setSelectedSourceId(id: number) {
-      this.selectedSourceId = id
-    }
+
   }
 })

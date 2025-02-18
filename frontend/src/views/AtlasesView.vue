@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Sider from '@/components/AtlasesViews/Sider.vue'
-import Atlases from '@/components/AtlasesViews/Atlases.vue'
 
 </script>
 
@@ -19,8 +18,8 @@ import Atlases from '@/components/AtlasesViews/Atlases.vue'
     </n-layout-sider>
 
     <!--内容-->
-    <n-layout-content >
-      <Atlases />
+    <n-layout-content  :native-scrollbar="false" >
+      <router-view />
     </n-layout-content>
 
   </n-layout>

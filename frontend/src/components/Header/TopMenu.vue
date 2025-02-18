@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import type { MenuOption } from 'naive-ui'
-import { h } from 'vue'
 import {
   Star as StarIcon
 } from '@vicons/ionicons5'
-import type { Component } from 'vue'
-import { NIcon } from 'naive-ui'
-
-function renderIcon(icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
+import { renderIcon } from '@/utils/icon.ts'
 
 const menuOptions: MenuOption[] = [
   {

@@ -8,7 +8,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Atlas: typeof import('./src/components/AtlasesViews/Atlases/Atlas.vue')['default']
-    Atlases: typeof import('./src/components/AtlasesViews/Atlases.vue')['default']
+    AtlasCard: typeof import('./src/components/AtlasesViews/Atlases/AtlasCard.vue')['default']
+    Atlases: typeof import('./src/components/AtlasesViews/Atlases/Atlases.vue')['default']
+    Default: typeof import('./src/components/AtlasesViews/Atlases/Default.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
@@ -33,8 +35,10 @@ declare module 'vue' {
     NSpace: typeof import('naive-ui')['NSpace']
     NSpin: typeof import('naive-ui')['NSpin']
     NSwitch: typeof import('naive-ui')['NSwitch']
+    Options: typeof import('./src/components/AtlasesViews/Sider/Options.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Search: typeof import('./src/components/AtlasesViews/Sider/Search.vue')['default']
     SearchBar: typeof import('./src/components/AtlasesViews/Sider/SearchBar.vue')['default']
     Sider: typeof import('./src/components/AtlasesViews/Sider.vue')['default']
     SourceList: typeof import('./src/components/AtlasesViews/Sider/SourceList.vue')['default']

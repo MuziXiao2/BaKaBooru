@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type Source from '@/types/source'
+import type Source from '@/types/Source'
 import { getAllSources } from '@/api'
 
 

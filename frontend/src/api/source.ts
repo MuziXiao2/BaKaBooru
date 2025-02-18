@@ -1,14 +1,14 @@
 import api from './index'
 import type { AxiosResponse } from 'axios'
-import type Source from '@/types/source'
+import type Source from '@/types/Source'
 
 /**
  * 添加图源
  * @param {Object} data 图源请求数据
  * @returns {Promise} 返回添加图源的请求结果
  */
-export function addSource(data: Source) {
-  return api.post('/sources', data)
+export function addSource() {
+
 }
 
 /**
