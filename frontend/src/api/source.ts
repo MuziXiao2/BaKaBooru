@@ -1,4 +1,5 @@
 import api from './index'
+import type { AxiosResponse } from 'axios'
 import type Source from '@/types/source'
 
 /**
@@ -14,6 +15,6 @@ export function addSource(data: Source) {
  * 获取所有图源
  * @returns {Promise} 返回所有图源的列表
  */
-export function getAllSources(): Source {
+export function getAllSources(): Promise<AxiosResponse<Source[]>> {
   return api.get('/sources')
 }
