@@ -5,20 +5,23 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
 
 <template>
   <n-layout has-sider>
-    <!--侧边栏-->
+    <!--左侧边栏-->
     <n-layout-sider
       :show-collapsed-content="true"
-      :collapsed-width="10"
       collapse-mode="transform"
       show-trigger="bar"
-      collapsed-trigger-style="margin:10px"
+      :collapsed-width="0"
+      trigger-style=""
+      collapsed-trigger-style=""
     >
       <Sider />
     </n-layout-sider>
 
     <!--内容-->
-    <n-layout-content :native-scrollbar="false">
-      <router-view />
+    <n-layout-content>
+      <n-card size="small" bordered>
+        <router-view />
+      </n-card>
     </n-layout-content>
 
   </n-layout>
@@ -32,13 +35,19 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
 
 .n-layout-sider {
   background: rgba(128, 128, 128, 0.3);
+  padding: 5px 0;
 }
 
 .n-layout-content {
   background: rgba(128, 128, 128, 0.4);
-  padding: 10px;
+  padding: 5px;
 
+}
 
+.n-card {
+  height: 100%;
+  border: 2px solid gray;
+  border-radius: 10px;
 }
 
 </style>

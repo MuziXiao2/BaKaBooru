@@ -20,9 +20,6 @@ import Options from '@/components/AtlasesViews/Sider/Options.vue'
 
 <style scoped>
 #sider {
-  padding: 0;
-  margin: 5px;
-  width: 95%;
   border: 2px solid gray;
   border-radius: 10px;
 }

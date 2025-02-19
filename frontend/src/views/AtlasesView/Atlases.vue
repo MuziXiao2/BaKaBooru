@@ -35,7 +35,6 @@ watch(() => route.params.id, (newId) => {
 </script>
 
 <template>
-  <n-card id="atlases" size="small" bordered>
     <!-- 仅在图集加载完成后显示 -->
     <n-flex v-if="isAtlasesLoaded">
       <AtlasCard
@@ -46,14 +45,10 @@ watch(() => route.params.id, (newId) => {
     </n-flex>
     <!-- 加载时显示旋转动画 -->
     <n-spin v-else />
-  </n-card>
 </template>
 
 <style scoped>
-#atlases {
-  height: 100%;
 
-}
 
 
 </style>

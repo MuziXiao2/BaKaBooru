@@ -9,7 +9,6 @@ const { atlas } = toRefs(props)
 
 <template>
   <n-card
-    bordered
     footer-style="padding: 0; height:30px; "
   >
     <template #cover>
