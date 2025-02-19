@@ -24,14 +24,14 @@ onMounted(async () => {
   <n-card
     id="source-list"
     size="small"
-    title="图源"
+    content-style="padding: 5px;"
   >
     <n-menu
       v-if="isSourcesLoaded"
       :options="siderStore.options"
       :default-value="id"
-      :root-indent="0"
-      :indent="10"
+      :root-indent="10"
+      :indent="0"
     >
     </n-menu>
   </n-card>

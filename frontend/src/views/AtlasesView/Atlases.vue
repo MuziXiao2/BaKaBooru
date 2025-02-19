@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAtlasStore } from '@/stores/atlasStore.ts'
 import AtlasCard from '@/components/AtlasesViews/Atlases/AtlasCard.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import type Atlas from '@/types/Atlas'
 import { useRoute } from 'vue-router'
 
@@ -10,13 +10,26 @@ const atlasStore = useAtlasStore()
 
 // 加载图集
 let atlases: Atlas[] = []
-const id = route.params.id as string
+const id = ref(route.params.id as string)
 const isAtlasesLoaded = ref(false)
-onMounted(async () => {
-  await atlasStore.fetchAtlases(id)
+
+const loadAtlases = async () => {
+  await atlasStore.fetchAtlases(id.value)
   isAtlasesLoaded.value = true
-  atlases = atlasStore.atlasesMap[id]
-  console.log('[BaKaBooru] 图集获取完成')
+  atlases = atlasStore.atlasesMap[id.value]
+
+}
+
+// 页面加载时重新加载图集
+onMounted(() => {
+  loadAtlases()
+  console.log('[BaKaBooru] 图集加载完成', id.value)
+})
+//路由变化时重新加载图集
+watch(() => route.params.id, (newId) => {
+  id.value = newId as string
+  isAtlasesLoaded.value = false
+  loadAtlases()
 })
 
 </script>

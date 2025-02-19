@@ -9,7 +9,6 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
     <n-layout-sider
       :show-collapsed-content="true"
       :collapsed-width="10"
-      :width="230"
       collapse-mode="transform"
       show-trigger="bar"
       collapsed-trigger-style="margin:10px"
@@ -18,7 +17,7 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
     </n-layout-sider>
 
     <!--内容-->
-    <n-layout-content  :native-scrollbar="false" >
+    <n-layout-content :native-scrollbar="false">
       <router-view />
     </n-layout-content>
 
@@ -38,7 +37,6 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
 .n-layout-content {
   background: rgba(128, 128, 128, 0.4);
   padding: 10px;
-
 
 
 }
