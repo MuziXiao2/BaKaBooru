@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAtlasStore } from '@/stores/atlasStore.ts'
 import AtlasCard from '@/components/AtlasesViews/Atlases/AtlasCard.vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, nextTick } from 'vue'
 import type Atlas from '@/types/Atlas'
 import { useRoute } from 'vue-router'
 
@@ -32,23 +32,23 @@ watch(() => route.params.id, (newId) => {
   loadAtlases()
 })
 
+
 </script>
 
 <template>
-    <!-- 仅在图集加载完成后显示 -->
-    <n-flex v-if="isAtlasesLoaded">
-      <AtlasCard
-        v-for="(atlas, index) in atlases"
-        :key="index"
-        :atlas="atlas"
-      />
-    </n-flex>
-    <!-- 加载时显示旋转动画 -->
-    <n-spin v-else />
+  <!-- 仅在图集加载完成后显示 -->
+  <n-flex v-if="isAtlasesLoaded">
+    <AtlasCard
+      v-for="(atlas, index) in atlases"
+      :key="index"
+      :atlas="atlas"
+    />
+  </n-flex>
+  <!-- 加载时显示旋转动画 -->
+  <n-spin v-else />
 </template>
 
 <style scoped>
-
 
 
 </style>
