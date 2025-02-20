@@ -3,19 +3,18 @@ package com.xiao2.bakabooru.dto;
 import com.xiao2.bakabooru.model.Image;
 import lombok.Data;
 
+
 @Data
 public class ImageResponseDTO {
-    private String name;
-    private String fileUrl;
-
-    private Long position;
+    private String title;
+    private String url;
+    private Long sn;
     private Long atlasId;
 
     public ImageResponseDTO(Image image) {
-        this.name = image.getName();
-        this.fileUrl = image.getFileUrl();
-
-        this.position = image.getPosition();
+        this.title = image.getTitle();
+        this.url = image.getUrl();
+        this.sn = image.getSn();
         this.atlasId = image.getAtlasId();
     }
 }

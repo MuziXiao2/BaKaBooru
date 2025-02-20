@@ -1,6 +1,9 @@
 export default interface Atlas {
   id: number,
-  name: string,
+  title: string,
   cover_url: string,
+  creator: string,
+  createAt: Date;
+  updatedAt: Date;
   source_id: number,
 }

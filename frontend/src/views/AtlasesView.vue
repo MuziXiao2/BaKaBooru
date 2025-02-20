@@ -18,10 +18,11 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
     </n-layout-sider>
 
     <!--内容-->
-    <n-layout-content
-    :native-scrollbar="false"
-    >
-      <n-card size="small" bordered>
+    <n-layout-content  :native-scrollbar="false">
+      <n-card
+        size="small"
+        bordered
+      >
         <router-view />
       </n-card>
     </n-layout-content>

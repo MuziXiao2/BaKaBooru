@@ -4,7 +4,7 @@ import Header from '@/components/Header.vue'
 </script>
 
 <template>
-  <n-layout style="height: 100vh;">
+  <n-layout >
     <!--头部-->
     <Header />
     <!--主体-->

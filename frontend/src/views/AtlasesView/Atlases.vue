@@ -35,27 +35,33 @@ watch(() => route.params.id, (newId) => {
 
 
 const showModal = ref(false)
+const selectedAtlas = ref()
+
+function handleClick(atlas:Atlas) {
+  selectedAtlas.value = atlas
+  showModal.value = true
+}
 
 </script>
 
 <template>
-  <!-- 仅在图集加载完成后显示 -->
   <n-flex v-if="isAtlasesLoaded">
+
     <AtlasCard
       v-for="(atlas, index) in atlases"
       :key="index"
       :atlas="atlas"
-      @click="showModal = true"
+      @click="handleClick(atlas)"
     />
+
   </n-flex>
-  <!-- 加载时显示旋转动画 -->
-  <n-spin v-else />
+  <n-spin v-else />  <!-- 加载图标 -->
 
   <n-modal
     v-model:show="showModal"
-    style="margin: 30px; border-radius: 10px "
+    style="margin: 0 30px; border-radius: 10px "
   >
-    <ImageCard />
+    <ImageCard :atlas="selectedAtlas" />
   </n-modal>
 
 </template>

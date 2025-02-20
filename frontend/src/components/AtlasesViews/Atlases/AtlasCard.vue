@@ -47,7 +47,7 @@ const handleClick = () => {
         <img id="cover" :src="atlas.cover_url" alt="img">
       </template>
       <template #footer>
-        <div id="text"> {{ atlas.name }}</div>
+        <div id="text"> {{ atlas.title }}</div>
       </template>
     </n-card>
   </ClickMenu>
@@ -61,8 +61,9 @@ const handleClick = () => {
 }
 
 .n-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 #cover {
@@ -74,7 +75,7 @@ const handleClick = () => {
 #text {
   font-size: 20px;
   color: gray;
+  text-align: center;
 }
-
 
 </style>

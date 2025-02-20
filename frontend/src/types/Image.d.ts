@@ -1,6 +1,6 @@
 export interface Image {
-  name: string,
-  file_url: string,
-  position: number,
+  title: string,
+  url: string,
+  sn: number,
   atlas_id: number,
 }

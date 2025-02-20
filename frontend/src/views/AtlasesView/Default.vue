@@ -7,7 +7,7 @@ const showModal = ref(false)
 </script>
 <template>
   <n-card @click="showModal = true">
-    来吧
+    Default
   </n-card>
   <n-modal v-model:show="showModal">
     <n-card

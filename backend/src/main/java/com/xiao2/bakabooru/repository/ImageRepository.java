@@ -8,5 +8,5 @@ import java.util.List;
 public interface ImageRepository extends JpaRepository<Image, Long> {
     Long countByAtlasId(Long atlasId);
 
-    List<Image> findByAtlasIdOrderByPositionAsc(Long atlasId);
+    List<Image> findByAtlasIdOrderBySnAsc(Long atlasId);
 }

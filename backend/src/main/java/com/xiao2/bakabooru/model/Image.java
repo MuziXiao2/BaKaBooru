@@ -16,20 +16,19 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-    @Column(name = "file_url")
-    private String fileUrl;
+    //图片标题
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "position")
-    private Long position;
+    //图片url
+    @Column(name = "url")
+    private String url;
+
+    //图片序号
+    @Column(name = "sn")
+    private Long sn;
+
+    //所属图集id
     @Column(name = "atlas_id")
     private Long atlasId;
-
-
-    public Image(ImageRequestDTO dto) {
-        this.name = dto.getName();
-        this.fileUrl = dto.getFileUrl();
-        this.atlasId = dto.getAtlasId();
-    }
 }

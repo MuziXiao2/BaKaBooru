@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type Atlas from '@/types/Atlas'
+import { toRefs } from 'vue'
 
-const url = './images/2.png'
-
+const props = defineProps<{ atlas: Atlas }>()
+const { atlas } = toRefs(props)
 </script>
 
 <template>
@@ -9,22 +11,23 @@ const url = './images/2.png'
     has-sider
     sider-placement="right"
   >
-    <n-layout :native-scrollbar="false">
-      <n-layout-content
-        content-style="height:80vh"
-        :native-scrollbar="false"
-      >
+    <n-layout-content
+      :native-scrollbar="false"
+      content-style="
+        height: 95vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;"
+    >
 
-        <n-image
-          :src="url"
-          width="100%"
-          object-fit="contain"
+      <n-image
+        :src="atlas.cover_url"
+        width="100%"
+        object-fit="contain"
+      />
 
+    </n-layout-content>
 
-        />
-
-      </n-layout-content>
-    </n-layout>
     <n-layout-sider
       content-style="padding: 20px;"
       show-trigger="bar"
@@ -32,12 +35,27 @@ const url = './images/2.png'
       :collapsed-width="0"
       bordered
     >
-      TEST
+      <n-h1>图集</n-h1>
+
+      <n-h2>信息</n-h2>
+      标题: {{atlas.title}}
+      <br />
+      创建者:
+      <br />
+      更新日期:
+      <br />
+      创建日期:
+      <n-h2>图片</n-h2>
+      序号 文件名 操作
+
+      <n-h2>操作</n-h2>
+
     </n-layout-sider>
   </n-layout>
 
 </template>
 
 <style scoped>
+
 
 </style>
