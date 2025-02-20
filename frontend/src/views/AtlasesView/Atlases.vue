@@ -4,6 +4,7 @@ import AtlasCard from '@/components/AtlasesViews/Atlases/AtlasCard.vue'
 import { onMounted, ref, watch, nextTick } from 'vue'
 import type Atlas from '@/types/Atlas'
 import { useRoute } from 'vue-router'
+import ImageCard from '@/components/AtlasesViews/Atlases/ImageCard.vue'
 
 const route = useRoute()
 const atlasStore = useAtlasStore()
@@ -33,6 +34,8 @@ watch(() => route.params.id, (newId) => {
 })
 
 
+const showModal = ref(false)
+
 </script>
 
 <template>
@@ -42,10 +45,19 @@ watch(() => route.params.id, (newId) => {
       v-for="(atlas, index) in atlases"
       :key="index"
       :atlas="atlas"
+      @click="showModal = true"
     />
   </n-flex>
   <!-- 加载时显示旋转动画 -->
   <n-spin v-else />
+
+  <n-modal
+    v-model:show="showModal"
+    style="margin: 30px; border-radius: 10px "
+  >
+    <ImageCard />
+  </n-modal>
+
 </template>
 
 <style scoped>

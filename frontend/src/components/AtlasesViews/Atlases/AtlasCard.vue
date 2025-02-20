@@ -26,11 +26,23 @@ const options = [
   }
 ]
 
+const emit = defineEmits(['click'])
+
+const handleClick = () => {
+  emit('click')
+}
+
 </script>
 
 <template>
-  <ClickMenu :options="options">
-    <n-card footer-style="padding: 0; height:30px;">
+
+  <ClickMenu id="atlas" :options="options">
+    <n-card
+      footer-style="padding: 0; height:30px;"
+      hover="hover"
+      style=" border-radius: 10px"
+      @click="handleClick"
+    >
       <template #cover>
         <img id="cover" :src="atlas.cover_url" alt="img">
       </template>
@@ -39,6 +51,7 @@ const options = [
       </template>
     </n-card>
   </ClickMenu>
+
 </template>
 
 <style scoped>
