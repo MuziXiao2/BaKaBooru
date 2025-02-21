@@ -41,8 +41,11 @@ public class Converter {
 
     public static Image toImage(ImageRequestDTO imageRequestDTO) {
         Image image = new Image();
+
+        image.setTitle(imageRequestDTO.getTitle());
         image.setUrl(imageRequestDTO.getUrl());
-        // 其他字段的转换
+        image.setAtlasId(imageRequestDTO.getAtlasId());
+
         return image;
     }
 

@@ -1,5 +1,6 @@
 package com.xiao2.bakabooru.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xiao2.bakabooru.model.Image;
 import lombok.Data;
 
@@ -7,15 +8,6 @@ import lombok.Data;
 public class ImageRequestDTO {
     private String title;
     private String url;
+    @JsonProperty("atlas_id")
     private Long atlasId;
-
-    public Image toImage() {
-        Image image = new Image();
-
-        image.setTitle(title);
-        image.setUrl(url);
-        image.setAtlasId(atlasId);
-
-        return image;
-    }
 }
