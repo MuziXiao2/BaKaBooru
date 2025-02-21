@@ -3,7 +3,7 @@ export default interface Atlas {
   title: string,
   cover_url: string,
   creator: string,
-  createAt: Date;
-  updatedAt: Date;
+  updated_at: Date;
+  create_at: Date;
   source_id: number,
 }

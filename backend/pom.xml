@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.xiao2</groupId>
-	<artifactId>BaKaBooru</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BaKaBooru</name>
 	<description>A structured personal illustration management system.</description>

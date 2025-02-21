@@ -36,7 +36,7 @@ const handleClick = () => {
 
 <template>
 
-  <ClickMenu id="atlas" :options="options">
+  <ClickMenu :options="options">
     <n-card
       footer-style="padding: 0; height:30px;"
       hover="hover"

@@ -12,18 +12,5 @@ public class SourceRequestDTO {
     private String type;
     private String url;
 
-    @PrePersist
-    public Source toSource() {
-        Source source = new Source();
 
-        source.setName(name);
-        source.setType(type);
-        source.setUrl(url);
-
-        Instant now = Instant.now();
-        source.setCreateAt(now);
-        source.setUpdatedAt(now);
-
-        return source;
-    }
 }

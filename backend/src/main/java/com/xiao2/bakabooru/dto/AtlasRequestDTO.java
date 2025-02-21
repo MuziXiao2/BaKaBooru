@@ -14,18 +14,5 @@ public class AtlasRequestDTO {
     @JsonProperty("source_id")
     private Long sourceId;
 
-    @PrePersist
-    public Atlas toAtlas() {
-        Atlas atlas = new Atlas();
 
-        atlas.setTitle(title);
-        atlas.setCreator(creator);
-        atlas.setSourceId(sourceId);
-
-        LocalDateTime now = LocalDateTime.now();
-        atlas.setCreateAt(now);
-        atlas.setUpdatedAt(now);
-
-        return atlas;
-    }
 }

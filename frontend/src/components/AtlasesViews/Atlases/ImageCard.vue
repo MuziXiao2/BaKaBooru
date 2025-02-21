@@ -7,10 +7,7 @@ const { atlas } = toRefs(props)
 </script>
 
 <template>
-  <n-layout
-    has-sider
-    sider-placement="right"
-  >
+  <n-layout has-sider sider-placement="right">
     <n-layout-content
       :native-scrollbar="false"
       content-style="
@@ -19,13 +16,7 @@ const { atlas } = toRefs(props)
         justify-content: center;
         align-items: center;"
     >
-
-      <n-image
-        :src="atlas.cover_url"
-        width="100%"
-        object-fit="contain"
-      />
-
+      <n-image :src="atlas.cover_url" width="100%" object-fit="contain" />
     </n-layout-content>
 
     <n-layout-sider
@@ -36,26 +27,20 @@ const { atlas } = toRefs(props)
       bordered
     >
       <n-h1>图集</n-h1>
-
       <n-h2>信息</n-h2>
-      标题: {{atlas.title}}
+      标题: {{ atlas.title }}
       <br />
-      创建者:
+      创建者:{{ atlas.creator }}
       <br />
-      更新日期:
+      更新日期:{{ atlas.updated_at }}
       <br />
-      创建日期:
+      创建日期:{{ atlas.create_at }}
       <n-h2>图片</n-h2>
       序号 文件名 操作
 
       <n-h2>操作</n-h2>
-
     </n-layout-sider>
   </n-layout>
-
 </template>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

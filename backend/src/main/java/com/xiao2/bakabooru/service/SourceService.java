@@ -1,5 +1,6 @@
 package com.xiao2.bakabooru.service;
 
+import com.xiao2.bakabooru.converter.Converter;
 import com.xiao2.bakabooru.dto.*;
 import com.xiao2.bakabooru.model.*;
 import com.xiao2.bakabooru.repository.*;
@@ -18,7 +19,7 @@ public class SourceService {
     //添加图源
     public Source addSource(SourceRequestDTO sourceRequestDTO) {
         // 创建Source对象
-        Source source = sourceRequestDTO.toSource();
+        Source source = Converter.toSource(sourceRequestDTO);
         return sourceRepository.save(source);
     }
 
@@ -39,7 +40,7 @@ public class SourceService {
 
     public Atlas addAtlas(AtlasRequestDTO atlasRequestDTO) {
         // 创建Atlas对象
-        Atlas atlas = atlasRequestDTO.toAtlas();
+        Atlas atlas = Converter.toAtlas(atlasRequestDTO);
 
         //判断图源是否存在
         Long sourceId = atlas.getSourceId();
@@ -72,7 +73,7 @@ public class SourceService {
 
         //判断图集是否存在
         Long atlasId = image.getAtlasId();
-        if (atlasRepository.existsById(atlasId))
+        if (!atlasRepository.existsById(atlasId))
             throw new IllegalArgumentException("图集不存在");
 
         // 获取Image的sn (!!!高并发下可能出问题!!!)
