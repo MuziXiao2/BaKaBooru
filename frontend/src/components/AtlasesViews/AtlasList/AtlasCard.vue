@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toRefs } from 'vue'
 import type Atlas from '@/types/Atlas'
-import ClickMenu from '@/components/AtlasesViews/Atlases/ClickMenu.vue'
+import ClickMenu from '@/components/AtlasesViews/AtlasList/ClickMenu.vue'
 
 const props = defineProps<{ atlas: Atlas }>()
 const { atlas } = toRefs(props)

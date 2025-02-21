@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Sider from '@/components/AtlasesViews/Sider.vue'
-
 </script>
 
 <template>
@@ -17,23 +16,18 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
       <Sider />
     </n-layout-sider>
 
-    <!--内容-->
-    <n-layout-content  :native-scrollbar="false">
-      <n-card
-        size="small"
-        bordered
-      >
+    <!--图集列表-->
+    <n-layout-content :native-scrollbar="false">
+      <n-card size="small" bordered>
         <router-view />
       </n-card>
     </n-layout-content>
-
   </n-layout>
 </template>
 
 <style scoped>
 .n-layout {
   height: calc(100vh - 43px);
-
 }
 
 .n-layout-sider {
@@ -44,7 +38,6 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
 .n-layout-content {
   background: rgba(128, 128, 128, 0.4);
   padding: 5px;
-
 }
 
 .n-card {
@@ -52,5 +45,4 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
   border: 2px solid gray;
   border-radius: 10px;
 }
-
 </style>

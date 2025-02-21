@@ -69,7 +69,7 @@ public class SourceService {
     // 给图集添加张图片
     public Image addImage(ImageRequestDTO imageRequestDTO) {
         // 创建Image对象
-        Image image = imageRequestDTO.toImage();
+        Image image = Converter.toImage(imageRequestDTO);
 
         //判断图集是否存在
         Long atlasId = image.getAtlasId();
