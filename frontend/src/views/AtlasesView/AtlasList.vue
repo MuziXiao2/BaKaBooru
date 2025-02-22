@@ -62,6 +62,8 @@ function handleClick(atlas: Atlas) {
   <!-- 图集信息 -->
   <n-modal v-model:show="showModal" style="height: 95vh; margin: 0 30px; border-radius: 10px">
     <AtlasInfo v-if="showModal" :atlas="selectedAtlas as Atlas" />
+    <!-- 加载图标 -->
+    <n-spin v-else />
   </n-modal>
 </template>
 

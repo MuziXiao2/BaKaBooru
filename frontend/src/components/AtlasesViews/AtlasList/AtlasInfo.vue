@@ -27,6 +27,9 @@ const columns = ref([
 
 const isImagesLoaded = ref(false)
 
+const defaultUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
+const imageUrl = ref(defaultUrl)
+
 // 加载图片
 async function loadImages() {
   const atlas_id = atlas.value.id
@@ -37,6 +40,10 @@ async function loadImages() {
     title: image.title,
     size: '0kB',
   }))
+
+  if (images.value.length > 0) {
+    imageUrl.value = images.value[0].url
+  }
 
   isImagesLoaded.value = true
   console.log('[BaKaBooru] 图片加载成功', images)
@@ -58,7 +65,7 @@ onMounted(() => {
           align-items: center;
         "
     >
-      <n-image :src="images[0].url" width="100%" object-fit="contain" />
+      <n-image :src="imageUrl" width="100%" object-fit="contain" />
     </n-layout-content>
 
     <n-layout-sider
@@ -85,7 +92,20 @@ onMounted(() => {
           创建日期:{{ atlas.create_at }}
         </n-collapse-item>
         <n-collapse-item title="图片" name="images">
-          <ImageTable :columns="columns" :data="data" />
+          <ImageTable
+            :columns="columns"
+            :data="data"
+            :row-props="
+              (row: ImageRow) => {
+                return {
+                  style: 'cursor: pointer;',
+                  onClick: () => {
+                    imageUrl = images[row.sn].url
+                  },
+                }
+              }
+            "
+          />
         </n-collapse-item>
         <n-collapse-item title="标签" name="tags">
           test1
