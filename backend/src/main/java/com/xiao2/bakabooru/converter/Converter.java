@@ -23,6 +23,19 @@ public class Converter {
         return source;
     }
 
+    public static SourceResponseDTO toSourceResponseDTO(Source source) {
+        SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
+
+        sourceResponseDTO.setId(source.getId());
+        sourceResponseDTO.setName(source.getName());
+        sourceResponseDTO.setType(source.getType());
+        sourceResponseDTO.setUrl(source.getUrl());
+        sourceResponseDTO.setCreateAt(source.getCreateAt());
+        sourceResponseDTO.setUpdatedAt(source.getUpdatedAt());
+
+        return sourceResponseDTO;
+    }
+
     @PrePersist
     public static Atlas toAtlas(AtlasRequestDTO atlasRequestDTO) {
 
@@ -39,29 +52,6 @@ public class Converter {
         return atlas;
     }
 
-    public static Image toImage(ImageRequestDTO imageRequestDTO) {
-        Image image = new Image();
-
-        image.setTitle(imageRequestDTO.getTitle());
-        image.setUrl(imageRequestDTO.getUrl());
-        image.setAtlasId(imageRequestDTO.getAtlasId());
-
-        return image;
-    }
-
-    public static SourceResponseDTO toSourceResponseDTO(Source source) {
-        SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
-
-        sourceResponseDTO.setId(source.getId());
-        sourceResponseDTO.setName(source.getName());
-        sourceResponseDTO.setType(source.getType());
-        sourceResponseDTO.setUrl(source.getUrl());
-        sourceResponseDTO.setCreateAt(source.getCreateAt());
-        sourceResponseDTO.setUpdatedAt(source.getUpdatedAt());
-
-        return sourceResponseDTO;
-    }
-
     public static AtlasResponseDTO toAtlasResponseDTO(Atlas atlas) {
         AtlasResponseDTO atlasResponseDTO = new AtlasResponseDTO();
 
@@ -76,8 +66,17 @@ public class Converter {
         return atlasResponseDTO;
     }
 
-    public static ImageResponseDTO toImageResponseDTO(Image image) {
+    public static Image toImage(ImageRequestDTO imageRequestDTO) {
+        Image image = new Image();
 
+        image.setTitle(imageRequestDTO.getTitle());
+        image.setUrl(imageRequestDTO.getUrl());
+        image.setAtlasId(imageRequestDTO.getAtlasId());
+
+        return image;
+    }
+
+    public static ImageResponseDTO toImageResponseDTO(Image image) {
         ImageResponseDTO imageResponseDTO = new ImageResponseDTO();
 
         imageResponseDTO.setTitle(image.getTitle());
@@ -85,6 +84,6 @@ public class Converter {
         imageResponseDTO.setSn(image.getSn());
         imageResponseDTO.setAtlasId(image.getAtlasId());
 
-        return  imageResponseDTO;
+        return imageResponseDTO;
     }
 }
