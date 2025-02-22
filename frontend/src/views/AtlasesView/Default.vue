@@ -1,36 +1,10 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup lang="ts"></script>
 
-const showModal = ref(false)
-
-
-</script>
 <template>
-  <n-card @click="showModal = true">
-    Default
-  </n-card>
-  <n-modal v-model:show="showModal">
-    <n-card
-      style="width: 600px"
-      title="模态框"
-      :bordered="false"
-      size="huge"
-      role="dialog"
-      aria-modal="true"
-    >
-      <template #header-extra>
-        噢！
-      </template>
-      内容
-      <template #footer>
-        尾部
-      </template>
-    </n-card>
-  </n-modal>
+  <n-upload multiple directory-dnd action="http://localhost:8080/api/images/upload" :max="5">
+    <n-upload-dragger>
+
+    </n-upload-dragger>
+  </n-upload>
 </template>
-
-<style scoped>
-
-
-
-</style>
+<style scoped></style>

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
 import { nextTick, ref } from 'vue'
 
 const props = defineProps({
-  options: Array
+  options: Array,
 })
 
 const showDropdown = ref(false)
@@ -11,6 +10,9 @@ const x = ref(0)
 const y = ref(0)
 
 const handleSelect = (key: string | number) => {
+  if (key === 'show') {
+    emit('click')
+  }
   showDropdown.value = false
 }
 
@@ -27,7 +29,6 @@ const handleContextMenu = (e: MouseEvent) => {
 const onClickOutside = () => {
   showDropdown.value = false
 }
-
 </script>
 
 <template>
@@ -46,7 +47,4 @@ const onClickOutside = () => {
   />
 </template>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

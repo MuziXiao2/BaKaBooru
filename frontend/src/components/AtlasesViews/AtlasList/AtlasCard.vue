@@ -7,7 +7,7 @@ const props = defineProps<{ atlas: Atlas }>()
 const { atlas } = toRefs(props)
 
 const options = [
-  { label: 'A', key: 'a' },
+  { label: '查看', key: 'show' },
   { label: 'B', key: 'b' },
   { type: 'divider', key: 'd1' },
   { label: 'C', key: 'c' },

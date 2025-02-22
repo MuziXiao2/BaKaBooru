@@ -24,6 +24,18 @@ public class Image {
     @Column(name = "url")
     private String url;
 
+    //图片宽度
+    @Column(name = "width")
+    private Integer width;
+
+    //图片高度
+    @Column(name = "height")
+    private Integer height;
+
+    //图片大小(Byte)
+    @Column(name = "size")
+    private Long size;
+
     //图片序号
     @Column(name = "sn")
     private Long sn;
