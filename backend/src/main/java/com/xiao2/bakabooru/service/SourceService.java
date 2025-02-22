@@ -28,7 +28,7 @@ public class SourceService {
         List<Source> sources = sourceRepository.findAll();
         return sources
                 .stream()
-                .map(SourceResponseDTO::new)
+                .map(Converter::toSourceResponseDTO)
                 .collect(Collectors.toList());
     }
 
@@ -37,7 +37,6 @@ public class SourceService {
     private AtlasRepository atlasRepository;
 
     // 给图源添加图集
-
     public Atlas addAtlas(AtlasRequestDTO atlasRequestDTO) {
         // 创建Atlas对象
         Atlas atlas = Converter.toAtlas(atlasRequestDTO);
@@ -58,7 +57,7 @@ public class SourceService {
         return atlasRepository
                 .findBySourceId(sourceId)
                 .stream()
-                .map(AtlasResponseDTO::new)
+                .map(Converter::toAtlasResponseDTO)
                 .collect(Collectors.toList());
     }
 
@@ -91,7 +90,7 @@ public class SourceService {
         return imageRepository
                 .findByAtlasIdOrderBySnAsc(atlasId)
                 .stream()
-                .map(ImageResponseDTO::new)
+                .map(Converter::toImageResponseDTO)
                 .collect(Collectors.toList());
     }
 

@@ -15,7 +15,7 @@ const isAtlasesLoaded = ref(false)
 
 async function loadAtlases() {
   //获取图源id
-  sourceId.value = route.params.id
+  sourceId.value = route.params.id as string
   //从后端获取图集列表
   await atlasStore.fetchAtlases(sourceId.value)
   //将图集列表存入atlases

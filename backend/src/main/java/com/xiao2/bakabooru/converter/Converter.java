@@ -50,14 +50,41 @@ public class Converter {
     }
 
     public static SourceResponseDTO toSourceResponseDTO(Source source) {
-        return new SourceResponseDTO(source);
+        SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
+
+        sourceResponseDTO.setId(source.getId());
+        sourceResponseDTO.setName(source.getName());
+        sourceResponseDTO.setType(source.getType());
+        sourceResponseDTO.setUrl(source.getUrl());
+        sourceResponseDTO.setCreateAt(source.getCreateAt());
+        sourceResponseDTO.setUpdatedAt(source.getUpdatedAt());
+
+        return sourceResponseDTO;
     }
 
     public static AtlasResponseDTO toAtlasResponseDTO(Atlas atlas) {
-        return new AtlasResponseDTO(atlas);
+        AtlasResponseDTO atlasResponseDTO = new AtlasResponseDTO();
+
+        atlasResponseDTO.setId(atlas.getId());
+        atlasResponseDTO.setTitle(atlas.getTitle());
+        atlasResponseDTO.setCoverUrl(atlas.getCoverUrl());
+        atlasResponseDTO.setCreator(atlas.getCreator());
+        atlasResponseDTO.setCreateAt(atlas.getCreateAt());
+        atlasResponseDTO.setUpdatedAt(atlas.getUpdatedAt());
+        atlasResponseDTO.setSourceId(atlas.getSourceId());
+
+        return atlasResponseDTO;
     }
 
     public static ImageResponseDTO toImageResponseDTO(Image image) {
-        return new ImageResponseDTO(image);
+
+        ImageResponseDTO imageResponseDTO = new ImageResponseDTO();
+
+        imageResponseDTO.setTitle(image.getTitle());
+        imageResponseDTO.setUrl(image.getUrl());
+        imageResponseDTO.setSn(image.getSn());
+        imageResponseDTO.setAtlasId(image.getAtlasId());
+
+        return  imageResponseDTO;
     }
 }

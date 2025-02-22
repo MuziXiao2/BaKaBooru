@@ -48,7 +48,6 @@ public class SourceController {
     public ResponseResult<Image> addImage(@RequestBody ImageRequestDTO imageRequestDTO) {
         Image image = sourceService.addImage(imageRequestDTO);
         return ResponseResult.success(image, "添加图片成功");
-
     }
 
     // 从图集获取所有图片

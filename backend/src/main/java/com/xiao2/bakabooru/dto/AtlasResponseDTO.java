@@ -3,10 +3,12 @@ package com.xiao2.bakabooru.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xiao2.bakabooru.model.Atlas;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class AtlasResponseDTO {
     private Long id;
     private String title;
@@ -20,13 +22,5 @@ public class AtlasResponseDTO {
     @JsonProperty("source_id")
     private Long sourceId;
 
-    public AtlasResponseDTO(Atlas atlas) {
-        this.id = atlas.getId();
-        this.title = atlas.getTitle();
-        this.coverUrl = atlas.getCoverUrl();
-        this.creator = atlas.getCreator();
-        this.createAt = atlas.getCreateAt();
-        this.updatedAt = atlas.getUpdatedAt();
-        this.sourceId = atlas.getSourceId();
-    }
+
 }
