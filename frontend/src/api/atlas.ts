@@ -1,5 +1,5 @@
 import api from './index'
-import type Atlas from '@/types/Atlas'
+import type Atlas from '@/stores/types/atlas'
 import type { AxiosResponse } from 'axios'
 
 /**
@@ -16,6 +16,6 @@ export function addAtlas() {
  * @param {number} source_id 图源 ID
  * @returns {Promise} 返回图源下的图集列表
  */
-export function getAllAtlas(source_id: number): Promise<AxiosResponse<Atlas[]>> {
+export function getAtlases(source_id: number): Promise<AxiosResponse<Atlas[]>> {
   return api.get(`/atlases/${source_id}`)
 }

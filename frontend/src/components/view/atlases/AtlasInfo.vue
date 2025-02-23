@@ -1,61 +1,19 @@
 <script setup lang="ts">
-import type Atlas from '@/types/Atlas'
-import { ref, toRefs, onMounted } from 'vue'
-import ImageTable from '@/components/AtlasesViews/AtlasList/ImageTable.vue'
-import { useImageStore } from '@/stores/imageStore.ts'
-import type Image from '@/types/Image'
+import { onMounted } from 'vue'
+import ImageTable from '@/components/view/atlases/ImageTable.vue'
+import { useViewUiStore } from '@/stores/modules/view.ts'
 
-const imageStore = useImageStore()
+const viewUiStore = useViewUiStore()
 
-const props = defineProps<{ atlas: Atlas }>()
-const { atlas } = toRefs(props)
-
-const images = ref<Image[]>([])
-
-interface ImageRow {
-  sn: number
-  title: string
-  size: string
-}
-
-const data = ref<ImageRow[]>([])
-const columns = ref([
-  { title: '序号', key: 'sn' },
-  { title: '标题', key: 'title' },
-  { title: '大小', key: 'size' },
-])
-
-const isImagesLoaded = ref(false)
-
-const defaultUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
-const imageUrl = ref(defaultUrl)
-
-// 加载图片
-async function loadImages() {
-  const atlas_id = atlas.value.id
-  await imageStore.fetchImages(atlas_id)
-  images.value = imageStore.imagesMap[atlas_id]
-  data.value = images.value.map((image) => ({
-    sn: image.sn,
-    title: image.title,
-    size: '0kB',
-  }))
-
-  if (images.value.length > 0) {
-    imageUrl.value = images.value[0].url
-  }
-
-  isImagesLoaded.value = true
-  console.log('[BaKaBooru] 图片加载成功', images)
-}
-
-onMounted(() => {
-  loadImages()
+onMounted(async () => {
+  viewUiStore.startLoading()
+  await viewUiStore.fetchImages()
+  viewUiStore.stopLoading()
 })
 </script>
 
 <template>
-  <n-layout has-sider sider-placement="right" v-if="isImagesLoaded">
+  <n-layout has-sider sider-placement="right" v-if="viewUiStore.isImagesLoaded">
     <n-layout-content
       :native-scrollbar="false"
       content-style="
@@ -65,7 +23,7 @@ onMounted(() => {
           align-items: center;
         "
     >
-      <n-image :src="imageUrl" width="100%" object-fit="contain" />
+      <n-image :src="viewUiStore.currentImage.url" width="100%" object-fit="contain" />
     </n-layout-content>
 
     <n-layout-sider
@@ -83,25 +41,23 @@ onMounted(() => {
         :default-expanded-names="['info', 'images', 'tags', 'actions']"
       >
         <n-collapse-item title="信息" name="info">
-          标题: {{ atlas.title }}
+          标题: {{ viewUiStore.currentAtlas.title }}
           <br />
-          创建者:{{ atlas.creator }}
+          创建者:{{ viewUiStore.currentAtlas.creator }}
           <br />
-          更新日期:{{ atlas.updated_at }}
+          更新日期:{{ viewUiStore.currentAtlas.updated_at }}
           <br />
-          创建日期:{{ atlas.create_at }}
+          创建日期:{{ viewUiStore.currentAtlas.create_at }}
         </n-collapse-item>
         <n-collapse-item title="图片" name="images">
           <ImageTable
-            :columns="columns"
-            :data="data"
+            :columns="viewUiStore.table.columns"
+            :data="viewUiStore.table.row"
             :row-props="
-              (row: ImageRow) => {
+              (row) => {
                 return {
                   style: 'cursor: pointer;',
-                  onClick: () => {
-                    imageUrl = images[row.sn].url
-                  },
+                  onClick: () => viewUiStore.setCurrentImage(row.sn),
                 }
               }
             "

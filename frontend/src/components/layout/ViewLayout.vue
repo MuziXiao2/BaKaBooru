@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import Sider from '@/components/AtlasesViews/Sider.vue'
+import { useViewUiStore } from '@/stores/modules/view.ts'
+
+const viewUiStore = useViewUiStore()
 </script>
 
 <template>
   <n-layout has-sider>
     <!--左侧边栏-->
     <n-layout-sider
+      :collapsed="viewUiStore.isSiderCollapsed"
       :show-collapsed-content="true"
       collapse-mode="transform"
       show-trigger="bar"
@@ -13,14 +16,24 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
       trigger-style=""
       collapsed-trigger-style=""
     >
-      <Sider />
-    </n-layout-sider>
-
-    <!--图集列表-->
-    <n-layout-content :native-scrollbar="false">
-      <n-card size="small" bordered>
-        <router-view />
+      <n-card id="sider" size="small" content-style="padding: 5px;">
+        <slot name="sider" />
       </n-card>
+    </n-layout-sider>
+    <n-layout-content :native-scrollbar="false">
+      <!--图集列表-->
+      <n-card size="small" bordered>
+        <slot name="content" />
+      </n-card>
+      <n-modal
+        v-model:show="viewUiStore.showAtlasInfo"
+        style="height: 95vh; margin: 0 30px; border-radius: 10px"
+      >
+        <!-- 图集信息 -->
+        <slot name="modal" v-if="viewUiStore.showAtlasInfo" />
+        <!-- 加载图标 -->
+        <n-spin v-else />
+      </n-modal>
     </n-layout-content>
   </n-layout>
 </template>
@@ -42,6 +55,11 @@ import Sider from '@/components/AtlasesViews/Sider.vue'
 
 .n-card {
   height: 100%;
+  border: 2px solid gray;
+  border-radius: 10px;
+}
+
+#sider {
   border: 2px solid gray;
   border-radius: 10px;
 }
