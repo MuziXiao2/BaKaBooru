@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { NModal } from 'naive-ui'
 import { computed, defineProps } from 'vue'
-import type { Message } from '@/stores/types/global'
+import type { Message } from '@/types/global'
 
 const props = defineProps<{
   message: Message

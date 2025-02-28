@@ -1,35 +1,22 @@
 import { defineStore } from 'pinia'
-import type Source from '@/stores/types/source'
-import type Image from '@/stores/types/image'
-import type Atlas from '@/stores/types/atlas'
-import { getAtlases, getImages, getSources } from '@/api'
-import { NButton } from 'naive-ui'
-import type { MenuOption, MenuGroupOption, MenuDividerOption } from '@/stores/types/Option'
+import type Source from '@/types/source'
+import type Image from '@/types/image'
+import type Atlas from '@/types/atlas'
+import type { MenuDividerOption, MenuGroupOption, MenuOption } from '@/types/Option'
 import { h } from 'vue'
+import { NButton } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
 import {
   HomeOutline as HomeIcon,
   InformationCircleOutline as TestIcon,
   StarOutline as StarIcon,
 } from '@vicons/ionicons5'
+import { useSoucreStore } from '@/stores/common/source.ts'
 
-export const useViewUiStore = defineStore('view', {
+export const useViewStateStore = defineStore('view-state', {
   state: () => ({
-    isLoading: false,
-
-    isSiderCollapsed: false,
-    showAtlasInfo: false,
-
-    isSourcesLoaded: false,
-    sources: [] as Source[],
     currentSource: null as Source | null,
-
-    isAtlasesLoaded: false,
-    atlases: [] as Atlas[],
     currentAtlas: null as Atlas | null,
-
-    isImagesLoaded: false,
-    images: [] as Image[],
     currentImage: null as Image | null,
 
     contextMenu: {
@@ -41,7 +28,7 @@ export const useViewUiStore = defineStore('view', {
   }),
   getters: {
     // 菜单选项
-    options(state): Array<MenuOption | MenuGroupOption | MenuDividerOption> {
+    options(): Array<MenuOption | MenuGroupOption | MenuDividerOption> {
       // 默认选项
       const defaultOption: MenuOption = {
         key: 'default',
@@ -76,7 +63,7 @@ export const useViewUiStore = defineStore('view', {
       }
 
       // 将图源添加到对应type下的children
-      state.sources.forEach((source) => {
+      useSoucreStore().sources.forEach((source) => {
         sourceOption[source.type].children.push({
           key: `${source.id}`,
           label: () =>
@@ -115,29 +102,6 @@ export const useViewUiStore = defineStore('view', {
     },
   },
   actions: {
-    startLoading() {
-      this.isLoading = true
-    },
-    stopLoading() {
-      this.isLoading = false
-    },
-    async fetchSources() {
-      const response = await getSources()
-      this.sources = response.data
-      this.isSourcesLoaded = true
-    },
-    async fetchAtlases() {
-      if (!this.currentSource) return
-      const response = await getAtlases(this.currentSource.id)
-      this.atlases = response.data
-      this.isAtlasesLoaded = true
-    },
-    async fetchImages() {
-      if (!this.currentAtlas) return
-      const response = await getImages(this.currentAtlas.id)
-      this.images = response.data
-      this.isImagesLoaded = true
-    },
     setCurrentSource(source: Source) {
       this.currentSource = source
     },
@@ -148,18 +112,6 @@ export const useViewUiStore = defineStore('view', {
 
     setCurrentImage(image: Image) {
       this.currentImage = image
-    },
-
-    openAtlasInfo() {
-      this.showAtlasInfo = true
-    },
-
-    closeAtlasInfo() {
-      this.showAtlasInfo = false
-    },
-
-    toggleSider() {
-      this.isSiderCollapsed = !this.isSiderCollapsed
     },
   },
 })

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import ImageTable from '@/components/view/atlases/ImageTable.vue'
-import { useViewUiStore } from '@/stores/modules/view.ts'
-import { storeToRefs } from 'pinia'
+import ImageTable from '@/components/view/atlases/atlas-card/atlas-info/ImageTable.vue'
+import { useAtlasStore } from '@/stores/common/atlas.ts'
+import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
-const viewUiStore = useViewUiStore()
-const { currentImage, currentAtlas } = storeToRefs(viewUiStore)
-const defaultImageUrl = ''
+const atlasStore = useAtlasStore()
+const viewStateStore = useViewStateStore()
+
+const defaultImageUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
 </script>
 
 <template>
@@ -19,7 +20,11 @@ const defaultImageUrl = ''
           align-items: center;
         "
     >
-      <n-image :src="currentImage?.url || defaultImageUrl" width="100%" object-fit="contain" />
+      <n-image
+        :src="viewStateStore.currentImage?.url || defaultImageUrl"
+        width="100%"
+        object-fit="contain"
+      />
     </n-layout-content>
 
     <n-layout-sider
@@ -37,13 +42,13 @@ const defaultImageUrl = ''
         :default-expanded-names="['info', 'images', 'tags', 'actions']"
       >
         <n-collapse-item title="信息" name="info">
-          标题: {{ currentAtlas?.title }}
+          标题: {{ atlasStore.currentAtlas?.title }}
           <br />
-          创建者:{{ currentAtlas?.creator }}
+          创建者:{{ atlasStore.currentAtlas?.creator }}
           <br />
-          更新日期:{{ currentAtlas?.updated_at }}
+          更新日期:{{ atlasStore.currentAtlas?.updated_at }}
           <br />
-          创建日期:{{ currentAtlas?.create_at }}
+          创建日期:{{ atlasStore.currentAtlas?.create_at }}
         </n-collapse-item>
         <n-collapse-item title="图片" name="images">
           <ImageTable />

@@ -2,7 +2,7 @@
 import ViewLayout from '@/components/layout/ViewLayout.vue'
 import Sider from '@/components/view/Sider.vue'
 import Atlases from '@/components/view/Atlases.vue'
-import AtlasInfo from '@/components/view/AtlasInfo.vue'
+import AtlasInfo from '@/components/view/atlases/atlas-card/AtlasInfo.vue'
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useViewUiStore } from '@/stores/modules/view.ts'
+import { useViewUiStore } from '@/stores/modules/view/view-ui.ts'
 
 const viewUiStore = useViewUiStore()
 </script>

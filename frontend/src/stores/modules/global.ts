@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { GlobalUiState } from '@/stores/types/global'
+import type { GlobalUiState } from '@/types/global'
 
 export const useGlobalUiStore = defineStore('globalUi', {
   state: (): GlobalUiState => ({

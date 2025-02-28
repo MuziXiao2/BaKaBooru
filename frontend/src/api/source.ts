@@ -1,6 +1,6 @@
 import api from './index'
 import type { AxiosResponse } from 'axios'
-import type Source from '@/stores/types/source'
+import type Source from '@/types/source'
 
 /**
  * 获取所有图源

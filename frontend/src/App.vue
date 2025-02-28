@@ -18,14 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { NConfigProvider, NMessageProvider, NLoadingBarProvider } from 'naive-ui'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { NConfigProvider, NMessageProvider, NLoadingBarProvider, darkTheme } from 'naive-ui'
+
 import { useViewUiStore, useGlobalUiStore } from '@/stores'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import LoadingSpin from '@/components/common/LoadingSpin.vue'
 import MessageBox from '@/components/common/MessageBox.vue'
-import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { darkTheme } from 'naive-ui'
 import TopNavbar from '@/components/app/TopNavbar.vue'
 
 const route = useRoute()
@@ -41,8 +41,4 @@ const currentUiStore = computed(() => {
 })
 
 const theme = computed(() => (globalUiStore.isDarkMode ? darkTheme : null))
-
-onMounted(() => {
-
-})
 </script>

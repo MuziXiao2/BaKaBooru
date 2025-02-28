@@ -1,5 +1,5 @@
 import api from './index'
-import type Atlas from '@/stores/types/atlas'
+import type Atlas from '@/types/atlas'
 import type { AxiosResponse } from 'axios'
 
 /**

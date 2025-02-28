@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { toRefs } from 'vue'
-import type Atlas from '@/stores/types/atlas'
-import ClickMenu from '@/components/view/atlases/ClickMenu.vue'
+import type Atlas from '@/types/atlas'
+import ContextMenu from '@/components/view/atlases/atlas-card/ContextMenu.vue'
+import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { useViewUiStore } from '@/stores'
+import { useImageStore } from '@/stores/common/image.ts'
 
 const props = defineProps<{ atlas: Atlas }>()
 const { atlas } = toRefs(props)
 
+const imageStore = useImageStore()
 const viewUiStore = useViewUiStore()
+const viewStateStore = useViewStateStore()
 
 const handleClick = async () => {
   viewUiStore.startLoading()
 
-  viewUiStore.setCurrentAtlas(atlas.value)
-  await viewUiStore.fetchImages()
-  viewUiStore.setCurrentImage(viewUiStore.images[0])
+  viewStateStore.setCurrentAtlas(atlas.value)
+  await imageStore.fetchImages()
+  viewStateStore.setCurrentImage(imageStore.images[0])
   viewUiStore.openAtlasInfo()
 
   viewUiStore.stopLoading()
@@ -24,7 +28,7 @@ const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
 </script>
 
 <template>
-  <ClickMenu :atlas="atlas">
+  <ContextMenu :atlas="atlas">
     <n-card footer-style="padding: 0; height:30px;" hover="hover" @click="handleClick">
       <template #cover>
         <img id="cover" :src="atlas.cover_url || defaultCoverUrl" alt="img" />
@@ -33,7 +37,7 @@ const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
         <div id="text">{{ atlas.title }}</div>
       </template>
     </n-card>
-  </ClickMenu>
+  </ContextMenu>
 </template>
 
 <style scoped>

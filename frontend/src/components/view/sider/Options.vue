@@ -1,28 +1,34 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useViewUiStore } from '@/stores/modules/view.ts'
+import { useViewUiStore } from '@/stores/modules/view/view-ui.ts'
+import { useSoucreStore } from '@/stores/common/source.ts'
+import { useAtlasStore } from '@/stores/common/atlas.ts'
+import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
 const viewUiStore = useViewUiStore()
+const viewStateStore = useViewStateStore()
+const sourceStore = useSoucreStore()
+const atlasStore = useAtlasStore()
 
 // 加载图源
 onMounted(async () => {
   viewUiStore.startLoading()
-  await viewUiStore.fetchSources()
+  await sourceStore.fetchSources()
   viewUiStore.stopLoading()
 })
 
 const handleMenuUpdate = async (key: string) => {
   viewUiStore.startLoading()
 
-  viewUiStore.atlases = []
-  viewUiStore.isAtlasesLoaded = false
+  atlasStore.atlases = []
+  atlasStore.isAtlasesLoaded = false
 
   if (key === 'default') {
-    viewUiStore.setCurrentSource(null)
+    viewStateStore.setCurrentSource(null)
   } else {
-    const selectedSource = viewUiStore.sources.find((source) => `${source.id}` === key) || null
-    viewUiStore.setCurrentSource(selectedSource)
-    await viewUiStore.fetchAtlases()
+    const selectedSource = sourceStore.sources.find((source) => `${source.id}` === key) || null
+    viewStateStore.setCurrentSource(selectedSource)
+    await atlasStore.fetchAtlases()
   }
 
   viewUiStore.stopLoading()
@@ -32,8 +38,8 @@ const handleMenuUpdate = async (key: string) => {
 <template>
   <n-card id="source-list" size="small" content-style="padding: 5px;">
     <n-menu
-      v-if="viewUiStore.isSourcesLoaded"
-      :options="viewUiStore.options"
+      v-if="sourceStore.isSourcesLoaded"
+      :options="viewStateStore.options"
       :default-value="'default'"
       :root-indent="10"
       :indent="0"
