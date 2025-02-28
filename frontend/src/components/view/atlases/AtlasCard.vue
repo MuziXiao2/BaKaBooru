@@ -2,51 +2,31 @@
 import { toRefs } from 'vue'
 import type Atlas from '@/stores/types/atlas'
 import ClickMenu from '@/components/view/atlases/ClickMenu.vue'
+import { useViewUiStore } from '@/stores'
 
 const props = defineProps<{ atlas: Atlas }>()
 const { atlas } = toRefs(props)
 
-const options = [
-  { label: '查看', key: 'show' },
-  { label: 'B', key: 'b' },
-  { type: 'divider', key: 'd1' },
-  { label: 'C', key: 'c' },
-  { label: 'D', key: 'd' },
-  {
-    label: 'O1',
-    key: 'o1',
-    children: [
-      { label: 'E', key: 'e' },
-      { label: 'F', key: 'f' },
-      {
-        label: 'O2',
-        key: 'o2',
-        children: [
-          { label: 'G', key: 'g' },
-          { label: 'H', key: 'h' },
-        ],
-      },
-    ],
-  },
-]
+const viewUiStore = useViewUiStore()
 
-const emit = defineEmits(['click'])
 
-const handleClick = () => {
-  emit('click')
+const handleClick = async () => {
+  viewUiStore.startLoading()
+
+  viewUiStore.setCurrentAtlas(atlas.value)
+  await viewUiStore.fetchImages()
+  viewUiStore.setCurrentImage(viewUiStore.images[0])
+  viewUiStore.openAtlasInfo()
+
+  viewUiStore.stopLoading()
 }
 
 const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
 </script>
 
 <template>
-  <ClickMenu :options="options">
-    <n-card
-      footer-style="padding: 0; height:30px;"
-      hover="hover"
-      style="border-radius: 10px"
-      @click="handleClick"
-    >
+  <ClickMenu >
+    <n-card footer-style="padding: 0; height:30px;" hover="hover" @click="handleClick">
       <template #cover>
         <img id="cover" :src="atlas.cover_url || defaultCoverUrl" alt="img" />
       </template>
@@ -59,6 +39,7 @@ const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
 
 <style scoped>
 .n-card {
+  border-radius: 10px;
   width: 200px;
   height: 230px;
 }

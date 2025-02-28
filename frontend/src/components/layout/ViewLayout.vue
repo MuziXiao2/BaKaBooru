@@ -29,10 +29,7 @@ const viewUiStore = useViewUiStore()
         v-model:show="viewUiStore.showAtlasInfo"
         style="height: 95vh; margin: 0 30px; border-radius: 10px"
       >
-        <!-- 图集信息 -->
-        <slot name="modal" v-if="viewUiStore.showAtlasInfo" />
-        <!-- 加载图标 -->
-        <n-spin v-else />
+        <slot name="modal" />
       </n-modal>
     </n-layout-content>
   </n-layout>
@@ -62,5 +59,8 @@ const viewUiStore = useViewUiStore()
 #sider {
   border: 2px solid gray;
   border-radius: 10px;
+}
+
+.n-modal {
 }
 </style>

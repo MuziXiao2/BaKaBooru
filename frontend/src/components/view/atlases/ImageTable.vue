@@ -1,12 +1,34 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
+import { useViewUiStore } from '@/stores/modules/view.ts'
+import type Image from '@/stores/types/image'
 
-const props = defineProps({ columns: {}, data: {} })
-const { columns, data } = toRefs(props)
+const viewUiStore = useViewUiStore()
+
+const handleClick = async (image: Image) => {
+  viewUiStore.startLoading()
+  viewUiStore.setCurrentImage(image)
+
+  viewUiStore.stopLoading()
+}
 </script>
 
 <template>
-  <n-data-table :columns="columns" :data="data" :bordered="false" />
+  <n-table :single-line="false">
+    <thead>
+      <tr>
+        <th>序号</th>
+        <th>标题</th>
+        <th>大小</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="image in viewUiStore.images" :key="image.sn" @click="handleClick(image)">
+        <td>{{ image.sn }}</td>
+        <td>{{ image.title }}</td>
+        <td>0kB</td>
+      </tr>
+    </tbody>
+  </n-table>
 </template>
 
 <style scoped></style>

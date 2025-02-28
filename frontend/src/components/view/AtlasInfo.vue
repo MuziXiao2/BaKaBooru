@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import ImageTable from '@/components/view/atlases/ImageTable.vue'
 import { useViewUiStore } from '@/stores/modules/view.ts'
+import { storeToRefs } from 'pinia'
 
 const viewUiStore = useViewUiStore()
-
-onMounted(async () => {
-  viewUiStore.startLoading()
-  await viewUiStore.fetchImages()
-  viewUiStore.stopLoading()
-})
+const { currentImage, currentAtlas } = storeToRefs(viewUiStore)
+const defaultImageUrl = ''
 </script>
 
 <template>
-  <n-layout has-sider sider-placement="right" v-if="viewUiStore.isImagesLoaded">
+  <n-layout has-sider sider-placement="right">
     <n-layout-content
       :native-scrollbar="false"
       content-style="
@@ -23,7 +19,7 @@ onMounted(async () => {
           align-items: center;
         "
     >
-      <n-image :src="viewUiStore.currentImage.url" width="100%" object-fit="contain" />
+      <n-image :src="currentImage?.url || defaultImageUrl" width="100%" object-fit="contain" />
     </n-layout-content>
 
     <n-layout-sider
@@ -41,27 +37,16 @@ onMounted(async () => {
         :default-expanded-names="['info', 'images', 'tags', 'actions']"
       >
         <n-collapse-item title="信息" name="info">
-          标题: {{ viewUiStore.currentAtlas.title }}
+          标题: {{ currentAtlas?.title }}
           <br />
-          创建者:{{ viewUiStore.currentAtlas.creator }}
+          创建者:{{ currentAtlas?.creator }}
           <br />
-          更新日期:{{ viewUiStore.currentAtlas.updated_at }}
+          更新日期:{{ currentAtlas?.updated_at }}
           <br />
-          创建日期:{{ viewUiStore.currentAtlas.create_at }}
+          创建日期:{{ currentAtlas?.create_at }}
         </n-collapse-item>
         <n-collapse-item title="图片" name="images">
-          <ImageTable
-            :columns="viewUiStore.table.columns"
-            :data="viewUiStore.table.row"
-            :row-props="
-              (row) => {
-                return {
-                  style: 'cursor: pointer;',
-                  onClick: () => viewUiStore.setCurrentImage(row.sn),
-                }
-              }
-            "
-          />
+          <ImageTable />
           <n-popconfirm positive-text="上传" negative-text="取消">
             <template #trigger>
               <n-button>上传</n-button>
@@ -96,7 +81,6 @@ onMounted(async () => {
       </n-collapse>
     </n-layout-sider>
   </n-layout>
-  <n-spin v-else />
 </template>
 
 <style scoped></style>

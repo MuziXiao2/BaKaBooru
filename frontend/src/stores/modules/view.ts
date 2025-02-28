@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
 import type Source from '@/stores/types/source'
 import type Image from '@/stores/types/image'
+import type Atlas from '@/stores/types/atlas'
 import { getAtlases, getImages, getSources } from '@/api'
-import { type MenuOption, NButton } from 'naive-ui'
+import { NButton } from 'naive-ui'
+import type { MenuOption, MenuGroupOption, MenuDividerOption } from '@/stores/types/Option'
 import { h } from 'vue'
 import { renderIcon } from '@/utils/icon.ts'
 import {
@@ -10,8 +12,6 @@ import {
   InformationCircleOutline as TestIcon,
   StarOutline as StarIcon,
 } from '@vicons/ionicons5'
-import type { MenuGroupOptionMap } from '@/stores/types/Option'
-import type Atlas from '@/stores/types/atlas'
 
 export const useViewUiStore = defineStore('view', {
   state: () => ({
@@ -38,14 +38,10 @@ export const useViewUiStore = defineStore('view', {
       y: 0,
       atlas: null,
     },
-
-
-
-
   }),
   getters: {
     // 菜单选项
-    options(state) {
+    options(state): Array<MenuOption | MenuGroupOption> {
       // 默认选项
       const defaultOption: MenuOption = {
         key: 'default',
@@ -62,7 +58,7 @@ export const useViewUiStore = defineStore('view', {
       }
 
       // 图源选项
-      const sourceOption: MenuGroupOptionMap = {
+      const sourceOption: { [key: string]: MenuGroupOption } = {
         local: {
           type: 'group',
           label: '本地图源',
@@ -98,7 +94,7 @@ export const useViewUiStore = defineStore('view', {
       })
 
       // 其他选项
-      const otherOption: MenuOption[] = [
+      const otherOption: Array<MenuDividerOption> = [
         {
           key: 'divider',
           type: 'divider',
@@ -117,21 +113,6 @@ export const useViewUiStore = defineStore('view', {
 
       return [defaultOption, sourceOption.local, sourceOption.network, ...otherOption]
     },
-    table(state) {
-      const columns = [
-        { title: '序号', key: 'sn' },
-        { title: '标题', key: 'title' },
-        { title: '大小', key: 'size' },
-      ]
-
-      const row = this.images.map((image) => ({
-        sn: image.sn,
-        title: image.title,
-        size: '0kB',
-      }))
-
-      return { columns, row }
-    },
   },
   actions: {
     startLoading() {
@@ -146,16 +127,17 @@ export const useViewUiStore = defineStore('view', {
       this.isSourcesLoaded = true
     },
     async fetchAtlases() {
+      if (!this.currentSource) return
       const response = await getAtlases(this.currentSource.id)
       this.atlases = response.data
       this.isAtlasesLoaded = true
     },
     async fetchImages() {
+      if (!this.currentAtlas) return
       const response = await getImages(this.currentAtlas.id)
       this.images = response.data
       this.isImagesLoaded = true
     },
-
     setCurrentSource(source: Source) {
       this.currentSource = source
     },
@@ -168,16 +150,16 @@ export const useViewUiStore = defineStore('view', {
       this.currentImage = image
     },
 
-    toggleSider() {
-      this.isSiderCollapsed = !this.isSiderCollapsed
-    },
-
     openAtlasInfo() {
       this.showAtlasInfo = true
     },
 
     closeAtlasInfo() {
       this.showAtlasInfo = false
+    },
+
+    toggleSider() {
+      this.isSiderCollapsed = !this.isSiderCollapsed
     },
   },
 })

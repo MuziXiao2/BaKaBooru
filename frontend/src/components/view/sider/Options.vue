@@ -20,7 +20,7 @@ const handleMenuUpdate = async (key: string) => {
   if (key === 'default') {
     viewUiStore.setCurrentSource(null)
   } else {
-    const selectedSource = viewUiStore.sources.find((source) => `${source.id}` === key)
+    const selectedSource = viewUiStore.sources.find((source) => `${source.id}` === key) || null
     viewUiStore.setCurrentSource(selectedSource)
     await viewUiStore.fetchAtlases()
   }
