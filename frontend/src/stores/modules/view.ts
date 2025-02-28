@@ -33,15 +33,15 @@ export const useViewUiStore = defineStore('view', {
     currentImage: null as Image | null,
 
     contextMenu: {
-      visible: false,
-      x: 0,
-      y: 0,
-      atlas: null,
+      visible: false as boolean,
+      x: 0 as number,
+      y: 0 as number,
+      atlas: null as Atlas | null,
     },
   }),
   getters: {
     // 菜单选项
-    options(state): Array<MenuOption | MenuGroupOption> {
+    options(state): Array<MenuOption | MenuGroupOption | MenuDividerOption> {
       // 默认选项
       const defaultOption: MenuOption = {
         key: 'default',
@@ -94,7 +94,7 @@ export const useViewUiStore = defineStore('view', {
       })
 
       // 其他选项
-      const otherOption: Array<MenuDividerOption> = [
+      const otherOption: Array<MenuDividerOption | MenuOption> = [
         {
           key: 'divider',
           type: 'divider',

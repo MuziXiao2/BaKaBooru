@@ -1,53 +1,42 @@
 <script setup lang="ts">
-import { nextTick, ref } from 'vue'
+import { nextTick, toRefs } from 'vue'
+import { useViewUiStore } from '@/stores'
+import type Atlas from '@/stores/types/atlas'
 
-const showDropdown = ref(false)
-const x = ref(0)
-const y = ref(0)
+const props = defineProps<{ atlas: Atlas }>()
+const { atlas } = toRefs(props)
+
+const viewUiStore = useViewUiStore()
 
 const handleSelect = (key: string | number) => {
   if (key === 'show') {
     console.log('666')
   }
-  showDropdown.value = false
+  viewUiStore.contextMenu.visible = false
 }
 
 const options = [
-  { label: '查看', key: 'show' },
-  { label: 'B', key: 'b' },
-  { type: 'divider', key: 'd1' },
-  { label: 'C', key: 'c' },
-  { label: 'D', key: 'd' },
-  {
-    label: 'O1',
-    key: 'o1',
-    children: [
-      { label: 'E', key: 'e' },
-      { label: 'F', key: 'f' },
-      {
-        label: 'O2',
-        key: 'o2',
-        children: [
-          { label: 'G', key: 'g' },
-          { label: 'H', key: 'h' },
-        ],
-      },
-    ],
-  },
+  { label: '查看', key: 'view' },
+  { label: '删除', key: 'delete' },
+  { label: '分享', key: 'share' },
+  { label: '移动', key: 'move' },
+  { label: '复制', key: 'copy' },
+  { label: '重命名', key: 'rename' },
 ]
 
 const handleContextMenu = (e: MouseEvent) => {
   e.preventDefault()
-  showDropdown.value = false
+  viewUiStore.contextMenu.visible = false
   nextTick().then(() => {
-    showDropdown.value = true
-    x.value = e.clientX
-    y.value = e.clientY
+    viewUiStore.contextMenu.visible = true
+    viewUiStore.contextMenu.x = e.clientX
+    viewUiStore.contextMenu.y = e.clientY
+    viewUiStore.contextMenu.atlas = atlas.value
   })
 }
 
 const onClickOutside = () => {
-  showDropdown.value = false
+  viewUiStore.contextMenu.visible = false
 }
 </script>
 
@@ -58,10 +47,10 @@ const onClickOutside = () => {
   <n-dropdown
     placement="bottom-start"
     trigger="manual"
-    :x="x"
-    :y="y"
+    :show="viewUiStore.contextMenu.visible"
+    :x="viewUiStore.contextMenu.x"
+    :y="viewUiStore.contextMenu.y"
     :options="options"
-    :show="showDropdown"
     :on-clickoutside="onClickOutside"
     @select="handleSelect"
   />

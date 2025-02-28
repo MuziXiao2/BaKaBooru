@@ -9,7 +9,6 @@ const { atlas } = toRefs(props)
 
 const viewUiStore = useViewUiStore()
 
-
 const handleClick = async () => {
   viewUiStore.startLoading()
 
@@ -25,7 +24,7 @@ const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
 </script>
 
 <template>
-  <ClickMenu >
+  <ClickMenu :atlas="atlas">
     <n-card footer-style="padding: 0; height:30px;" hover="hover" @click="handleClick">
       <template #cover>
         <img id="cover" :src="atlas.cover_url || defaultCoverUrl" alt="img" />

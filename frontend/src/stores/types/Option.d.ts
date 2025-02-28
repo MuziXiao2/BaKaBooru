@@ -3,7 +3,7 @@ import type { HTMLAttributes } from 'vue'
 export interface MenuOption {
   key: string
   label: string | function
-  icon?: never
+  icon?: function | undefined
   show?: boolean
   disabled?: boolean
 }
