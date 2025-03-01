@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ImageTable from '@/components/view/atlases/atlas-card/view-atlas/ImageTable.vue'
+import ImageTable from '@/components/view/atlases/atlas-card/context-menu/view-atlas/ImageTable.vue'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
 const viewStateStore = useViewStateStore()
@@ -50,22 +50,6 @@ const defaultImageUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
         </n-collapse-item>
         <n-collapse-item title="图片" name="images">
           <ImageTable />
-          <n-popconfirm positive-text="上传" negative-text="取消">
-            <template #trigger>
-              <n-button>上传</n-button>
-            </template>
-            <n-upload
-              action="http://localhost:8080/api/images/upload"
-              :headers="{
-                'naive-info': 'hello!',
-              }"
-              :data="{
-                'naive-data': 'cool! naive!',
-              }"
-            >
-              <n-button>上传文件</n-button>
-            </n-upload>
-          </n-popconfirm>
         </n-collapse-item>
         <n-collapse-item title="标签" name="tags">
           test1

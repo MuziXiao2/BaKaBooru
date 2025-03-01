@@ -79,7 +79,7 @@ public class MinIOUtil {
             Long size = stat.size();
             String url = String.format("%s/%s/%s", endpoint, bucketName, filename);
 
-            return new UploadResponseDTO(size, url);
+            return new UploadResponseDTO(url, size);
         } catch (MinioException e) {
             throw new RuntimeException("Failed to upload file to MinIO: " + e.getMessage(), e);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {

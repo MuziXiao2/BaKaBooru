@@ -12,7 +12,7 @@ const atlasStore = useAtlasStore()
   <!-- 默认页面 -->
   <default v-if="viewUiStateStore.currentSource === null" />
   <!-- 图集列表 -->
-  <n-flex v-else-if="atlasStore.isAtlasesLoaded">
+  <n-flex v-else-if="atlasStore.isAtlasesLoaded" justify="center">
     <AtlasCard v-for="(atlas, index) in atlasStore.atlases" :key="index" :atlas="atlas" />
   </n-flex>
   <!-- 加载图标 -->

@@ -11,28 +11,22 @@ const viewUiStore = useViewUiStore()
       :collapsed="viewUiStore.isSiderCollapsed"
       :show-collapsed-content="true"
       collapse-mode="transform"
-      show-trigger="bar"
       :collapsed-width="0"
       trigger-style=""
       collapsed-trigger-style=""
     >
-      <n-card id="sider" size="small" content-style="padding: 5px;">
-        <slot name="sider" />
-      </n-card>
+      <slot name="sider" />
     </n-layout-sider>
     <n-layout-content :native-scrollbar="false">
-      <!--图集列表-->
-      <n-card size="small" bordered>
-        <slot name="content" />
-      </n-card>
-      <n-modal
-        v-model:show="viewUiStore.showViewAtlas"
-        style="height: 95vh; margin: 0 30px; border-radius: 10px"
-      >
-        <slot name="modal" />
-      </n-modal>
+      <slot name="content" />
     </n-layout-content>
   </n-layout>
+  <n-modal
+    v-model:show="viewUiStore.showViewAtlas"
+    style="height: 95vh; margin: 0 30px; border-radius: 10px"
+  >
+    <slot name="modal" />
+  </n-modal>
 </template>
 
 <style scoped>
@@ -47,7 +41,7 @@ const viewUiStore = useViewUiStore()
 
 .n-layout-content {
   background: rgba(128, 128, 128, 0.4);
-  padding: 5px;
+  padding: 10px;
 }
 
 .n-card {

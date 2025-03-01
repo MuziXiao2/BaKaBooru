@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 public class UploadResponseDTO {
-    private Long size;
     private String url;
+    private Long size;
 }

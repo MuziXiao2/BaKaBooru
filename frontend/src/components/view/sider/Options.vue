@@ -36,7 +36,7 @@ const handleMenuUpdate = async (key: string) => {
 </script>
 
 <template>
-  <n-card id="source-list" size="small" content-style="padding: 5px;">
+  <n-card id="options" size="small" title="图源">
     <n-menu
       v-if="sourceStore.isSourcesLoaded"
       :options="viewStateStore.options"
@@ -50,8 +50,6 @@ const handleMenuUpdate = async (key: string) => {
 </template>
 
 <style scoped>
-#source-list {
-  border: 1px solid gray;
-  border-radius: 10px;
+#options {
 }
 </style>

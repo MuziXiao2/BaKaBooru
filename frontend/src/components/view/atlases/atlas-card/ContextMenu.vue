@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { nextTick, toRefs } from 'vue'
+import { nextTick } from 'vue'
 import { useViewUiStore } from '@/stores'
 import type Atlas from '@/types/atlas'
 
 const props = defineProps<{ atlas: Atlas }>()
-const { atlas } = toRefs(props)
 
 const viewUiStore = useViewUiStore()
 
@@ -22,7 +21,7 @@ const options = [
 const handleContextMenu = (e: MouseEvent) => {
   viewUiStore.closeContextMenu()
   nextTick().then(() => {
-    viewUiStore.openContextMenu(e.clientX, e.clientY, atlas.value)
+    viewUiStore.openContextMenu(e.clientX, e.clientY, props.atlas)
   })
 }
 
@@ -31,7 +30,7 @@ const handleSelect = (key: string) => {
 
   switch (key) {
     case 'view':
-      viewUiStore.openViewAtlas()
+      viewUiStore.openViewAtlas(props.atlas)
       break
     case 'share':
       break

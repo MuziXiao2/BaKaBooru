@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import type { ContextMenu } from '@/types/global'
 import type Atlas from '@/types/atlas'
+import { useImageStore } from '@/stores/common/image.ts'
+import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
 export const useViewUiStore = defineStore('view-ui', {
   state: () => ({
@@ -15,7 +16,7 @@ export const useViewUiStore = defineStore('view-ui', {
       x: 0,
       y: 0,
       atlas: null as Atlas | null,
-    } as ContextMenu,
+    },
   }),
   getters: {},
   actions: {
@@ -27,7 +28,13 @@ export const useViewUiStore = defineStore('view-ui', {
       this.isLoading = false
     },
 
-    openViewAtlas() {
+    async openViewAtlas(atlas: Atlas) {
+      const imageStore = useImageStore()
+      const viewStateStore = useViewStateStore()
+
+      viewStateStore.setCurrentAtlas(atlas)
+      await imageStore.fetchImages()
+      useViewStateStore().setCurrentImage(imageStore.images[0])
       this.showViewAtlas = true
     },
 

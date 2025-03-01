@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import View from '@/views/View.vue'
+import Upload from '@/views/Upload.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +15,14 @@ const router = createRouter({
       path: '/view',
       name: 'View',
       component: View,
-      meta: { navItem: 'view', title: 'View Atlases' },
+      meta: { navItem: 'view', title: 'View ' },
+    },
+    {
+      // 上传页
+      path: '/upload',
+      name: 'Upload',
+      component: Upload,
+      meta: { navItem: 'upload', title: 'Upload' },
     },
   ],
 })

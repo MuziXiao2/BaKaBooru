@@ -4,7 +4,7 @@
       <n-loading-bar-provider>
         <app-layout>
           <template #header>
-            <top-navbar />
+            <navbar />
           </template>
           <template #default>
             <router-view />
@@ -26,7 +26,7 @@ import { useViewUiStore, useGlobalUiStore } from '@/stores'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import LoadingSpin from '@/components/common/LoadingSpin.vue'
 import MessageBox from '@/components/common/MessageBox.vue'
-import TopNavbar from '@/components/app/TopNavbar.vue'
+import Navbar from '@/components/app/Navbar.vue'
 
 const route = useRoute()
 const globalUiStore = useGlobalUiStore()

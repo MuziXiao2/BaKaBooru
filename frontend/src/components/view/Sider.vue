@@ -4,13 +4,8 @@ import Options from '@/components/view/sider/Options.vue'
 </script>
 
 <template>
-  <!--选项列表-->
   <options />
-  <hr />
-  <!--搜索栏-->
   <search />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

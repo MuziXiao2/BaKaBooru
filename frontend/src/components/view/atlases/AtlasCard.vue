@@ -1,25 +1,17 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
 import type Atlas from '@/types/atlas'
 import ContextMenu from '@/components/view/atlases/atlas-card/ContextMenu.vue'
-import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
+
 import { useViewUiStore } from '@/stores'
-import { useImageStore } from '@/stores/common/image.ts'
 
 const props = defineProps<{ atlas: Atlas }>()
-const { atlas } = toRefs(props)
 
-const imageStore = useImageStore()
 const viewUiStore = useViewUiStore()
-const viewStateStore = useViewStateStore()
 
 const handleClick = async () => {
   viewUiStore.startLoading()
 
-  viewStateStore.setCurrentAtlas(atlas.value)
-  await imageStore.fetchImages()
-  viewStateStore.setCurrentImage(imageStore.images[0])
-  viewUiStore.openViewAtlas()
+  await viewUiStore.openViewAtlas(props.atlas)
 
   viewUiStore.stopLoading()
 }

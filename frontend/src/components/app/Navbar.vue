@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
-import { useTopNavbarStore } from '@/stores/modules/top-navbar.ts'
+import { useNavbarStore } from '@/stores/modules/navbar.ts'
 
 const route = useRoute()
 const router = useRouter()
-const topNavbarStore = useTopNavbarStore()
+const navbarStore = useNavbarStore()
 
 const activeNavItem = computed(() => (route.meta.navItem as string) || 'view')
 
@@ -18,7 +18,7 @@ const handleNavChange = (key: string) => {
   <n-menu
     mode="horizontal"
     :value="activeNavItem"
-    :options="topNavbarStore.options"
+    :options="navbarStore.options"
     @update:value="handleNavChange"
   />
 </template>

@@ -60,6 +60,13 @@ export const useViewStateStore = defineStore('view-state', {
           show: true,
           children: [],
         },
+        other: {
+          type: 'group',
+          label: '其他',
+          key: 'other',
+          show: true,
+          children: [],
+        },
       }
 
       // 将图源添加到对应type下的children
@@ -81,32 +88,27 @@ export const useViewStateStore = defineStore('view-state', {
       })
 
       // 其他选项
-      const otherOption: Array<MenuDividerOption | MenuOption> = [
-        {
-          key: 'divider',
-          type: 'divider',
-          props: {
-            style: {
-              marginLeft: '32px',
+      sourceOption.other.children.push({
+        key: 'favorite',
+        label: () =>
+          h(
+            NButton,
+            {
+              text: true,
             },
-          },
-        },
-        {
-          label: '收藏',
-          key: 'favorite',
-          icon: renderIcon(StarIcon),
-        },
-      ]
+            { default: () => '收藏' },
+          ),
 
-      return [defaultOption, sourceOption.local, sourceOption.network, ...otherOption]
+        icon: renderIcon(StarIcon),
+        show: true,
+        disabled: false,
+      })
+
+      return [defaultOption, sourceOption.local, sourceOption.network, sourceOption.other]
     },
-
-    // 图片列表
-
-
   },
   actions: {
-    setCurrentSource(source: Source) {
+    setCurrentSource(source: Source | null) {
       this.currentSource = source
     },
 
