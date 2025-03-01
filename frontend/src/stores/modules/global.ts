@@ -3,7 +3,7 @@ import type { GlobalUiState } from '@/types/global'
 
 export const useGlobalUiStore = defineStore('globalUi', {
   state: (): GlobalUiState => ({
-    isDarkMode: false,
+    isDarkMode: true,
     message: {
       visible: false,
       content: 'Test',

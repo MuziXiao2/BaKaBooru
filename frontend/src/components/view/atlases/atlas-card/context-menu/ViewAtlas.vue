@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import ImageTable from '@/components/view/atlases/atlas-card/atlas-info/ImageTable.vue'
-import { useAtlasStore } from '@/stores/common/atlas.ts'
+import ImageTable from '@/components/view/atlases/atlas-card/view-atlas/ImageTable.vue'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
-const atlasStore = useAtlasStore()
 const viewStateStore = useViewStateStore()
 
 const defaultImageUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
@@ -42,13 +40,13 @@ const defaultImageUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
         :default-expanded-names="['info', 'images', 'tags', 'actions']"
       >
         <n-collapse-item title="信息" name="info">
-          标题: {{ atlasStore.currentAtlas?.title }}
+          标题: {{ viewStateStore.currentAtlas?.title }}
           <br />
-          创建者:{{ atlasStore.currentAtlas?.creator }}
+          创建者:{{ viewStateStore.currentAtlas?.creator }}
           <br />
-          更新日期:{{ atlasStore.currentAtlas?.updated_at }}
+          更新日期:{{ viewStateStore.currentAtlas?.updated_at }}
           <br />
-          创建日期:{{ atlasStore.currentAtlas?.create_at }}
+          创建日期:{{ viewStateStore.currentAtlas?.create_at }}
         </n-collapse-item>
         <n-collapse-item title="图片" name="images">
           <ImageTable />

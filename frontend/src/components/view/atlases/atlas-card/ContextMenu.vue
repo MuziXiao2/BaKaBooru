@@ -15,43 +15,36 @@ const options = [
   { label: '移动', key: 'move' },
   { label: '复制', key: 'copy' },
   { type: 'divider', key: 'd2' },
-  { label: '编辑', key: 'rename' },
+  { label: '编辑', key: 'edit' },
   { label: '删除', key: 'delete' },
 ]
 
 const handleContextMenu = (e: MouseEvent) => {
-  e.preventDefault()
   viewUiStore.closeContextMenu()
   nextTick().then(() => {
-    setContextMenu.openContextMenu(e.clientX, e.clientY, atlas.value)
+    viewUiStore.openContextMenu(e.clientX, e.clientY, atlas.value)
   })
 }
 
 const handleSelect = (key: string) => {
+  viewUiStore.closeContextMenu()
+
   switch (key) {
     case 'view':
-      viewUiStore.viewAtlas(atlas.value)
+      viewUiStore.openViewAtlas()
       break
     case 'share':
-      viewUiStore.shareAtlas(atlas.value)
       break
     case 'move':
-      viewUiStore.moveAtlas(atlas.value)
       break
     case 'copy':
-      viewUiStore.copyAtlas(atlas.value)
       break
-    case 'rename':
-      viewUiStore.renameAtlas(atlas.value)
+    case 'edit':
       break
     case 'delete':
-      viewUiStore.deleteAtlas(atlas.value)
       break
   }
-  viewUiStore.closeContextMenu()
 }
-
-const onClickOutside = () => {}
 </script>
 
 <template>
@@ -61,11 +54,10 @@ const onClickOutside = () => {}
   <n-dropdown
     placement="bottom-start"
     trigger="manual"
-    :show="viewUiStore.contextMenu.visible"
     :x="viewUiStore.contextMenu.x"
     :y="viewUiStore.contextMenu.y"
     :options="options"
-    @clickoutside="onClickOutside"
+    :show="viewUiStore.contextMenu.visible"
     @select="handleSelect"
   />
 </template>

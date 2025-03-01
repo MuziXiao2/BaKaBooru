@@ -7,33 +7,38 @@ import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 const imageStore = useImageStore()
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
-
+//
 const handleClick = async (image: Image) => {
   viewUiStore.startLoading()
-
   viewStateStore.setCurrentImage(image)
-
   viewUiStore.stopLoading()
+}
+
+const columns = [
+  {
+    title: '序号',
+    key: 'sn',
+  },
+  {
+    title: '标题',
+    key: 'title',
+  },
+  {
+    title: '大小',
+    key: 'size',
+  },
+]
+
+const rowProps = (image: Image) => {
+  return {
+    style: 'cursor: pointer;',
+    onClick: () => handleClick(image),
+  }
 }
 </script>
 
 <template>
-  <n-table :single-line="false">
-    <thead>
-      <tr>
-        <th>序号</th>
-        <th>标题</th>
-        <th>大小</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="image in imageStore.images" :key="image.sn" @click="handleClick(image)">
-        <td>{{ image.sn }}</td>
-        <td>{{ image.title }}</td>
-        <td>0kB</td>
-      </tr>
-    </tbody>
-  </n-table>
+  <n-data-table :columns="columns" :data="imageStore.images" :row-props="rowProps" />
 </template>
 
 <style scoped></style>

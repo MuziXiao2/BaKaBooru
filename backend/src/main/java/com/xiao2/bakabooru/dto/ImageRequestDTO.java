@@ -8,6 +8,7 @@ import lombok.Data;
 public class ImageRequestDTO {
     private String title;
     private String url;
+    private Long size;
     @JsonProperty("atlas_id")
     private Long atlasId;
 }

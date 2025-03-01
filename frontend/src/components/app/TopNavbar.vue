@@ -1,20 +1,16 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
-import type { MenuOption } from 'naive-ui'
+import { useTopNavbarStore } from '@/stores/modules/top-navbar.ts'
 
 const route = useRoute()
 const router = useRouter()
+const topNavbarStore = useTopNavbarStore()
 
 const activeNavItem = computed(() => (route.meta.navItem as string) || 'view')
 
-const navOptions: Array<MenuOption> = [{ label: '浏览', key: 'view' }]
-
 const handleNavChange = (key: string) => {
-  const routeMap: Record<string, string> = {
-    view: '/view',
-  }
-  router.push(routeMap[key])
+  router.push('/' + key)
 }
 </script>
 
@@ -22,7 +18,7 @@ const handleNavChange = (key: string) => {
   <n-menu
     mode="horizontal"
     :value="activeNavItem"
-    :options="navOptions"
+    :options="topNavbarStore.options"
     @update:value="handleNavChange"
   />
 </template>

@@ -1,6 +1,5 @@
 package com.xiao2.bakabooru.model;
 
-import com.xiao2.bakabooru.dto.ImageRequestDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,13 +31,13 @@ public class Image {
     @Column(name = "height")
     private Integer height;
 
-    //图片大小(Byte)
-    @Column(name = "size")
-    private Long size;
-
     //图片序号
     @Column(name = "sn")
     private Long sn;
+
+    //图片大小(字节)
+    @Column(name = "size")
+    private Long size;
 
     //所属图集id
     @Column(name = "atlas_id")

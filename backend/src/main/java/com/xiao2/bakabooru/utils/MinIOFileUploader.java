@@ -17,23 +17,12 @@ public class MinIOFileUploader {
     private static final String bucketName = "bakabooru";
 
     static {
-        minioClient = MinioClient.builder()
-                .endpoint("http://localhost:9000")
-                .credentials("ga9t9ShVs41vivkX0zaR", "fjogwAu69vI4g8ZpbftsbVMjJno3oBShX77wSA9p")
-                .build();
+        minioClient = MinioClient.builder().endpoint("http://localhost:9000").credentials("ga9t9ShVs41vivkX0zaR", "fjogwAu69vI4g8ZpbftsbVMjJno3oBShX77wSA9p").build();
 
         try {
-            boolean bucketExists = minioClient
-                    .bucketExists(BucketExistsArgs
-                            .builder()
-                            .bucket(bucketName)
-                            .build());
+            boolean bucketExists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
 
-            if (!bucketExists)
-                minioClient.makeBucket(
-                        MakeBucketArgs.builder()
-                                .bucket(bucketName)
-                                .build());
+            if (!bucketExists) minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
         } catch (MinioException e) {
             System.out.println("Error occurred: " + e);
             System.out.println("HTTP trace: " + e.httpTrace());
@@ -48,16 +37,11 @@ public class MinIOFileUploader {
 
             // 生成唯一标识符作为文件名
             String fileName = file.getOriginalFilename();
-            fileName = UUID.randomUUID() + fileName.substring(fileName.lastIndexOf(".") + 1);
+            if (fileName != null) {
+                fileName = UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
+            }
 
-            minioClient.putObject(
-                    PutObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(fileName)
-                            .stream(inputStream, file.getSize(), -1)
-                            .contentType(file.getContentType())
-                            .build());
-
+            minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(fileName).stream(inputStream, file.getSize(), -1).contentType(file.getContentType()).build());
         }
     }
 

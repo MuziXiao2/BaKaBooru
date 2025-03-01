@@ -3,9 +3,11 @@ package com.xiao2.bakabooru.controller;
 import com.xiao2.bakabooru.dto.ImageRequestDTO;
 import com.xiao2.bakabooru.dto.ImageResponseDTO;
 import com.xiao2.bakabooru.dto.ResponseResult;
+import com.xiao2.bakabooru.dto.UploadResponseDTO;
 import com.xiao2.bakabooru.model.Image;
 import com.xiao2.bakabooru.service.SourceService;
-import com.xiao2.bakabooru.utils.MinIOFileUploader;
+import com.xiao2.bakabooru.util.MinIOUtil;
+
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,8 @@ public class ImageController {
     /*图片操作*/
     // 上传图片到存储库
     @PostMapping("/upload")
-    public void uploadImage(@RequestParam("file") MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        MinIOFileUploader.updataImage(file);
+    public UploadResponseDTO uploadImage(@RequestParam("file") MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        return MinIOUtil.upload(file);
     }
 
     // 给图集添加张图片

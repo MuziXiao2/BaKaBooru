@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type Source from '@/types/source'
 import type Image from '@/types/image'
 import type Atlas from '@/types/atlas'
-import type { MenuDividerOption, MenuGroupOption, MenuOption } from '@/types/Option'
+import type { MenuDividerOption, MenuGroupOption, MenuOption } from '@/types/option'
 import { h } from 'vue'
 import { NButton } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
@@ -100,6 +100,10 @@ export const useViewStateStore = defineStore('view-state', {
 
       return [defaultOption, sourceOption.local, sourceOption.network, ...otherOption]
     },
+
+    // 图片列表
+
+
   },
   actions: {
     setCurrentSource(source: Source) {

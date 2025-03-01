@@ -71,6 +71,7 @@ public class Converter {
 
         image.setTitle(imageRequestDTO.getTitle());
         image.setUrl(imageRequestDTO.getUrl());
+        image.setSize(imageRequestDTO.getSize());
         image.setAtlasId(imageRequestDTO.getAtlasId());
 
         return image;
@@ -83,6 +84,7 @@ public class Converter {
         imageResponseDTO.setUrl(image.getUrl());
         imageResponseDTO.setSn(image.getSn());
         imageResponseDTO.setAtlasId(image.getAtlasId());
+        imageResponseDTO.setSize(image.getSize());
 
         return imageResponseDTO;
     }

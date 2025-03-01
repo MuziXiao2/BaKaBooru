@@ -2,7 +2,7 @@
 import ViewLayout from '@/components/layout/ViewLayout.vue'
 import Sider from '@/components/view/Sider.vue'
 import Atlases from '@/components/view/Atlases.vue'
-import AtlasInfo from '@/components/view/atlases/atlas-card/AtlasInfo.vue'
+import ViewAtlas from '@/components/view/atlases/atlas-card/context-menu/ViewAtlas.vue'
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import AtlasInfo from '@/components/view/atlases/atlas-card/AtlasInfo.vue'
       <atlases />
     </template>
     <template #modal>
-      <atlas-info />
+      <view-atlas />
     </template>
   </view-layout>
 </template>

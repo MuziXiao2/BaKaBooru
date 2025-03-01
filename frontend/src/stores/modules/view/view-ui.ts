@@ -7,7 +7,8 @@ export const useViewUiStore = defineStore('view-ui', {
     isLoading: false,
 
     isSiderCollapsed: false,
-    showAtlasInfo: false,
+
+    showViewAtlas: false,
 
     contextMenu: {
       visible: false,
@@ -26,12 +27,12 @@ export const useViewUiStore = defineStore('view-ui', {
       this.isLoading = false
     },
 
-    openAtlasInfo() {
-      this.showAtlasInfo = true
+    openViewAtlas() {
+      this.showViewAtlas = true
     },
 
-    closeAtlasInfo() {
-      this.showAtlasInfo = false
+    closeViewAtlas() {
+      this.showViewAtlas = false
     },
 
     openContextMenu(x: number, y: number, atlas: Atlas) {

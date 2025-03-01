@@ -19,7 +19,7 @@ const handleClick = async () => {
   viewStateStore.setCurrentAtlas(atlas.value)
   await imageStore.fetchImages()
   viewStateStore.setCurrentImage(imageStore.images[0])
-  viewUiStore.openAtlasInfo()
+  viewUiStore.openViewAtlas()
 
   viewUiStore.stopLoading()
 }

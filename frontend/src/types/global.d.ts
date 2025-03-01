@@ -17,9 +17,3 @@ export interface GlobalUiState {
   message: Message
   isDarkMode: boolean
 }
-
-export interface PageUiState {
-  isLoading: boolean
-
-  [key: string]: never
-}
