@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { nextTick } from 'vue'
 import { useViewUiStore } from '@/stores'
+import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import type Atlas from '@/types/atlas'
 
-const props = defineProps<{ atlas: Atlas }>()
-
 const viewUiStore = useViewUiStore()
+const viewStateStore = useViewStateStore()
 
 const options = [
   { label: '查看', key: 'view' },
@@ -18,19 +17,13 @@ const options = [
   { label: '删除', key: 'delete' },
 ]
 
-const handleContextMenu = (e: MouseEvent) => {
-  viewUiStore.closeContextMenu()
-  nextTick().then(() => {
-    viewUiStore.openContextMenu(e.clientX, e.clientY, props.atlas)
-  })
-}
-
-const handleSelect = (key: string) => {
+const handleSelect = async (key: string) => {
   viewUiStore.closeContextMenu()
 
   switch (key) {
     case 'view':
-      viewUiStore.openViewAtlas(props.atlas)
+      viewStateStore.setCurrentAtlas(viewUiStore.contextMenu.atlas as Atlas)
+      await viewUiStore.openViewAtlas()
       break
     case 'share':
       break
@@ -44,12 +37,14 @@ const handleSelect = (key: string) => {
       break
   }
 }
+
+const handleClickOutside = () => {
+  console.log('click outside')
+  viewUiStore.closeContextMenu()
+}
 </script>
 
 <template>
-  <div @contextmenu="handleContextMenu">
-    <slot />
-  </div>
   <n-dropdown
     placement="bottom-start"
     trigger="manual"
@@ -57,6 +52,7 @@ const handleSelect = (key: string) => {
     :y="viewUiStore.contextMenu.y"
     :options="options"
     :show="viewUiStore.contextMenu.visible"
+    @clickoutside="handleClickOutside"
     @select="handleSelect"
   />
 </template>

@@ -55,6 +55,5 @@ const viewUiStore = useViewUiStore()
   border-radius: 10px;
 }
 
-.n-modal {
-}
+
 </style>

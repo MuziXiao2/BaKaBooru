@@ -1,35 +1,46 @@
 <script setup lang="ts">
 import type Atlas from '@/types/atlas'
-import ContextMenu from '@/components/view/atlases/atlas-card/ContextMenu.vue'
-
+import { nextTick } from 'vue'
 import { useViewUiStore } from '@/stores'
+import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
 const props = defineProps<{ atlas: Atlas }>()
 
 const viewUiStore = useViewUiStore()
+const viewStateStore = useViewStateStore()
 
 const handleClick = async () => {
   viewUiStore.startLoading()
-
-  await viewUiStore.openViewAtlas(props.atlas)
-
+  viewStateStore.setCurrentAtlas(props.atlas)
+  await viewUiStore.openViewAtlas()
   viewUiStore.stopLoading()
+}
+
+const handleContextMenu = (e: MouseEvent) => {
+  e.preventDefault()
+  viewUiStore.closeContextMenu()
+  nextTick().then(() => {
+    viewUiStore.openContextMenu(e.clientX, e.clientY, props.atlas)
+  })
 }
 
 const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
 </script>
 
 <template>
-  <ContextMenu :atlas="atlas">
-    <n-card footer-style="padding: 0; height:30px;" hover="hover" @click="handleClick">
-      <template #cover>
-        <img id="cover" :src="atlas.cover_url || defaultCoverUrl" alt="img" />
-      </template>
-      <template #footer>
-        <div id="text">{{ atlas.title }}</div>
-      </template>
-    </n-card>
-  </ContextMenu>
+  <n-card
+    footer-style="padding: 0; height:30px;"
+    hover="hover"
+    @click="handleClick"
+    @contextmenu="handleContextMenu"
+  >
+    <template #cover>
+      <img id="cover" :src="atlas.cover_url || defaultCoverUrl" alt="img" />
+    </template>
+    <template #footer>
+      <div id="text">{{ atlas.title }}</div>
+    </template>
+  </n-card>
 </template>
 
 <style scoped>

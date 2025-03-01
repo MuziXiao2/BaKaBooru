@@ -28,11 +28,8 @@ export const useViewUiStore = defineStore('view-ui', {
       this.isLoading = false
     },
 
-    async openViewAtlas(atlas: Atlas) {
+    async openViewAtlas() {
       const imageStore = useImageStore()
-      const viewStateStore = useViewStateStore()
-
-      viewStateStore.setCurrentAtlas(atlas)
       await imageStore.fetchImages()
       useViewStateStore().setCurrentImage(imageStore.images[0])
       this.showViewAtlas = true

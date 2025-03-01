@@ -3,6 +3,7 @@ import AtlasCard from '@/components/view/atlases/AtlasCard.vue'
 import Default from '@/components/view/atlases/Default.vue'
 import { useAtlasStore } from '@/stores/common/atlas.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
+import ContextMenu from '@/components/view/atlases/atlas-card/ContextMenu.vue'
 
 const viewUiStateStore = useViewStateStore()
 const atlasStore = useAtlasStore()
@@ -17,6 +18,8 @@ const atlasStore = useAtlasStore()
   </n-flex>
   <!-- 加载图标 -->
   <n-spin v-else />
+  <!-- 右键菜单 -->
+  <ContextMenu />
 </template>
 
 <style scoped></style>
