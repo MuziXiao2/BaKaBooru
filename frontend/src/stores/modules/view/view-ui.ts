@@ -5,8 +5,6 @@ import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
 export const useViewUiStore = defineStore('view-ui', {
   state: () => ({
-    isLoading: false,
-
     isSiderCollapsed: false,
 
     showViewAtlas: false,
@@ -20,14 +18,6 @@ export const useViewUiStore = defineStore('view-ui', {
   }),
   getters: {},
   actions: {
-    startLoading() {
-      this.isLoading = true
-    },
-
-    stopLoading() {
-      this.isLoading = false
-    },
-
     async openViewAtlas() {
       const imageStore = useImageStore()
       await imageStore.fetchImages()

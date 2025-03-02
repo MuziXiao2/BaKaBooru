@@ -10,10 +10,8 @@ const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 
 const handleClick = async () => {
-  viewUiStore.startLoading()
   viewStateStore.setCurrentAtlas(props.atlas)
   await viewUiStore.openViewAtlas()
-  viewUiStore.stopLoading()
 }
 
 const handleContextMenu = (e: MouseEvent) => {

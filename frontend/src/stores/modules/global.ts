@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type { GlobalUiState } from '@/types/global'
 
-export const useGlobalUiStore = defineStore('globalUi', {
+export const useGlobalUiStore = defineStore('global-ui', {
   state: (): GlobalUiState => ({
     isDarkMode: true,
     message: {

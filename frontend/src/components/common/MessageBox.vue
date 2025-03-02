@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { NModal } from 'naive-ui'
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 import type { Message } from '@/types/global'
 
 const props = defineProps<{

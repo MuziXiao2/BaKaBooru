@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useViewUiStore } from '@/stores/modules/view/view-ui.ts'
 import { useSoucreStore } from '@/stores/common/source.ts'
 import { useAtlasStore } from '@/stores/common/atlas.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
+import type { MenuOption } from 'naive-ui'
 
-const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 const sourceStore = useSoucreStore()
 
@@ -13,15 +12,10 @@ const atlasStore = useAtlasStore()
 
 // 加载图源
 onMounted(async () => {
-  viewUiStore.startLoading()
-
   await sourceStore.fetchSources()
-  viewUiStore.stopLoading()
 })
 
-const handleMenuUpdate = async (key, option) => {
-  viewUiStore.startLoading()
-
+const handleMenuUpdate = async (key: string, option: MenuOption) => {
   if (option.key === 'default') {
     viewStateStore.setCurrentSource(null)
   } else {
@@ -30,8 +24,6 @@ const handleMenuUpdate = async (key, option) => {
     viewStateStore.setCurrentSource(selectedSource)
     await atlasStore.fetchAtlases()
   }
-
-  viewUiStore.stopLoading()
 }
 </script>
 
