@@ -41,7 +41,7 @@ public class ImageService {
     }
 
     // 从图集获取所有图片
-    public List<ImageResponseDTO> getAllImage(Long atlasId) {
+    public List<ImageResponseDTO> getImages(Long atlasId) {
         return imageRepository
                 .findByAtlasIdOrderBySnAsc(atlasId)
                 .stream()

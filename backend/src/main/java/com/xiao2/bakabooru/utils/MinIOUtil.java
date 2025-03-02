@@ -1,4 +1,4 @@
-package com.xiao2.bakabooru.util;
+package com.xiao2.bakabooru.utils;
 
 import com.xiao2.bakabooru.dto.UploadResponseDTO;
 import io.minio.*;
@@ -56,7 +56,8 @@ public class MinIOUtil {
         }
 
         String originalFilename = file.getOriginalFilename();
-        String filename = UUID.randomUUID() + "-" + (originalFilename != null ? originalFilename : "unknown");
+        String filename = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
+
 
         try (InputStream inputStream = file.getInputStream()) {
             // 上传文件

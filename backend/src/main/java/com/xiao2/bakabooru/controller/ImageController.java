@@ -6,17 +6,12 @@ import com.xiao2.bakabooru.dto.ResponseResult;
 import com.xiao2.bakabooru.dto.UploadResponseDTO;
 import com.xiao2.bakabooru.model.Image;
 import com.xiao2.bakabooru.service.ImageService;
-import com.xiao2.bakabooru.service.SourceService;
-import com.xiao2.bakabooru.util.MinIOUtil;
+import com.xiao2.bakabooru.utils.MinIOUtil;
 
-import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -29,7 +24,7 @@ public class ImageController {
     /*图片操作*/
     // 上传图片到存储库
     @PostMapping("/upload")
-    public UploadResponseDTO uploadImage(@RequestParam("file") MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public UploadResponseDTO uploadImage(@RequestParam("file") MultipartFile file) {
         return MinIOUtil.upload(file);
     }
 
@@ -42,8 +37,8 @@ public class ImageController {
 
     // 从图集获取所有图片
     @GetMapping("/{atlas_id}")
-    public List<ImageResponseDTO> getAllImage(@PathVariable("atlas_id") Long atlasId) {
-        return imageService.getAllImage(atlasId);
+    public List<ImageResponseDTO> getImages(@PathVariable("atlas_id") Long atlasId) {
+        return imageService.getImages(atlasId);
     }
 
 }

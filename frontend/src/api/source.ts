@@ -1,11 +1,19 @@
 import api from './index'
 import type { AxiosResponse } from 'axios'
-import type Source from '@/types/source'
+import type { Source, SourceGroup } from '@/types/source'
+
+/**
+ * 获取所有图源组
+ * @returns {Promise} 返回所有图源组的列表
+ */
+export function getSourceGroups(): Promise<AxiosResponse<SourceGroup[]>> {
+  return api.get(`/groups`)
+}
 
 /**
  * 获取所有图源
  * @returns {Promise} 返回所有图源的列表
  */
-export function getSources(): Promise<AxiosResponse<Source[]>> {
-  return api.get('/sources')
+export function getSources(sourceGroup: SourceGroup): Promise<AxiosResponse<Source[]>> {
+  return api.get(`/sources?groupId=${sourceGroup.id}`)
 }

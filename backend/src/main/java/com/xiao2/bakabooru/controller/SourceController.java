@@ -8,14 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/sources")
 public class SourceController {
     @Autowired
     private SourceService sourceService;
 
-    /*图源操作*/
     //添加图源
     @PostMapping
     public ResponseResult<Source> addSource(@RequestBody SourceRequestDTO sourceRequestDTO) {
@@ -25,7 +23,8 @@ public class SourceController {
 
     //获取所有图源
     @GetMapping
-    public List<SourceResponseDTO> getAllSource() {
-        return sourceService.getAllSource();
+    public List<SourceResponseDTO> getSources(@RequestParam Long groupId) {
+        return sourceService.getSources(groupId);
     }
+
 }

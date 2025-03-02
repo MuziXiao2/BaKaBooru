@@ -2,16 +2,12 @@ import { defineStore } from 'pinia'
 import type Source from '@/types/source'
 import type Image from '@/types/image'
 import type Atlas from '@/types/atlas'
-import type { MenuGroupOption, MenuOption } from 'naive-ui'
+import type { MenuOption } from 'naive-ui'
 
 import { h } from 'vue'
 import { NButton } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
-import {
-  HomeOutline as HomeIcon,
-  InformationCircleOutline as TestIcon,
-  StarOutline as StarIcon,
-} from '@vicons/ionicons5'
+import { HomeOutline as HomeIcon, InformationCircleOutline as TestIcon } from '@vicons/ionicons5'
 import { useSoucreStore } from '@/stores/common/source.ts'
 
 export const useViewStateStore = defineStore('view-state', {
@@ -38,67 +34,42 @@ export const useViewStateStore = defineStore('view-state', {
         show: true,
       }
 
-      // 图源选项
-      const sourceOption: { [key: string]: MenuGroupOption } = {
-        local: {
-          type: 'group',
-          label: '本地图源',
-          key: 'local',
-          show: true,
-          children: [],
-        },
-        network: {
-          type: 'group',
-          label: '网络图源',
-          key: 'network',
-          show: true,
-          children: [],
-        },
-        other: {
-          type: 'group',
-          label: '其他',
-          key: 'other',
-          show: true,
-          children: [],
-        },
-      }
+      const sourceGroupOptions = []
 
-      // 将图源添加到对应type下的children
-      useSoucreStore().sources.forEach((source) => {
-        sourceOption[source.type].children.push({
-          key: `${source.id}`,
-          label: () =>
-            h(
-              NButton,
-              {
-                text: true,
-              },
-              { default: () => source.name },
-            ),
-          icon: renderIcon(TestIcon),
+      const soucreStore = useSoucreStore()
+
+      soucreStore.sourceGroups.forEach((sourceGroup) => {
+        const sourceGroupOption = {
+          type: 'group',
+          label: `${sourceGroup.name}`,
+          key: `${sourceGroup.id}`,
           show: true,
-          disabled: false,
+          children: [],
+        }
+
+        soucreStore.sources[sourceGroup.id].forEach((source) => {
+          const sourceOption: MenuOption = {
+            key: `${source.id}`,
+            group: `${sourceGroup.id}`,
+            label: () =>
+              h(
+                NButton,
+                {
+                  text: true,
+                },
+                { default: () => `${source.name}` },
+              ),
+            icon: renderIcon(TestIcon),
+            show: true,
+          }
+
+          sourceGroupOption.children.push(sourceOption)
         })
+
+        sourceGroupOptions.push(sourceGroupOption)
       })
 
-      // 其他选项
-      sourceOption.other.children.push({
-        key: 'favorite',
-        label: () =>
-          h(
-            NButton,
-            {
-              text: true,
-            },
-            { default: () => '收藏' },
-          ),
-
-        icon: renderIcon(StarIcon),
-        show: true,
-        disabled: false,
-      })
-
-      return [defaultOption, sourceOption.local, sourceOption.network, sourceOption.other]
+      return [defaultOption, ...sourceGroupOptions]
     },
   },
   actions: {

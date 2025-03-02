@@ -22,4 +22,32 @@ const sourceUiStore = useSourcesUiStore()
   </n-layout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.n-layout {
+  height: calc(100vh - 43px);
+}
+
+.n-layout-sider {
+  background: rgba(128, 128, 128, 0.3);
+  padding: 5px 0;
+}
+
+.n-layout-content {
+  background: rgba(128, 128, 128, 0.4);
+  padding: 10px;
+}
+
+.n-card {
+  height: 100%;
+  border: 2px solid gray;
+  border-radius: 10px;
+}
+
+#sider {
+  border: 2px solid gray;
+  border-radius: 10px;
+}
+
+
+
+</style>

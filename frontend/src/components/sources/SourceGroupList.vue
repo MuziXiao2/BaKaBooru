@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import type { MenuOption } from 'naive-ui'
 import { onMounted } from 'vue'
 import { useSourcesStateStore } from '@/stores/modules/sources/sources-state.ts'
 import { useSourcesUiStore } from '@/stores/modules/sources/sources-ui.ts'
-import { useSourceGroupStore } from '@/stores/common/source-group.ts'
 
 const sourcesUiStore = useSourcesUiStore()
-const sourceGroupStore = useSourceGroupStore()
 const sourceSourcesStateStore = useSourcesStateStore()
 
 onMounted(async () => {
@@ -15,14 +12,22 @@ onMounted(async () => {
   sourcesUiStore.stopLoading()
 })
 
-function handleUpdateValue(key: string, item: MenuOption) {
-  console.log(key + ' ' + item.label)
+function handleUpdateValue(key: string) {
+  const selectedSourceGroup =
+    sourceGroupStore.sourceGroups.find((sourceGroup) => `${sourceGroup.sn}` === key) || null
+  sourceSourcesStateStore.setSourceGroup(selectedSourceGroup)
+  sourceSourcesStateStore.fetchSources()
 }
 </script>
 
 <template>
-  <n-card size="small">
-    <n-menu :options="sourceSourcesStateStore.options" @update:value="handleUpdateValue" />
+  <n-card size="small" :bordered="false" title="图源组">
+    <n-menu
+      :options="sourceSourcesStateStore.options"
+      @update:value="handleUpdateValue"
+      :root-indent="10"
+      :indent="0"
+    />
   </n-card>
 </template>
 

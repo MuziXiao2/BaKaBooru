@@ -29,9 +29,13 @@ public class Source {
     @Column(name = "url")
     private String url;
 
+    //图源组id
+    @Column(name="group_id")
+    private Long groupId;
+
     //创建时间
     @Column(name = "created_at")
-    private Instant createAt;
+    private Instant createdAt;
 
     //更新时间
     @Column(name = "updated_at")

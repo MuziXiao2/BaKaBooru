@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SourcesLayout from '@/components/layout/SourcesLayout.vue'
-import Sources from '@/components/sources/Sources.vue'
+import SourceList from '@/components/sources/SourceList.vue'
 import SourceGroupList from '@/components/sources/SourceGroupList.vue'
 </script>
 
@@ -10,7 +10,7 @@ import SourceGroupList from '@/components/sources/SourceGroupList.vue'
       <source-group-list />
     </template>
     <template #content>
-      <sources />
+      <source-list />
     </template>
   </sources-layout>
 </template>

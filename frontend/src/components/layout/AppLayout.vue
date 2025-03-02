@@ -5,11 +5,7 @@
     <n-layout-header bordered>
       <slot name="header" />
     </n-layout-header>
-    <n-layout>
-      <n-layout-content>
-        <slot />
-      </n-layout-content>
-    </n-layout>
+    <slot name="default" />
   </n-layout>
 </template>
 

@@ -1,16 +1,14 @@
 package com.xiao2.bakabooru.dto;
 
-import com.xiao2.bakabooru.model.Source;
-import jakarta.persistence.PrePersist;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.time.Instant;
 
 @Data
 public class SourceRequestDTO {
     private String name;
     private String type;
     private String url;
-
-
+    @JsonProperty("group_id")
+    private Long groupId;
 }

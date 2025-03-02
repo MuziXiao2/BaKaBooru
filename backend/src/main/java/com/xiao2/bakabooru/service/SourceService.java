@@ -15,6 +15,9 @@ public class SourceService {
 
     @Autowired
     private SourceRepository sourceRepository;
+    @Autowired
+    private SourceGroupRepository sourceGroupRepository;
+
 
     //添加图源
     public Source addSource(SourceRequestDTO sourceRequestDTO) {
@@ -24,11 +27,34 @@ public class SourceService {
     }
 
     //获取所有图源
-    public List<SourceResponseDTO> getAllSource() {
-        List<Source> sources = sourceRepository.findAll();
+    public List<SourceResponseDTO> getSources(Long groupId) {
+        List<Source> sources = sourceRepository.findAllByGroupId(groupId);
         return sources
                 .stream()
                 .map(SourceConverter::toSourceResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    //添加组
+    public SourceGroup addSourceGroup(SourceGroupRequestDTO sourceGroupRequestDTO) {
+        // 创建SourceGroup对象
+        SourceGroup sourceGroup = SourceConverter.toSourceGroup(sourceGroupRequestDTO);
+
+        // 获取sn (!!!高并发下可能出问题!!!)
+        Long sn = sourceGroupRepository.count() + 1;
+        sourceGroup.setSn(sn);
+
+        // 保存SourceGroup对象
+        sourceGroupRepository.save(sourceGroup);
+        return sourceGroup;
+    }
+
+    //获取所有组
+    public List<SourceGroupResponseDTO> getSourceGroups() {
+        List<SourceGroup> sourceGroups = sourceGroupRepository.findAllByOrderBySnAsc();
+        return sourceGroups
+                .stream()
+                .map(SourceConverter::toSourceGroupResponseDTO)
                 .collect(Collectors.toList());
     }
 

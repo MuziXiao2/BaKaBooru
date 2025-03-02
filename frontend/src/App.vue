@@ -8,17 +8,17 @@
           </template>
           <template #default>
             <router-view />
-            <loading-spin v-if="currentUiStore.isLoading" />
-            <message-box v-if="globalUiStore.message.visible" :message="globalUiStore.message" />
           </template>
         </app-layout>
+        <loading-spin v-if="currentUiStore.isLoading" />
+        <message-box v-if="globalUiStore.message.visible" :message="globalUiStore.message" />
       </n-loading-bar-provider>
     </n-message-provider>
   </n-config-provider>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { NConfigProvider, NMessageProvider, NLoadingBarProvider, darkTheme } from 'naive-ui'
 

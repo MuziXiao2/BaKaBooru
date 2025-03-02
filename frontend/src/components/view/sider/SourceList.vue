@@ -8,25 +8,25 @@ import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 const sourceStore = useSoucreStore()
+
 const atlasStore = useAtlasStore()
 
 // 加载图源
 onMounted(async () => {
   viewUiStore.startLoading()
+
   await sourceStore.fetchSources()
   viewUiStore.stopLoading()
 })
 
-const handleMenuUpdate = async (key: string) => {
+const handleMenuUpdate = async (key, option) => {
   viewUiStore.startLoading()
 
-  atlasStore.atlases = []
-  atlasStore.isAtlasesLoaded = false
-
-  if (key === 'default') {
+  if (option.key === 'default') {
     viewStateStore.setCurrentSource(null)
   } else {
-    const selectedSource = sourceStore.sources.find((source) => `${source.id}` === key) || null
+    const selectedSource =
+      sourceStore.sources[option.group].find((source) => `${source.id}` === key) || null
     viewStateStore.setCurrentSource(selectedSource)
     await atlasStore.fetchAtlases()
   }
@@ -49,7 +49,4 @@ const handleMenuUpdate = async (key: string) => {
   </n-card>
 </template>
 
-<style scoped>
-#options {
-}
-</style>
+<style scoped></style>

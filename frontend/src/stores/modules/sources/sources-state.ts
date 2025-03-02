@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import type { MenuOption } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
 import { InformationCircleOutline as TestIcon } from '@vicons/ionicons5'
-import { useSourceGroupStore } from '@/stores/common/source-group.ts'
 
 export const useSourcesStateStore = defineStore('sources-state', {
   state: () => ({
