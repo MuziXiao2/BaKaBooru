@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import type Source from '@/types/source'
 import type Image from '@/types/image'
 import type Atlas from '@/types/atlas'
-import type { MenuDividerOption, MenuGroupOption, MenuOption } from '@/types/option'
+import type { MenuGroupOption, MenuOption } from 'naive-ui'
+
 import { h } from 'vue'
 import { NButton } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
@@ -18,17 +19,10 @@ export const useViewStateStore = defineStore('view-state', {
     currentSource: null as Source | null,
     currentAtlas: null as Atlas | null,
     currentImage: null as Image | null,
-
-    contextMenu: {
-      visible: false as boolean,
-      x: 0 as number,
-      y: 0 as number,
-      atlas: null as Atlas | null,
-    },
   }),
   getters: {
     // 菜单选项
-    options(): Array<MenuOption | MenuGroupOption | MenuDividerOption> {
+    options(): Array<MenuOption> {
       // 默认选项
       const defaultOption: MenuOption = {
         key: 'default',

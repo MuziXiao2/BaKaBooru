@@ -7,11 +7,7 @@ export function getImages(atlasId: number): Promise<AxiosResponse<Image[]>> {
   return api.get(`/images/${atlasId}`)
 }
 
-export function addImage(title: string, url: string, atlasId: number) {
-  const image = {
-    title: title,
-    url: url,
-    atlas_id: atlasId,
-  }
+export function addImage(image) {
+
   return api.post('/images', image)
 }

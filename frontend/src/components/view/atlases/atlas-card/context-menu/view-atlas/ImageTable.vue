@@ -7,7 +7,7 @@ import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 const imageStore = useImageStore()
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
-//
+
 const handleClick = async (image: Image) => {
   viewUiStore.startLoading()
   viewStateStore.setCurrentImage(image)

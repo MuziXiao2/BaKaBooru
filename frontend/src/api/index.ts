@@ -32,6 +32,3 @@ api.interceptors.response.use(
 )
 
 export default api
-export * from './source'
-export * from './atlas'
-export * from './image'

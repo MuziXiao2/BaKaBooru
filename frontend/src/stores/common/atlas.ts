@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getAtlases } from '@/api'
+import { getAtlases } from '@/api/atlas.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import type Atlas from '@/types/atlas'
 

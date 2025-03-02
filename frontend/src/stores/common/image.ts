@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getImages } from '@/api'
+import { getImages } from '@/api/image.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import type Image from '@/types/image'
 

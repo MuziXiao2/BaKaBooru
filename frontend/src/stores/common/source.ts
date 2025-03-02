@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type Source from '@/types/source'
-import { getSources } from '@/api'
+import { getSources } from '@/api/source.ts'
 
 export const useSoucreStore = defineStore('source', {
   state: () => ({

@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import UploadLayout from '@/components/layout/UploadLayout.vue'
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
-import { addImage } from '@/api'
+import { addImage } from '@/api/image.ts'
 
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   const response = JSON.parse((event?.target as XMLHttpRequest).response)
-  addImage('test', response.url, 1)
+  addImage({
+    title: 'test',
+    url: response.url,
+    size: response.size,
+    atlas_id: 1,
+  })
 }
 </script>
 

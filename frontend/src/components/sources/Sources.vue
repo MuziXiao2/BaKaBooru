@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <slot/>
+  <n-h1>sss</n-h1>
 </template>
 
 <style scoped></style>

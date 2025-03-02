@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Search from '@/components/view/sider/Search.vue'
-import Options from '@/components/view/sider/Options.vue'
+import SourceList from '@/components/view/sider/SourceList.vue'
 </script>
 
 <template>
-  <options />
+  <source-list />
   <search />
 </template>
 
