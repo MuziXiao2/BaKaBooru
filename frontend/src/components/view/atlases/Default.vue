@@ -1,10 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { AddCircleOutline as AddIcon } from '@vicons/ionicons5'
+</script>
 
 <template>
-  <n-empty description="你什么也找不到">
-    <template #extra>
-      <n-button size="large"> 看看别的 </n-button>
+  <n-card
+    title="卡片分段示例"
+    :segmented="{
+      content: true,
+      footer: 'soft',
+    }"
+  >
+    <template #header-extra>
+      <n-button text>
+        <n-icon size="30">
+          <AddIcon />
+        </n-icon>
+      </n-button>
     </template>
-  </n-empty>
+    卡片内容
+    <template #footer> #footer</template>
+    <template #action> #action</template>
+  </n-card>
 </template>
 <style scoped></style>

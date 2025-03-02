@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useViewUiStore } from '@/stores'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
+import { useModal } from 'naive-ui'
 import type Atlas from '@/types/atlas'
+import ViewAtlas from '@/components/modal/ViewAtlas.vue'
 
+const modal = useModal()
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 
@@ -23,7 +26,7 @@ const handleSelect = async (key: string) => {
   switch (key) {
     case 'view':
       viewStateStore.setCurrentAtlas(viewUiStore.contextMenu.atlas as Atlas)
-      await viewUiStore.openViewAtlas()
+      await viewUiStore.openViewAtlas(modal, ViewAtlas)
       break
     case 'share':
       break

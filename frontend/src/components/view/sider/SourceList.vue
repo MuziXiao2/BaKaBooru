@@ -4,6 +4,8 @@ import { useSoucreStore } from '@/stores/common/source.ts'
 import { useAtlasStore } from '@/stores/common/atlas.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import type { MenuOption } from 'naive-ui'
+import type Source from '@/types/source'
+import CreateMenu from '@/components/view/sider/source-list/CreateMenu.vue'
 
 const viewStateStore = useViewStateStore()
 const sourceStore = useSoucreStore()
@@ -20,7 +22,9 @@ const handleMenuUpdate = async (key: string, option: MenuOption) => {
     viewStateStore.setCurrentSource(null)
   } else {
     const selectedSource =
-      sourceStore.sources[option.group].find((source) => `${source.id}` === key) || null
+      sourceStore.sources[option.group as string].find(
+        (source: Source) => `${source.id}` === key,
+      ) || null
     viewStateStore.setCurrentSource(selectedSource)
     await atlasStore.fetchAtlases()
   }
@@ -29,6 +33,9 @@ const handleMenuUpdate = async (key: string, option: MenuOption) => {
 
 <template>
   <n-card id="options" size="small" title="图源">
+    <template #header-extra>
+      <CreateMenu />
+    </template>
     <n-menu
       v-if="sourceStore.isSourcesLoaded"
       :options="viewStateStore.options"

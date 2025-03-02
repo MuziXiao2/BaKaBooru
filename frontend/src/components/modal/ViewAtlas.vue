@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ImageTable from '@/components/view/atlases/atlas-card/context-menu/view-atlas/ImageTable.vue'
+import ImageTable from '@/components/modal/view-atlas/ImageTable.vue'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 
 const viewStateStore = useViewStateStore()
