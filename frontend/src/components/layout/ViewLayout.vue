@@ -21,12 +21,7 @@ const viewUiStore = useViewUiStore()
       <slot name="content" />
     </n-layout-content>
   </n-layout>
-  <n-modal
-    v-model:show="viewUiStore.showViewAtlas"
-    style="height: 95vh; margin: 0 30px; border-radius: 10px"
-  >
-    <slot name="modal" />
-  </n-modal>
+
 </template>
 
 <style scoped>

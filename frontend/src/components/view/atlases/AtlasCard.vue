@@ -3,15 +3,18 @@ import type Atlas from '@/types/atlas'
 import { nextTick } from 'vue'
 import { useViewUiStore } from '@/stores'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
+import { useModal } from 'naive-ui'
+import ViewAtlas from '@/components/modal/ViewAtlas.vue'
 
 const props = defineProps<{ atlas: Atlas }>()
 
+const modal = useModal()
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 
 const handleClick = async () => {
   viewStateStore.setCurrentAtlas(props.atlas)
-  await viewUiStore.openViewAtlas()
+  await viewUiStore.openViewAtlas(modal,ViewAtlas)
 }
 
 const handleContextMenu = (e: MouseEvent) => {

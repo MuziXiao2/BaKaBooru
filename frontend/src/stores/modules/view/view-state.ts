@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type Source from '@/types/source'
 import type Image from '@/types/image'
 import type Atlas from '@/types/atlas'
-import type { MenuOption } from 'naive-ui'
+import type { MenuOption, ModalReactive } from 'naive-ui'
 
 import { h } from 'vue'
 import { NButton } from 'naive-ui'
@@ -15,6 +15,7 @@ export const useViewStateStore = defineStore('view-state', {
     currentSource: null as Source | null,
     currentAtlas: null as Atlas | null,
     currentImage: null as Image | null,
+    currentModal: null as ModalReactive | null,
   }),
   getters: {
     // 菜单选项
@@ -83,6 +84,10 @@ export const useViewStateStore = defineStore('view-state', {
 
     setCurrentImage(image: Image) {
       this.currentImage = image
+    },
+
+    setCurrentModal(modal: ModalReactive) {
+      this.currentModal = modal
     },
   },
 })
