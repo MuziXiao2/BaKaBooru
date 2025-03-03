@@ -1,20 +1,32 @@
 <script setup lang="ts">
 import type Atlas from '@/types/atlas'
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { useViewUiStore } from '@/stores'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { useModal } from 'naive-ui'
+import { useImageStore } from '@/stores/common/image.ts'
 import ViewAtlas from '@/components/modal/ViewAtlas.vue'
 
 const props = defineProps<{ atlas: Atlas }>()
 
 const modal = useModal()
+const imageStore = useImageStore()
+
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 
 const handleClick = async () => {
   viewStateStore.setCurrentAtlas(props.atlas)
-  await viewUiStore.openViewAtlas(modal,ViewAtlas)
+
+  await imageStore.fetchImages()
+  viewStateStore.setCurrentImage(imageStore.images[0])
+
+  viewUiStore.openModal(modal, {
+    preset: 'card',
+    content: () => h(ViewAtlas),
+    closable: false,
+    contentStyle: 'padding: 0;',
+  })
 }
 
 const handleContextMenu = (e: MouseEvent) => {

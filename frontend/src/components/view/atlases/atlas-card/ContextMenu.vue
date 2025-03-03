@@ -26,7 +26,7 @@ const handleSelect = async (key: string) => {
   switch (key) {
     case 'view':
       viewStateStore.setCurrentAtlas(viewUiStore.contextMenu.atlas as Atlas)
-      await viewUiStore.openViewAtlas(modal, ViewAtlas)
+      await viewUiStore.openViewAtlasModal(modal, ViewAtlas)
       break
     case 'share':
       break

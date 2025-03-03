@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddSource: typeof import('./src/components/modal/AddSource.vue')['default']
     AppLayout: typeof import('./src/components/layout/AppLayout.vue')['default']
     Atlas: typeof import('./src/components/atlas/AtlasList/Atlas.vue')['default']
     AtlasCard: typeof import('./src/components/view/atlases/AtlasCard.vue')['default']
@@ -14,6 +15,8 @@ declare module 'vue' {
     AtlasInfo: typeof import('./src/components/modal/view-atlas/AtlasInfo.vue')['default']
     ContextMenu: typeof import('./src/components/view/atlases/atlas-card/ContextMenu.vue')['default']
     CreateMenu: typeof import('./src/components/view/sider/source-list/CreateMenu.vue')['default']
+    CreateSource: typeof import('./src/components/modal/CreateSource.vue')['default']
+    CreateSourceGroup: typeof import('./src/components/modal/CreateSourceGroup.vue')['default']
     Default: typeof import('./src/components/view/atlases/Default.vue')['default']
     Group: typeof import('./src/components/source/group.vue')['default']
     GroupList: typeof import('./src/components/sources/GroupList.vue')['default']

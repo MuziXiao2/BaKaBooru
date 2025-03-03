@@ -1,6 +1,5 @@
 package com.xiao2.bakabooru.model;
 
-import com.xiao2.bakabooru.dto.AtlasRequestDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

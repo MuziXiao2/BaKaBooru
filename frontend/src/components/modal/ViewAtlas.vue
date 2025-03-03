@@ -37,10 +37,6 @@ const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
         :bordered="false"
         header-style="padding:0"
         content-style="padding:0"
-        :segmented="{
-          content: true,
-          footer: 'soft',
-        }"
         style="background: transparent"
       >
         <template #header>
@@ -48,20 +44,25 @@ const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
         </template>
 
         <template #header-extra>
-          <n-float-button :right="15" :top="15" shape="square" @click="viewUiStore.closeViewAtlas()">
+          <n-float-button
+            :right="15"
+            :top="15"
+            shape="square"
+            @click="viewUiStore.closeModal()"
+          >
             <CloseIcon />
           </n-float-button>
         </template>
 
         <template #default>
-          标题:{{ atlas.title }}<br />
-          创建者:{{ atlas.creator }}<br />
-          更新日期:{{ atlas.updated_at }}<br />
-          创建日期:{{ atlas.create_at }}
-
+          <n-p> 标题: {{ atlas.title }}</n-p>
+          <n-p> 创建者:{{ atlas.creator }}</n-p>
+          <n-p> 更新日期:{{ atlas.updated_at }}</n-p>
+          <n-p> 创建日期:{{ atlas.create_at }}</n-p>
+          <n-divider />
           <n-h1>Images</n-h1>
           <image-table />
-
+          <n-divider />
           <n-h1>Tag</n-h1>
           test1
           <br />
@@ -70,9 +71,7 @@ const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
           test3
           <br />
           test4
-        </template>
-
-        <template #footer>
+          <n-divider />
           <n-h1>Action</n-h1>
           <n-button>Test1</n-button>
           <n-button>Test2</n-button>
