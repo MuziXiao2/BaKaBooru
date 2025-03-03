@@ -4,7 +4,7 @@ import { addSourceGroups } from '@/api/source.ts'
 import { useSoucreStore } from '@/stores/common/source.ts'
 import { useViewUiStore } from '@/stores'
 
-const formValue = ref({ name: '' })
+const formValue = ref({})
 
 const rules = {
   name: {
@@ -25,8 +25,8 @@ async function handleClick() {
 <template>
   <n-card title="新建图源组">
     <n-form :label-width="80" :model="formValue" :rules="rules" size="small" label-placement="left">
-      <n-form-item label="组名" path="user.name" label-width="auto">
-        <n-input v-model:value="formValue.name" placeholder="请输入组名" />
+      <n-form-item label="名称" label-width="auto">
+        <n-input v-model:value="formValue.name" placeholder="请输入图源组名称" />
       </n-form-item>
       <n-form-item style="display: flex; justify-content: end">
         <n-button type="primary" @click="handleClick">创建</n-button>

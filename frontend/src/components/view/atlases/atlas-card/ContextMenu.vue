@@ -3,9 +3,10 @@ import { useViewUiStore } from '@/stores'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { useModal } from 'naive-ui'
 import type Atlas from '@/types/atlas'
-import ViewAtlas from '@/components/modal/ViewAtlas.vue'
+import { useImageStore } from '@/stores/common/image.ts'
 
 const modal = useModal()
+const imageStore = useImageStore()
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 
@@ -26,6 +27,8 @@ const handleSelect = async (key: string) => {
   switch (key) {
     case 'view':
       viewStateStore.setCurrentAtlas(viewUiStore.contextMenu.atlas as Atlas)
+      await imageStore.fetchImages()
+      viewStateStore.setCurrentImage(imageStore.images[0])
       await viewUiStore.openModal(modal, 'ViewAtlas')
       break
     case 'share':

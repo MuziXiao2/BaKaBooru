@@ -11,7 +11,6 @@ const props = defineProps<{ atlas: Atlas }>()
 
 const modal = useModal()
 const imageStore = useImageStore()
-
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
 
