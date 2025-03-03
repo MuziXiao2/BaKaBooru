@@ -1,12 +1,38 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import { addSourceGroups } from '@/api/source.ts'
+import { useSoucreStore } from '@/stores/common/source.ts'
+import { useViewUiStore } from '@/stores'
+
+const formValue = ref({ name: '' })
+
+const rules = {
+  name: {
+    required: true,
+    message: '图源组名称',
+    trigger: 'blur',
+  },
+}
+
+async function handleClick() {
+  await addSourceGroups(formValue.value.name)
+  await useSoucreStore().fetchSources()
+  formValue.value.name = ''
+  useViewUiStore().closeModal()
+}
+</script>
 
 <template>
-  <n-card> 666</n-card>
+  <n-card title="新建图源组">
+    <n-form :label-width="80" :model="formValue" :rules="rules" size="small" label-placement="left">
+      <n-form-item label="组名" path="user.name" label-width="auto">
+        <n-input v-model:value="formValue.name" placeholder="请输入组名" />
+      </n-form-item>
+      <n-form-item style="display: flex; justify-content: end">
+        <n-button type="primary" @click="handleClick">创建</n-button>
+      </n-form-item>
+    </n-form>
+  </n-card>
 </template>
 
-<style scoped>
-.n-card {
-  width: 100px;
-  height: 100px;
-}
-</style>
+<style scoped></style>

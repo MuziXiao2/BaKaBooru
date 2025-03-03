@@ -22,7 +22,9 @@ function handleSelect(key: string) {
       viewUiStore.openModal(modal, {
         preset: 'card',
         content: () => h(AddSource),
+        closable: false,
         contentStyle: 'padding: 0;',
+        style: 'width: auto; height: auto;',
       })
       break
     case 'createGroup':
@@ -31,7 +33,7 @@ function handleSelect(key: string) {
         content: () => h(CreateSourceGroup),
         closable: false,
         contentStyle: 'padding: 0;',
-        style: 'width:2000px;height:1000px',
+        style: 'width: auto; height: auto;',
       })
       break
   }
