@@ -21,12 +21,7 @@ const handleClick = async () => {
   await imageStore.fetchImages()
   viewStateStore.setCurrentImage(imageStore.images[0])
 
-  viewUiStore.openModal(modal, {
-    preset: 'card',
-    content: () => h(ViewAtlas),
-    closable: false,
-    contentStyle: 'padding: 0;',
-  })
+  viewUiStore.openModal(modal, 'ViewAtlas')
 }
 
 const handleContextMenu = (e: MouseEvent) => {

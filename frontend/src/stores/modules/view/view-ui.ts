@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import type Atlas from '@/types/atlas'
-import { useImageStore } from '@/stores/common/image.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { h } from 'vue'
 import type { ModalApiInjection } from 'naive-ui/es/modal/src/ModalProvider'
 import AddSource from '@/components/modal/AddSource.vue'
 import ViewAtlas from '@/components/modal/ViewAtlas.vue'
-import CreateSourceGroup from '@/components/modal/CreateSourceGroup.vue'
+import CreateGroup from '@/components/modal/CreateGroup.vue'
 
 export const useViewUiStore = defineStore('view-ui', {
   state: () => ({
@@ -23,14 +22,36 @@ export const useViewUiStore = defineStore('view-ui', {
   }),
   getters: {},
   actions: {
-     openModal(modal: ModalApiInjection, options) {
+    openModal(modal: ModalApiInjection, key: string) {
       const viewStateStore = useViewStateStore()
 
-      viewStateStore.setCurrentModal(modal.create(options))
+      const options = {
+        ViewAtlas: {
+          preset: 'card',
+          content: () => h(ViewAtlas),
+          closable: false,
+          contentStyle: 'padding: 0;',
+        },
+        AddSource: {
+          preset: 'card',
+          content: () => h(AddSource),
+          closable: false,
+          contentStyle: 'padding: 0;',
+          style: 'width: auto; height: auto;',
+        },
+        CreateGroup: {
+          preset: 'card',
+          content: () => h(CreateGroup),
+          closable: false,
+          contentStyle: 'padding: 0;',
+          style: 'width: auto; height: auto;',
+        },
+      }
+
+      viewStateStore.setCurrentModal(modal.create(options[key]))
 
       this.showViewAtlas = true
     },
-
 
     closeModal() {
       const viewStateStore = useViewStateStore()

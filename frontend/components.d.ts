@@ -14,6 +14,7 @@ declare module 'vue' {
     Atlases: typeof import('./src/components/view/Atlases.vue')['default']
     AtlasInfo: typeof import('./src/components/modal/view-atlas/AtlasInfo.vue')['default']
     ContextMenu: typeof import('./src/components/view/atlases/atlas-card/ContextMenu.vue')['default']
+    CreateGroup: typeof import('./src/components/modal/CreateGroup.vue')['default']
     CreateMenu: typeof import('./src/components/view/sider/source-list/CreateMenu.vue')['default']
     CreateSource: typeof import('./src/components/modal/CreateSource.vue')['default']
     CreateSourceGroup: typeof import('./src/components/modal/CreateSourceGroup.vue')['default']

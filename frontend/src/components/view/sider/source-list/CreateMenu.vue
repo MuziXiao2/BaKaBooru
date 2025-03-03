@@ -3,13 +3,10 @@ import { AddCircleOutline as AddIcon } from '@vicons/ionicons5'
 import type { DropdownOption } from 'naive-ui'
 import { useModal } from 'naive-ui'
 import { useViewUiStore } from '@/stores'
-import { h } from 'vue'
-import AddSource from '@/components/modal/AddSource.vue'
-import CreateSourceGroup from '@/components/modal/CreateSourceGroup.vue'
 
 const options: DropdownOption[] = [
-  { label: '添加图源', key: 'addSource' },
-  { label: '新建组', key: 'createGroup' },
+  { label: '添加图源', key: 'AddSource' },
+  { label: '新建组', key: 'CreateGroup' },
 ]
 
 const modal = useModal()
@@ -18,23 +15,11 @@ function handleSelect(key: string) {
   const viewUiStore = useViewUiStore()
 
   switch (key) {
-    case 'addSource':
-      viewUiStore.openModal(modal, {
-        preset: 'card',
-        content: () => h(AddSource),
-        closable: false,
-        contentStyle: 'padding: 0;',
-        style: 'width: auto; height: auto;',
-      })
+    case 'AddSource':
+      viewUiStore.openModal(modal, 'AddSource')
       break
-    case 'createGroup':
-      viewUiStore.openModal(modal, {
-        preset: 'card',
-        content: () => h(CreateSourceGroup),
-        closable: false,
-        contentStyle: 'padding: 0;',
-        style: 'width: auto; height: auto;',
-      })
+    case 'CreateGroup':
+      viewUiStore.openModal(modal, 'CreateGroup')
       break
   }
 }
