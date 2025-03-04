@@ -3,12 +3,22 @@ import type { AxiosResponse } from 'axios'
 import type { Source, SourceGroup } from '@/types/source'
 
 /**
- * 添加图源组
+ * 创建图源组
  *
  */
-export function addSourceGroups(name: string) {
+export function createSourceGroups(name: string) {
   return api.post('/groups', { name })
 }
+
+
+/**
+ * 添加图源
+ *
+ */
+export function addSource(source) {
+  return api.post('/sources', source)
+}
+
 
 /**
  * 获取所有图源组

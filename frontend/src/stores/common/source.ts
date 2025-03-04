@@ -9,7 +9,28 @@ export const useSoucreStore = defineStore('source', {
     sources: {} as { [key: string]: Source[] },
     isSourcesLoaded: false,
   }),
-  getters: {},
+  getters: {
+    sourceTypeSelectOptions() {
+      return [
+        {
+          label: 'local',
+          value: 'local',
+        },
+        {
+          label: 'network',
+          value: 'network',
+        },
+      ]
+    },
+    groupSelectOptions() {
+      return this.sourceGroups.map((sourceGroup) => {
+        return {
+          label: sourceGroup.name,
+          value: sourceGroup.id,
+        }
+      })
+    },
+  },
   actions: {
     async fetchSources() {
       let response = await getSourceGroups()
@@ -24,6 +45,4 @@ export const useSoucreStore = defineStore('source', {
       this.isSourcesLoaded = true
     },
   },
-
-
 })

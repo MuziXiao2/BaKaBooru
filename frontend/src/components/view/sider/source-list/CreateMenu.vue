@@ -5,8 +5,8 @@ import { useModal } from 'naive-ui'
 import { useViewUiStore } from '@/stores'
 
 const options: DropdownOption[] = [
-  { label: '添加图源', key: 'AddSource' },
   { label: '新建组', key: 'CreateGroup' },
+  { label: '添加源', key: 'AddSource' },
 ]
 
 const modal = useModal()
@@ -15,11 +15,13 @@ function handleSelect(key: string) {
   const viewUiStore = useViewUiStore()
 
   switch (key) {
+    case 'CreateGroup':
+      viewUiStore.openModal(modal, 'CreateGroup')
+      break
     case 'AddSource':
       viewUiStore.openModal(modal, 'AddSource')
       break
-    case 'CreateGroup':
-      viewUiStore.openModal(modal, 'CreateGroup')
+    default:
       break
   }
 }
