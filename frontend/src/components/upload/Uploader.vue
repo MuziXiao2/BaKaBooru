@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { addImage } from '@/api/image.ts'
+import { ref } from 'vue'
+
+const fileList = ref([])
 
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   const response = JSON.parse((event?.target as XMLHttpRequest).response)
@@ -14,12 +17,11 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
 
 <template>
   <n-h1>上传图片</n-h1>
-  <n-select>选择图源</n-select>
-  <n-button>扫描目录</n-button>
+  选择图源:
+  <n-select />
   <n-upload
     v-model:file-list="fileList"
-    @change="handleUploadChange"
-    @remove="handleRemove"
+    :show-file-list="false"
     @finish="handleFinish"
     multiple
     directory-dnd
@@ -27,8 +29,7 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   >
     <n-upload-dragger>
       <n-text style="font-size: 16px"> 点击或者拖动文件到该区域来上传</n-text>
-
-      <n-flex justify="center"></n-flex>
+      <n-flex justify="center" />
     </n-upload-dragger>
   </n-upload>
 </template>

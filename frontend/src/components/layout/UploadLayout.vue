@@ -5,6 +5,7 @@
     <n-layout-header>
       <slot name="header" />
     </n-layout-header>
+
     <n-layout-content>
       <n-layout :native-scrollbar="false" has-sider>
         <n-layout-content>
