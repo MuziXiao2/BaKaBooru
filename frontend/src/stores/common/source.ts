@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type Source from '@/types/source'
 import { getSourceGroups, getSources } from '@/api/source.ts'
-import type SourceGroup from '@/types/source-group'
+import type SourceGroup from '@/types/source'
 
 export const useSoucreStore = defineStore('source', {
   state: () => ({
@@ -22,8 +22,8 @@ export const useSoucreStore = defineStore('source', {
         },
       ]
     },
-    groupSelectOptions() {
-      return this.sourceGroups.map((sourceGroup) => {
+    groupSelectOptions(state) {
+      return state.sourceGroups.map((sourceGroup) => {
         return {
           label: sourceGroup.name,
           value: sourceGroup.id,

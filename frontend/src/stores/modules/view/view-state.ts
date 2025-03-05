@@ -3,7 +3,6 @@ import type Source from '@/types/source'
 import type Image from '@/types/image'
 import type Atlas from '@/types/atlas'
 import type { MenuOption, ModalReactive } from 'naive-ui'
-
 import { h } from 'vue'
 import { NButton } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
@@ -35,7 +34,7 @@ export const useViewStateStore = defineStore('view-state', {
         show: true,
       }
 
-      const sourceGroupOptions = []
+      const sourceGroupOptions: Array<MenuOption> = []
 
       const soucreStore = useSoucreStore()
 
@@ -45,7 +44,7 @@ export const useViewStateStore = defineStore('view-state', {
           label: `${sourceGroup.name}`,
           key: `${sourceGroup.id}`,
           show: true,
-          children: [],
+          children: [] as Array<MenuOption>,
         }
 
         soucreStore.sources[sourceGroup.id].forEach((source) => {

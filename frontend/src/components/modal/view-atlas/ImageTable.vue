@@ -12,7 +12,7 @@ const handleClick = async (image: Image) => {
 
 const columns = [
   {
-    title: '序号',
+    title: '#',
     key: 'sn',
   },
   {
