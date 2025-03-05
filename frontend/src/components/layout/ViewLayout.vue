@@ -5,7 +5,7 @@ const viewUiStore = useViewUiStore()
 </script>
 
 <template>
-  <n-layout has-sider>
+  <n-layout has-sider :native-scrollbar="false">
     <!--左侧边栏-->
     <n-layout-sider
       :collapsed="viewUiStore.isSiderCollapsed"
@@ -17,11 +17,10 @@ const viewUiStore = useViewUiStore()
     >
       <slot name="sider" />
     </n-layout-sider>
-    <n-layout-content :native-scrollbar="false">
+    <n-layout-content>
       <slot name="content" />
     </n-layout-content>
   </n-layout>
-
 </template>
 
 <style scoped>
@@ -49,6 +48,4 @@ const viewUiStore = useViewUiStore()
   border: 2px solid gray;
   border-radius: 10px;
 }
-
-
 </style>

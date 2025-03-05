@@ -31,6 +31,7 @@ export const useViewUiStore = defineStore('view-ui', {
           content: () => h(ViewAtlas),
           closable: false,
           contentStyle: 'padding: 0;',
+          style: 'width: auto; height: auto;',
         },
         AddSource: {
           preset: 'card',

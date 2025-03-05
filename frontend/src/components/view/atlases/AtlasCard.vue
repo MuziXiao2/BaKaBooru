@@ -30,8 +30,6 @@ const handleContextMenu = (e: MouseEvent) => {
     viewUiStore.openContextMenu(e.clientX, e.clientY, props.atlas)
   })
 }
-
-const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
 </script>
 
 <template>
@@ -42,7 +40,8 @@ const defaultCoverUrl = 'https://xiao2-test.oss-cn-guangzhou.aliyuncs.com/1.png'
     @contextmenu="handleContextMenu"
   >
     <template #cover>
-      <img id="cover" :src="atlas.cover_url || defaultCoverUrl" alt="img" />
+      <img id="cover" v-if="atlas.cover_url" :src="atlas.cover_url" alt="img" />
+      <n-empty v-else />
     </template>
     <template #footer>
       <div id="text">{{ atlas.title }}</div>

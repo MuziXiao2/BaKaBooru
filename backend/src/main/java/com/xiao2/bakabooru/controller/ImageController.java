@@ -36,8 +36,8 @@ public class ImageController {
     }
 
     // 从图集获取所有图片
-    @GetMapping("/{atlas_id}")
-    public List<ImageResponseDTO> getImages(@PathVariable("atlas_id") Long atlasId) {
+    @GetMapping("/{atlasId}")
+    public List<ImageResponseDTO> getImages(@PathVariable Long atlasId) {
         return imageService.getImages(atlasId);
     }
 

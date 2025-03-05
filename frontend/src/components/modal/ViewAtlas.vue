@@ -44,12 +44,7 @@ const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
         </template>
 
         <template #header-extra>
-          <n-float-button
-            :right="15"
-            :top="15"
-            shape="square"
-            @click="viewUiStore.closeModal()"
-          >
+          <n-float-button :right="15" :top="15" shape="square" @click="viewUiStore.closeModal()">
             <CloseIcon />
           </n-float-button>
         </template>
@@ -85,5 +80,6 @@ const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
 <style scoped>
 .n-layout {
   height: 100vh;
+  width: 100vw;
 }
 </style>
