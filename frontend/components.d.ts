@@ -30,6 +30,7 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    ImageList: typeof import('./src/components/modal/view-atlas/ImageList.vue')['default']
     ImageTable: typeof import('./src/components/modal/view-atlas/ImageTable.vue')['default']
     LoadingSpin: typeof import('./src/components/common/LoadingSpin.vue')['default']
     Menu: typeof import('./src/components/Header/Menu.vue')['default']

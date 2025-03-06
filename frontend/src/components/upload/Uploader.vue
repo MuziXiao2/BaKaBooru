@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import { addImage } from '@/api/image.ts'
-import { ref } from 'vue'
+// import { addImage } from '@/api/image.ts'
+import { useUploadStateStore } from '@/stores/modules/upload/upload-state.ts'
 
-const fileList = ref([])
+const uploadStateStore = useUploadStateStore()
 
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   const response = JSON.parse((event?.target as XMLHttpRequest).response)
-  addImage({
-    title: 'test',
-    url: response.url,
-    size: response.size,
-    atlas_id: 1,
-  })
+
+  // addImage({
+  //   title: 'test',
+  //   url: response.url,
+  //   size: response.size,
+  //   atlas_id: 1,
+  // })
+  //
+
+  uploadStateStore.addUpdataedData('Title', response.url, response.size)
 }
 </script>
 
@@ -20,7 +24,6 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   选择图源:
   <n-select />
   <n-upload
-    v-model:file-list="fileList"
     :show-file-list="false"
     @finish="handleFinish"
     multiple

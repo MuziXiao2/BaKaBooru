@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ImageTable from '@/components/modal/view-atlas/ImageTable.vue'
+import ImageList from '@/components/modal/view-atlas/ImageList.vue'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { storeToRefs } from 'pinia'
 import { CloseOutline as CloseIcon } from '@vicons/ionicons5'
@@ -56,7 +56,7 @@ const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
           <n-p> 创建日期:{{ atlas.create_at }}</n-p>
           <n-divider />
           <n-h1>Images</n-h1>
-          <image-table />
+          <image-list />
           <n-divider />
           <n-h1>Tag</n-h1>
           test1
