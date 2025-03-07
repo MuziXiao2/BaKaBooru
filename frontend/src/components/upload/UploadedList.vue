@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VueDraggable } from 'vue-draggable-plus'
+
 import { useUploadStateStore } from '@/stores/modules/upload/upload-state.ts'
 
 const uploadStateStore = useUploadStateStore()

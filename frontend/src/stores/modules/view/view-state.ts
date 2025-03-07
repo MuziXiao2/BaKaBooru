@@ -71,6 +71,10 @@ export const useViewStateStore = defineStore('view-state', {
 
       return [defaultOption, ...sourceGroupOptions]
     },
+
+
+
+
   },
   actions: {
     setCurrentSource(source: Source | null) {

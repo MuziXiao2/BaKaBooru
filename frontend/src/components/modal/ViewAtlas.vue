@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ImageList from '@/components/modal/view-atlas/ImageList.vue'
+import ImageList from '@/components/common/ImageList.vue'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { storeToRefs } from 'pinia'
 import { CloseOutline as CloseIcon } from '@vicons/ionicons5'

@@ -1,5 +1,7 @@
-<template>
-  <div>Test</div>
-</template>
+<script setup lang="ts">
+import DraggableList from '@/components/common/DraggableList.vue'
+</script>
 
-<script setup lang="ts"></script>
+<template>
+  <DraggableList />
+</template>
