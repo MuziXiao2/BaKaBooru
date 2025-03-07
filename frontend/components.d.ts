@@ -96,6 +96,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('./src/components/view/sider/Search.vue')['default']
     SearchBar: typeof import('./src/components/atlas/Sider/SearchBar.vue')['default']
+    ShowOrEdit: typeof import('./src/components/common/ShowOrEdit.vue')['default']
     Sider: typeof import('./src/components/view/Sider.vue')['default']
     SourceGroupList: typeof import('./src/components/sources/SourceGroupList.vue')['default']
     SourceLayout: typeof import('./src/components/layout/SourceLayout.vue')['default']

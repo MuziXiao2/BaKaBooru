@@ -9,4 +9,8 @@
   </n-layout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.n-layout {
+  height: 100vh;
+}
+</style>
