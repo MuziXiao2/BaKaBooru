@@ -6,7 +6,7 @@ const uploadStateStore = useUploadStateStore()
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   const response = JSON.parse((event?.target as XMLHttpRequest).response)
 
-  uploadStateStore.addData('Title', response.url, response.size)
+  uploadStateStore.createData('Title', response.url, response.size)
 }
 </script>
 
