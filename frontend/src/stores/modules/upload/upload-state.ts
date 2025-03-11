@@ -1,27 +1,50 @@
 import { defineStore } from 'pinia'
-import type { CustomTreeOption } from '@/types/upload'
+import type { AtlasTreeOption } from '@/types/upload'
+import type Image from '@/types/image'
 
 export const useUploadStateStore = defineStore('upload-state', {
   state: () => ({
+    uploadedImages: [] as Array<Image>,
+
     data: [
       {
-        label: 'Atlas 1',
+        title: 'Atlas 1',
         key: 'atlas1',
         type: 'Atlas',
         children: [
-          { label: 'Image 1-1', key: 'image1-1', type: 'Image', children: [] },
-          { label: 'Image 1-2', key: 'image1-2', type: 'Image', children: [] },
+          { title: 'Image 1-1', key: 'image1-1', type: 'Image' },
+          { title: 'Image 1-2', key: 'image1-2', type: 'Image' },
         ],
       },
-      { label: 'Atlas 2', key: 'atlas2', type: 'Atlas', children: [] },
-      { label: 'Image 3', key: 'image3', type: 'Image', children: [] },
-      { label: 'Image 4', key: 'image4', type: 'Image', children: [] },
-    ] as Array<CustomTreeOption>,
+      {
+        title: 'Atlas 2',
+        key: 'atlas2',
+        type: 'Atlas',
+        children: [],
+      },
+      {
+        title: 'Atlas 3',
+        key: 'atlas3',
+        type: 'Atlas',
+        children: [
+          { title: 'Image 3-1', key: 'image3-1', type: 'Image' },
+          { title: 'Image 3-2', key: 'image3-2', type: 'Image' },
+        ],
+      },
+    ] as Array<AtlasTreeOption>,
+
+    expandedKeys: [] as Array<string>,
+    checkedKeys: [] as Array<string>,
   }),
   getters: {},
   actions: {
-    addData: (newData: CustomTreeOption) => {
-      this.data.push(newData)
+    addData: (title: string) => {
+      store.data.push({
+        title: title,
+        key: 'a',
+        type: 'Atlas',
+        children: [{ title: title, key: 'b', type: 'Image' }],
+      })
     },
   },
 })
