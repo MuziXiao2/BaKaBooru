@@ -1,40 +1,27 @@
 import { defineStore } from 'pinia'
+import type { CustomTreeOption } from '@/types/upload'
 
 export const useUploadStateStore = defineStore('upload-state', {
   state: () => ({
-    columns: [
+    data: [
       {
-        title: '图集标题',
-        key: 'title',
+        label: 'Atlas 1',
+        key: 'atlas1',
+        type: 'Atlas',
+        children: [
+          { label: 'Image 1-1', key: 'image1-1', type: 'Image', children: [] },
+          { label: 'Image 1-2', key: 'image1-2', type: 'Image', children: [] },
+        ],
       },
-      {
-        title: '包含图片',
-        key: 'images',
-      },
-      {
-        key: 'expand',
-      },
-    ],
-
-    data: [] as Array<{
-      sn: number
-      title: string
-      images: Array<{ url: string; size: number }>
-    }>,
+      { label: 'Atlas 2', key: 'atlas2', type: 'Atlas', children: [] },
+      { label: 'Image 3', key: 'image3', type: 'Image', children: [] },
+      { label: 'Image 4', key: 'image4', type: 'Image', children: [] },
+    ] as Array<CustomTreeOption>,
   }),
   getters: {},
   actions: {
-    createData(title, url, size) {
-      this.data.push({
-        id: this.data.length,
-        title: title,
-        images: [
-          {
-            url: url,
-            size: size,
-          },
-        ],
-      })
+    addData: (newData: CustomTreeOption) => {
+      this.data.push(newData)
     },
   },
 })
