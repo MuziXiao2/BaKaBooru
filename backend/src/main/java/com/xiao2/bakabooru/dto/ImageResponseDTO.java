@@ -1,6 +1,5 @@
 package com.xiao2.bakabooru.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,9 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImageResponseDTO {
     private String title;
+    private String uuid;
+    private String extension;
     private String url;
     private Long sn;
     private Long size;
-    @JsonProperty("atlas_id")
     private Long atlasId;
 }

@@ -9,6 +9,8 @@ public class ImageConverter {
         Image image = new Image();
 
         image.setTitle(imageRequestDTO.getTitle());
+        image.setUuid(imageRequestDTO.getUuid());
+        image.setExtension(imageRequestDTO.getExtension());
         image.setUrl(imageRequestDTO.getUrl());
         image.setSize(imageRequestDTO.getSize());
         image.setAtlasId(imageRequestDTO.getAtlasId());
@@ -20,6 +22,8 @@ public class ImageConverter {
         ImageResponseDTO imageResponseDTO = new ImageResponseDTO();
 
         imageResponseDTO.setTitle(image.getTitle());
+        imageResponseDTO.setUuid(image.getUuid());
+        imageResponseDTO.setExtension(image.getExtension());
         imageResponseDTO.setUrl(image.getUrl());
         imageResponseDTO.setSn(image.getSn());
         imageResponseDTO.setAtlasId(image.getAtlasId());

@@ -12,7 +12,7 @@
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BaKaBooru</name>
-	<description>A structured personal illustration management system.</description>
+	<description>A user-friendly personal artwork management tool.</description>
 	<url/>
 	<licenses>
 		<license/>

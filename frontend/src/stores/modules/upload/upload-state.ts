@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { AtlasTreeOption } from '@/types/upload'
+import type { CustomTreeOption } from '@/types/upload'
 import type Image from '@/types/image'
 
 export const useUploadStateStore = defineStore('upload-state', {
@@ -31,7 +31,7 @@ export const useUploadStateStore = defineStore('upload-state', {
           { title: 'Image 3-2', key: 'image3-2', type: 'Image' },
         ],
       },
-    ] as Array<AtlasTreeOption>,
+    ] as Array<CustomTreeOption>,
 
     expandedKeys: [] as Array<string>,
     checkedKeys: [] as Array<string>,
@@ -39,7 +39,7 @@ export const useUploadStateStore = defineStore('upload-state', {
   getters: {},
   actions: {
     addData: (title: string) => {
-      store.data.push({
+      this.data.push({
         title: title,
         key: 'a',
         type: 'Atlas',

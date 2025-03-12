@@ -12,7 +12,7 @@ const { data, expandedKeys, checkedKeys } = storeToRefs(useUploadStateStore())
 // 查找兄弟节点和索引
 function findSiblingsAndIndex(
   node: CustomTreeOption,
-  nodes: Array<AtlasTreeOption>,
+  nodes: Array<CustomTreeOption>,
 ): [CustomTreeOption[], number] | [null, null] {
   if (!nodes) return [null, null]
   for (let i = 0; i < nodes.length; i++) {

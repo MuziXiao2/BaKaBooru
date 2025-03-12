@@ -55,8 +55,7 @@ public class MinIOUtil {
             throw new IllegalArgumentException("Uploaded file cannot be null or empty");
         }
 
-        String originalFilename = file.getOriginalFilename();
-        String filename = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
+        String uuid = UUID.randomUUID().toString();
 
 
         try (InputStream inputStream = file.getInputStream()) {
@@ -64,7 +63,7 @@ public class MinIOUtil {
             minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(bucketName)
-                            .object(filename)
+                            .object(uuid)
                             .stream(inputStream, file.getSize(), -1)
                             .contentType(file.getContentType())
                             .build());
@@ -72,15 +71,28 @@ public class MinIOUtil {
             // 获取文件元数据
             StatObjectArgs statArgs = StatObjectArgs.builder()
                     .bucket(bucketName)
-                    .object(filename)
+                    .object(uuid)
                     .build();
             StatObjectResponse stat = minioClient.statObject(statArgs);
 
             // 构造永久访问 URL
             Long size = stat.size();
-            String url = String.format("%s/%s/%s", endpoint, bucketName, filename);
+            String url = String.format("%s/%s/%s", endpoint, bucketName, uuid);
 
-            return new UploadResponseDTO(url, size);
+            String originalFilename = file.getOriginalFilename();
+
+            String title, extension;
+            int pointIndex = originalFilename.lastIndexOf(".");
+            if (pointIndex != -1) {
+                title = originalFilename.substring(0, pointIndex);
+                extension = originalFilename.substring(pointIndex + 1);
+            } else {
+                title = originalFilename;
+                extension = "";
+            }
+
+
+            return new UploadResponseDTO(title, uuid, extension, url, size);
         } catch (MinioException e) {
             throw new RuntimeException("Failed to upload file to MinIO: " + e.getMessage(), e);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
