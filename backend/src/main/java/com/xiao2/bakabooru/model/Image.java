@@ -20,17 +20,12 @@ public class Image {
     private String title;
 
     //图片uuid
-    @Column(name = "uuid")
+    @Column(name = "uuid", unique = true)
     private String uuid;
-
 
     //图片类型&后缀名(不含'.')
     @Column(name = "extension")
     private String extension;
-
-    //图片url
-    @Column(name = "url")
-    private String url;
 
     //图片序号
     @Column(name = "sn")

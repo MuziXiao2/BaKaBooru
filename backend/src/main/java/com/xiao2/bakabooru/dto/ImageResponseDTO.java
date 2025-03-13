@@ -9,7 +9,6 @@ public class ImageResponseDTO {
     private String title;
     private String uuid;
     private String extension;
-    private String url;
     private Long sn;
     private Long size;
     private Long atlasId;

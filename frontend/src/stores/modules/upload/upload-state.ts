@@ -1,50 +1,52 @@
 import { defineStore } from 'pinia'
 import type { CustomTreeOption } from '@/types/upload'
-import type Image from '@/types/image'
+import type { ImageRequestDTO } from '@/types/image'
+import type { AtlasRequestDTO } from '@/types/atlas'
+import { addAtlas } from '@/api/atlas.ts'
+import { addImage } from '@/api/image.ts'
 
 export const useUploadStateStore = defineStore('upload-state', {
   state: () => ({
-    uploadedImages: [] as Array<Image>,
+    atlasesInfo: {} as { [key: string]: AtlasRequestDTO },
+    imagesInfo: {} as { [key: string]: ImageRequestDTO },
 
-    data: [
-      {
-        title: 'Atlas 1',
-        key: 'atlas1',
-        type: 'Atlas',
-        children: [
-          { title: 'Image 1-1', key: 'image1-1', type: 'Image' },
-          { title: 'Image 1-2', key: 'image1-2', type: 'Image' },
-        ],
-      },
-      {
-        title: 'Atlas 2',
-        key: 'atlas2',
-        type: 'Atlas',
-        children: [],
-      },
-      {
-        title: 'Atlas 3',
-        key: 'atlas3',
-        type: 'Atlas',
-        children: [
-          { title: 'Image 3-1', key: 'image3-1', type: 'Image' },
-          { title: 'Image 3-2', key: 'image3-2', type: 'Image' },
-        ],
-      },
-    ] as Array<CustomTreeOption>,
+    data: [] as Array<CustomTreeOption>,
 
     expandedKeys: [] as Array<string>,
     checkedKeys: [] as Array<string>,
   }),
   getters: {},
   actions: {
-    addData: (title: string) => {
+    addData(title: string, uuid: string, extension: string, size: number) {
+      const atlasKey = `${this.data.length}`
+      const imageKey = uuid
+
+      this.atlasesInfo[atlasKey] = { title: title, creator: 'xiao2', source_id: 1 }
+      this.imagesInfo[imageKey] = {
+        title: title,
+        uuid: uuid,
+        extension: extension,
+        size: size,
+      }
+
       this.data.push({
         title: title,
-        key: 'a',
+        key: atlasKey,
         type: 'Atlas',
-        children: [{ title: title, key: 'b', type: 'Image' }],
-      })
+        children: [{ title: title, key: imageKey, type: 'Image' }],
+      } as CustomTreeOption)
+    },
+    async saveData() {
+      for (const d of this.data) {
+        const atlas = this.atlasesInfo[d.key]
+        const response = await addAtlas(atlas)
+        const atlasId = response.data.data.id
+        for (const i of d.children) {
+          const image = this.imagesInfo[i.key]
+          image.atlasId = atlasId
+          await addImage(image)
+        }
+      }
     },
   },
 })

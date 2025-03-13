@@ -5,10 +5,7 @@ const uploadStateStore = useUploadStateStore()
 
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   const response = JSON.parse((event?.target as XMLHttpRequest).response)
-
-  console.log(response)
-
-  //  uploadStateStore.addData(response.filename)
+  uploadStateStore.addData(response.title, response.uuid, response.extension, response.size)
 }
 </script>
 
@@ -28,6 +25,7 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
       <n-flex justify="center" />
     </n-upload-dragger>
   </n-upload>
+  <n-button @click="uploadStateStore.saveData">保存</n-button>
 </template>
 
 <style scoped>
