@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { addAtlas, addImage } from '@/api'
 import type { ImageRequestDTO, AtlasRequestDTO, CustomTreeOption } from '@/types'
 
-
 export const useUploadStateStore = defineStore('upload-state', {
   state: () => ({
     atlasesInfo: {} as { [key: string]: AtlasRequestDTO },
@@ -19,10 +18,12 @@ export const useUploadStateStore = defineStore('upload-state', {
       const atlasKey = `${this.data.length}`
       const imageKey = uuid
 
-      this.atlasesInfo[atlasKey] = { title: title, creator: 'xiao2', source_id: 1 }
+      this.atlasesInfo[atlasKey] = { title: title, creator: 'xiao2', sourceId: 1 }
       this.imagesInfo[imageKey] = {
-        title: title,
+        atlasId: undefined,
         uuid: uuid,
+
+        title: title,
         extension: extension,
         size: size,
       }

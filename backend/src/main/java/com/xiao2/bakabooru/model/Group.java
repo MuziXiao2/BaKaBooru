@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "group")
+@Table(name = "`group`")
 @Data
 @NoArgsConstructor
 public class Group {

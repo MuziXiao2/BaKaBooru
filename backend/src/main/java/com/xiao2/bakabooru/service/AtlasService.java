@@ -36,7 +36,7 @@ public class AtlasService {
     }
 
     // 从图源获取所有图集
-    public List<AtlasResponseDTO> getAllAtlas(Long sourceId) {
+    public List<AtlasResponseDTO> getAtlases(Long sourceId) {
         return atlasRepository.findBySourceId(sourceId).stream().map(AtlasConverter::toAtlasResponseDTO).collect(Collectors.toList());
     }
 

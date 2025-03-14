@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia'
-import type Source from '@/types/module/source'
-import type Image from '@/types/module/image'
-import type Atlas from '@/types/module/atlas'
+import type { Source, Atlas, Image } from '@/types'
 import type { MenuOption, ModalReactive } from 'naive-ui'
 import { h } from 'vue'
 import { NButton } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
 import { HomeOutline as HomeIcon, InformationCircleOutline as TestIcon } from '@vicons/ionicons5'
-import { useSoucreStore } from '@/stores/common/source.ts'
+import { useSoucreStore } from '@/stores'
 
 export const useViewStateStore = defineStore('view-state', {
   state: () => ({
@@ -34,23 +32,23 @@ export const useViewStateStore = defineStore('view-state', {
         show: true,
       }
 
-      const sourceGroupOptions: Array<MenuOption> = []
+      const groupOptions: Array<MenuOption> = []
 
       const soucreStore = useSoucreStore()
 
-      soucreStore.sourceGroups.forEach((sourceGroup) => {
-        const sourceGroupOption = {
+      soucreStore.groups.forEach((group) => {
+        const groupOption = {
           type: 'group',
-          label: `${sourceGroup.name}`,
-          key: `${sourceGroup.id}`,
+          label: `${group.name}`,
+          key: `${group.id}`,
           show: true,
           children: [] as Array<MenuOption>,
         }
 
-        soucreStore.sources[sourceGroup.id].forEach((source) => {
+        soucreStore.sources[group.id].forEach((source) => {
           const sourceOption: MenuOption = {
             key: `${source.id}`,
-            group: `${sourceGroup.id}`,
+            group: `${group.id}`,
             label: () =>
               h(
                 NButton,
@@ -63,18 +61,14 @@ export const useViewStateStore = defineStore('view-state', {
             show: true,
           }
 
-          sourceGroupOption.children.push(sourceOption)
+          groupOption.children.push(sourceOption)
         })
 
-        sourceGroupOptions.push(sourceGroupOption)
+        groupOptions.push(groupOption)
       })
 
-      return [defaultOption, ...sourceGroupOptions]
+      return [defaultOption, ...groupOptions]
     },
-
-
-
-
   },
   actions: {
     setCurrentSource(source: Source | null) {

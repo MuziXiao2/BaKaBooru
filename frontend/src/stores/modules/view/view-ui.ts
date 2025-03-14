@@ -1,11 +1,11 @@
-import { defineStore } from 'pinia'
-import type Atlas from '@/types/module/atlas'
-import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { h } from 'vue'
-import type { ModalApiInjection } from 'naive-ui/es/modal/src/ModalProvider'
+import { defineStore } from 'pinia'
+import { useViewStateStore } from '@/stores'
 import AddSource from '@/components/modal/AddSource.vue'
 import ViewAtlas from '@/components/modal/ViewAtlas.vue'
 import CreateGroup from '@/components/modal/CreateGroup.vue'
+import type { Atlas } from '@/types'
+import type { ModalApiInjection } from 'naive-ui/es/modal/src/ModalProvider'
 
 export const useViewUiStore = defineStore('view-ui', {
   state: () => ({

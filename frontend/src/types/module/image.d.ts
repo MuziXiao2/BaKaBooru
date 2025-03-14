@@ -2,8 +2,8 @@ export interface Image {
   id: number
   sn: number
   atlasId: number
-
   uuid: string
+
   title: string
   extension: string
   size: number
@@ -11,7 +11,7 @@ export interface Image {
 
 export interface ImageRequestDTO {
   uuid: string
-  atlasId: number
+  atlasId: number | undefined
 
   title: string
   extension: string
@@ -20,9 +20,9 @@ export interface ImageRequestDTO {
 
 export interface ImageResponseDTO {
   id: number
-  uuid: string
   sn: number
   atlasId: number
+  uuid: string
 
   title: string
   extension: string
