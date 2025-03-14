@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { createGroups } from '@/api'
+import { createGroup } from '@/api'
 import { useViewUiStore, useSoucreStore } from '@/stores'
 
 const formValue = ref({})
@@ -14,7 +14,7 @@ const rules = {
 }
 
 async function handleClick() {
-  await createGroups(formValue.value.name)
+  await createGroup(formValue.value.name)
   await useSoucreStore().fetchGroupsAndSources()
   formValue.value = {}
   useViewUiStore().closeModal()

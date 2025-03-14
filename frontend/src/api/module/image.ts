@@ -3,9 +3,18 @@ import type { AxiosResponse } from 'axios'
 import type { ImageResponseDTO, ImageRequestDTO } from '@/types'
 
 export function getImages(atlasId: number): Promise<AxiosResponse<ImageResponseDTO[]>> {
-  return api.get(`/images/${atlasId}`)
+  return api.get('', {
+    params: {
+      type: 'image',
+      atlas_id: atlasId,
+    },
+  })
 }
 
 export function addImage(imageRequestDTO: ImageRequestDTO) {
-  return api.post('/images', imageRequestDTO)
+  return api.post('', imageRequestDTO, {
+    params: {
+      type: 'image',
+    },
+  })
 }

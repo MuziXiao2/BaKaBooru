@@ -1,19 +1,20 @@
 import api from '../index.ts'
+import type { Group, SourceRequestDTO, SourceResponseDTO } from '@/types'
 import type { AxiosResponse } from 'axios'
-import type { SourceResponseDTO, SourceRequestDTO, Group } from '@/types'
-
-export function createGroups(name: string) {
-  return api.post('/groups', { name })
-}
 
 export function addSource(source: SourceRequestDTO) {
-  return api.post('/sources', source)
+  return api.post('', source, {
+    params: {
+      type: 'source',
+    },
+  })
 }
 
-export function getGroups(): Promise<AxiosResponse<Group[]>> {
-  return api.get(`/groups`)
-}
-
-export function getSources(sourceGroup: Group): Promise<AxiosResponse<SourceResponseDTO[]>> {
-  return api.get(`/sources?groupId=${sourceGroup.id}`)
+export function getSources(group: Group): Promise<AxiosResponse<SourceResponseDTO[]>> {
+  return api.get('', {
+    params: {
+      type: 'source',
+      group_id: group.id,
+    },
+  })
 }

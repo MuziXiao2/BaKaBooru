@@ -32,6 +32,7 @@ api.interceptors.response.use(
 )
 
 export default api
+export * from './module/group'
 export * from './module/source'
 export * from './module/atlas'
 export * from './module/image'

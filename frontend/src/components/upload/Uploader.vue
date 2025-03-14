@@ -18,7 +18,7 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
     @finish="handleFinish"
     multiple
     directory-dnd
-    action="http://localhost:8080/api/images/upload"
+    action="http://localhost:8080/api?type=upload"
   >
     <n-upload-dragger>
       <n-text style="font-size: 16px"> 点击或者拖动文件到该区域来上传</n-text>

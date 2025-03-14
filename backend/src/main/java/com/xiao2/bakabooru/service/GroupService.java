@@ -5,7 +5,6 @@ import com.xiao2.bakabooru.dto.GroupRequestDTO;
 import com.xiao2.bakabooru.dto.GroupResponseDTO;
 import com.xiao2.bakabooru.model.Group;
 import com.xiao2.bakabooru.repository.GroupRepository;
-import com.xiao2.bakabooru.repository.SourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
