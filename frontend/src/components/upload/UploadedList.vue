@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { TreeDropInfo, TreeOption } from 'naive-ui'
 import { h } from 'vue'
-import { NButton } from 'naive-ui'
-import { useUploadStateStore } from '@/stores/modules/upload/upload-state.ts'
 import { storeToRefs } from 'pinia'
-import type { CustomTreeOption } from '@/types/upload'
+import { NButton } from 'naive-ui'
+import { useUploadStateStore } from '@/stores'
+import type { CustomTreeOption } from '@/types'
+import type { TreeDropInfo, TreeOption } from 'naive-ui'
 
 // 状态数据
 const { data, expandedKeys, checkedKeys } = storeToRefs(useUploadStateStore())

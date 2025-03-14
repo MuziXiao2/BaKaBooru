@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type Atlas from '@/types/atlas'
+import type Atlas from '@/types/module/atlas'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { h } from 'vue'
 import type { ModalApiInjection } from 'naive-ui/es/modal/src/ModalProvider'

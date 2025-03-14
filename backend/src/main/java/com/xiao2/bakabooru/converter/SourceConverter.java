@@ -1,11 +1,11 @@
 package com.xiao2.bakabooru.converter;
 
-import com.xiao2.bakabooru.dto.SourceGroupRequestDTO;
-import com.xiao2.bakabooru.dto.SourceGroupResponseDTO;
+import com.xiao2.bakabooru.dto.GroupRequestDTO;
+import com.xiao2.bakabooru.dto.GroupResponseDTO;
 import com.xiao2.bakabooru.dto.SourceRequestDTO;
 import com.xiao2.bakabooru.dto.SourceResponseDTO;
 import com.xiao2.bakabooru.model.Source;
-import com.xiao2.bakabooru.model.SourceGroup;
+import com.xiao2.bakabooru.model.Group;
 import jakarta.persistence.PrePersist;
 
 import java.time.Instant;
@@ -41,17 +41,17 @@ public class SourceConverter {
         return sourceResponseDTO;
     }
 
-    public static SourceGroup toSourceGroup(SourceGroupRequestDTO groupRequestDTO) {
-        SourceGroup group = new SourceGroup();
+    public static Group toGroup(GroupRequestDTO groupRequestDTO) {
+        Group group = new Group();
         group.setName(groupRequestDTO.getName());
         return group;
     }
 
-    public static SourceGroupResponseDTO toSourceGroupResponseDTO(SourceGroup group) {
-        SourceGroupResponseDTO sourceGroupResponseDTO = new SourceGroupResponseDTO();
-        sourceGroupResponseDTO.setId(group.getId());
-        sourceGroupResponseDTO.setSn(group.getSn());
-        sourceGroupResponseDTO.setName(group.getName());
-        return sourceGroupResponseDTO;
+    public static GroupResponseDTO toGroupResponseDTO(Group group) {
+        GroupResponseDTO groupResponseDTO = new GroupResponseDTO();
+        groupResponseDTO.setId(group.getId());
+        groupResponseDTO.setSn(group.getSn());
+        groupResponseDTO.setName(group.getName());
+        return groupResponseDTO;
     }
 }

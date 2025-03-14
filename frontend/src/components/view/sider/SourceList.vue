@@ -4,17 +4,16 @@ import { useSoucreStore } from '@/stores/common/source.ts'
 import { useAtlasStore } from '@/stores/common/atlas.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import type { MenuOption } from 'naive-ui'
-import type Source from '@/types/source'
+import type { Source } from '@/types'
 import CreateMenu from '@/components/view/sider/source-list/CreateMenu.vue'
 
 const viewStateStore = useViewStateStore()
 const sourceStore = useSoucreStore()
-
 const atlasStore = useAtlasStore()
 
 // 加载图源
 onMounted(async () => {
-  await sourceStore.fetchSources()
+  await sourceStore.fetchGroupsAndSources()
 })
 
 const handleMenuUpdate = async (key: string, option: MenuOption) => {

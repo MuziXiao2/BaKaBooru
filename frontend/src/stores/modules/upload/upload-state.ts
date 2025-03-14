@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia'
-import type { CustomTreeOption } from '@/types/upload'
-import type { ImageRequestDTO } from '@/types/image'
-import type { AtlasRequestDTO } from '@/types/atlas'
-import { addAtlas } from '@/api/atlas.ts'
-import { addImage } from '@/api/image.ts'
+import { addAtlas, addImage } from '@/api'
+import type { ImageRequestDTO, AtlasRequestDTO, CustomTreeOption } from '@/types'
+
 
 export const useUploadStateStore = defineStore('upload-state', {
   state: () => ({

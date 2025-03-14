@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "source_group")
+@Table(name = "group")
 @Data
 @NoArgsConstructor
-public class SourceGroup {
+public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class SourceGroup {
     @Column(name = "sn")
     private Long sn;
 
-    //组名称
+    //组名
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 }

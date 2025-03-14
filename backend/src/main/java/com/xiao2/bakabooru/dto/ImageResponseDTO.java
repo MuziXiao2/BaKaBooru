@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ImageResponseDTO {
-    private String title;
-    private String uuid;
-    private String extension;
+    private Long id;
     private Long sn;
-    private Long size;
     private Long atlasId;
+    private String uuid;
+
+    private String title;
+    private String extension;
+    private Long size;
 }

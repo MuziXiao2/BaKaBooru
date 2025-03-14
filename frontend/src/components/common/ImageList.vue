@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type Image from '@/types/image'
+import type Image from '@/types/module/image'
 import { useImageStore } from '@/stores/common/image.ts'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 

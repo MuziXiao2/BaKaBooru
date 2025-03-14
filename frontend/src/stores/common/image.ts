@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { getImages } from '@/api/image.ts'
-import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
-import type Image from '@/types/image'
+import { getImages } from '@/api'
+import { useViewStateStore } from '@/stores'
+import type { Image } from '@/types'
 
 export const useImageStore = defineStore('image', {
   state: () => ({

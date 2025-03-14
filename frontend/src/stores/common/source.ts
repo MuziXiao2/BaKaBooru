@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia'
-import type Source from '@/types/source'
-import { getSourceGroups, getSources } from '@/api/source.ts'
-import type SourceGroup from '@/types/source'
+import { getGroups, getSources } from '@/api'
+import type { Group, Source } from '@/types'
 
 export const useSoucreStore = defineStore('source', {
   state: () => ({
-    sourceGroups: [] as SourceGroup[],
+    groups: [] as Group[],
     sources: {} as { [key: string]: Source[] },
     isSourcesLoaded: false,
   }),
@@ -23,23 +22,22 @@ export const useSoucreStore = defineStore('source', {
       ]
     },
     groupSelectOptions(state) {
-      return state.sourceGroups.map((sourceGroup) => {
+      return state.groups.map((group) => {
         return {
-          label: sourceGroup.name,
-          value: sourceGroup.id,
+          label: group.name,
+          value: group.id,
         }
       })
     },
   },
   actions: {
-    async fetchSources() {
-      let response = await getSourceGroups()
+    async fetchGroupsAndSources() {
+      const response = await getGroups()
+      this.groups = response.data
 
-      this.sourceGroups = response.data
-
-      for (const sourceGroup of this.sourceGroups) {
-        response = await getSources(sourceGroup)
-        this.sources[sourceGroup.id] = response.data
+      for (const group of this.groups) {
+        const response = await getSources(group)
+        this.sources[group.id] = response.data
       }
 
       this.isSourcesLoaded = true

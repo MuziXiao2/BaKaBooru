@@ -3,7 +3,7 @@ package com.xiao2.bakabooru.dto;
 import lombok.Data;
 
 @Data
-public class SourceGroupRequestDTO {
+public class GroupRequestDTO {
 
     private String name;
 }

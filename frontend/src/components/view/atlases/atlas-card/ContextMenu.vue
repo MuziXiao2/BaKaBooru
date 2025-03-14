@@ -2,7 +2,7 @@
 import { useViewUiStore } from '@/stores'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { useModal } from 'naive-ui'
-import type Atlas from '@/types/atlas'
+import type Atlas from '@/types/module/atlas'
 import { useImageStore } from '@/stores/common/image.ts'
 
 const modal = useModal()
