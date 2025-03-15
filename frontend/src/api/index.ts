@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'http://localhost:8080',
   timeout: 10000,
 })
 
@@ -32,7 +32,5 @@ api.interceptors.response.use(
 )
 
 export default api
-export * from './module/group'
-export * from './module/source'
-export * from './module/atlas'
-export * from './module/image'
+export * from './dataApi.ts'
+export * from './sourceApi.ts'
