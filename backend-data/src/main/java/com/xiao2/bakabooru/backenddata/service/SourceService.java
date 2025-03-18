@@ -43,9 +43,13 @@ public class SourceService {
         // 转为 Source 对象
         Source source = SourceConverter.toSource(sourceInfo);
 
-        // 添加属性
-        source.setType(sourceReferenceDTO.getType());
-        source.setGroupId(sourceReferenceDTO.getGroupId());
+        // 补全属性
+        String type = sourceReferenceDTO.getType();
+        Long groupId = sourceReferenceDTO.getGroupId();
+        Long sn = sourceRepository.countByGroupId(groupId) + 1;
+        source.setSn(sn);
+        source.setType(type);
+        source.setGroupId(groupId);
 
         return sourceRepository.save(source);
     }

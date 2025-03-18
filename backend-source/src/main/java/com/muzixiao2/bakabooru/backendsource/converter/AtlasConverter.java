@@ -15,7 +15,6 @@ public class AtlasConverter {
 
         atlas.setTitle(atlasRequestDTO.getTitle());
         atlas.setCreator(atlasRequestDTO.getCreator());
-        atlas.setSourceId(atlasRequestDTO.getSourceId());
 
         LocalDateTime now = LocalDateTime.now();
         atlas.setCreateAt(now);
@@ -33,7 +32,6 @@ public class AtlasConverter {
         atlasResponseDTO.setCreator(atlas.getCreator());
         atlasResponseDTO.setCreateAt(atlas.getCreateAt());
         atlasResponseDTO.setUpdatedAt(atlas.getUpdatedAt());
-        atlasResponseDTO.setSourceId(atlas.getSourceId());
 
         return atlasResponseDTO;
     }

@@ -6,7 +6,8 @@ import { useViewUiStore } from '@/stores'
 
 const options: DropdownOption[] = [
   { label: '新建组', key: 'CreateGroup' },
-  { label: '添加源', key: 'AddSource' },
+  { label: '创建图源', key: 'CreateSource' },
+  { label: '添加图源', key: 'AddSource' },
 ]
 
 const modal = useModal()

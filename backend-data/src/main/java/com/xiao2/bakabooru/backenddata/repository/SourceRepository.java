@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface SourceRepository extends JpaRepository<Source, Long> {
     List<Source> findAllByGroupId(Long groupId);
+    Long countByGroupId(Long groupId);
 }

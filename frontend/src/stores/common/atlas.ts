@@ -13,8 +13,10 @@ export const useAtlasStore = defineStore('atlas', {
     async fetchAtlases() {
       const currentSource = useViewStateStore().currentSource
       if (!currentSource) return
-      const response = await getAtlases(currentSource.id)
+      const response = await getAtlases(currentSource)
+
       this.atlases = response.data
+
       this.isAtlasesLoaded = true
     },
   },

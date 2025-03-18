@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { addAtlas, addImage } from '@/api'
+import { createAtlas, addImage } from '@/api'
 import type { ImageRequestDTO, AtlasRequestDTO, CustomTreeOption } from '@/types'
+
 
 export const useUploadStateStore = defineStore('upload-state', {
   state: () => ({
@@ -38,7 +39,7 @@ export const useUploadStateStore = defineStore('upload-state', {
     async saveData() {
       for (const d of this.data) {
         const atlas = this.atlasesInfo[d.key]
-        const response = await addAtlas(atlas)
+        const response = await createAtlas(atlas)
         const atlasId = response.data.data.id
         for (const i of d.children) {
           const image = this.imagesInfo[i.key]

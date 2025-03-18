@@ -8,8 +8,9 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 public class SourceResponseDTO {
-    private Long id;
+    private Long sn;
     private Long groupId;
+
 
     private String name;
     private String type;

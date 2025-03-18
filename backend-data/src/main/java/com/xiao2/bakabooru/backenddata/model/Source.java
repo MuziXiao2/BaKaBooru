@@ -18,6 +18,9 @@ public class Source {
     //图源组id
     @Column(name = "group_id")
     private Long groupId;
+    //图源序号
+    @Column(name = "sn")
+    private Long sn;
 
     //图源名称
     @Column(name = "name")

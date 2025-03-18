@@ -22,7 +22,7 @@ const handleMenuUpdate = async (key: string, option: MenuOption) => {
   } else {
     const selectedSource =
       sourceStore.sources[option.group as string].find(
-        (source: Source) => `${source.id}` === key,
+        (source: Source) => `${source.sn}` === key,
       ) || null
     viewStateStore.setCurrentSource(selectedSource)
     await atlasStore.fetchAtlases()

@@ -11,7 +11,6 @@ export interface Atlas {
 export interface AtlasRequestDTO {
   title: string
   creator: string
-  sourceId: number
 }
 
 export interface AtlasResponseDTO {

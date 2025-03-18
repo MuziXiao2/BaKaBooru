@@ -1,5 +1,6 @@
 package com.xiao2.bakabooru.backenddata.service;
 
+import com.xiao2.bakabooru.backenddata.converter.GroupConverter;
 import com.xiao2.bakabooru.backenddata.converter.SourceConverter;
 import com.xiao2.bakabooru.backenddata.dto.GroupRequestDTO;
 import com.xiao2.bakabooru.backenddata.dto.GroupResponseDTO;
@@ -20,7 +21,7 @@ public class GroupService {
     //添加组
     public Group createGroup(GroupRequestDTO groupRequestDTO) {
         // 创建Group对象
-        Group group = SourceConverter.toGroup(groupRequestDTO);
+        Group group = GroupConverter.toGroup(groupRequestDTO);
 
         // 获取sn (!!!高并发下可能出问题!!!)
         Long sn = groupRepository.count() + 1;
@@ -36,7 +37,7 @@ public class GroupService {
         List<Group> groups = groupRepository.findAllByOrderBySnAsc();
         return groups
                 .stream()
-                .map(SourceConverter::toGroupResponseDTO)
+                .map(GroupConverter::toGroupResponseDTO)
                 .collect(Collectors.toList());
     }
 

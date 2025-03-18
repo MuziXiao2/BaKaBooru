@@ -47,7 +47,7 @@ export const useViewStateStore = defineStore('view-state', {
 
         soucreStore.sources[group.id].forEach((source) => {
           const sourceOption: MenuOption = {
-            key: `${source.id}`,
+            key: `${source.sn}`,
             group: `${group.id}`,
             label: () =>
               h(

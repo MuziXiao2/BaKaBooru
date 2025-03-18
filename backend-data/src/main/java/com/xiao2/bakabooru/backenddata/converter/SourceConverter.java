@@ -25,27 +25,16 @@ public class SourceConverter {
         SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
 
         sourceResponseDTO.setId(source.getId());
+        sourceResponseDTO.setGroupId(source.getGroupId());
+        sourceResponseDTO.setSn(source.getSn());
+
         sourceResponseDTO.setName(source.getName());
         sourceResponseDTO.setType(source.getType());
         sourceResponseDTO.setUrl(source.getUrl());
-        sourceResponseDTO.setGroupId(source.getGroupId());
         sourceResponseDTO.setCreatedAt(source.getCreatedAt());
         sourceResponseDTO.setUpdatedAt(source.getUpdatedAt());
 
         return sourceResponseDTO;
     }
 
-    public static Group toGroup(GroupRequestDTO groupRequestDTO) {
-        Group group = new Group();
-        group.setName(groupRequestDTO.getName());
-        return group;
-    }
-
-    public static GroupResponseDTO toGroupResponseDTO(Group group) {
-        GroupResponseDTO groupResponseDTO = new GroupResponseDTO();
-        groupResponseDTO.setId(group.getId());
-        groupResponseDTO.setSn(group.getSn());
-        groupResponseDTO.setName(group.getName());
-        return groupResponseDTO;
-    }
 }

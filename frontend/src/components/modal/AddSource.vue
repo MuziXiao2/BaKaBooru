@@ -1,31 +1,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { addSource } from '@/api/module/source.ts'
+import { addSource } from '@/api'
 import { useSoucreStore } from '@/stores/common/source.ts'
 import { useViewUiStore } from '@/stores'
 
 const formValue = ref<{
-  name: string
-  type: string
   url: string
+  type: string
   groupId: string
 }>({})
 const sourceStore = useSoucreStore()
 
 const rules = {
-  name: {
+  url: {
     required: true,
-    message: '图源名称',
+    message: '图源链接',
     trigger: 'blur',
   },
   type: {
     required: true,
     message: '图源类型',
-    trigger: 'blur',
-  },
-  url: {
-    required: true,
-    message: '图源链接',
     trigger: 'blur',
   },
   group: {
@@ -51,8 +45,8 @@ async function handleClick() {
       label-placement="left"
       label-width="auto"
     >
-      <n-form-item label="名称">
-        <n-input v-model:value="formValue.name" placeholder="请输入名称" />
+      <n-form-item label="URL">
+        <n-input v-model:value="formValue.url" placeholder="请输入URL" />
       </n-form-item>
 
       <n-form-item label="类型">
@@ -61,10 +55,6 @@ async function handleClick() {
           placeholder="请选择类型"
           :options="sourceStore.sourceTypeSelectOptions"
         />
-      </n-form-item>
-
-      <n-form-item label="URL">
-        <n-input v-model:value="formValue.url" placeholder="请输入URL" />
       </n-form-item>
 
       <n-form-item label="图源组">

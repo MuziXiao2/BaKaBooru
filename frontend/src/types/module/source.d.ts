@@ -1,5 +1,5 @@
 export interface Source {
-  id: number
+  sn: number
   groupId: number
 
   name: string
@@ -10,15 +10,19 @@ export interface Source {
 }
 
 export interface SourceRequestDTO {
+  name: string
+  port: number
+}
+
+export interface SourceReferenceDTO {
   groupId: number
 
-  name: string
   type: string
   url: string
 }
 
 export interface SourceResponseDTO {
-  id: number
+  sn: number
   groupId: number
 
   name: string

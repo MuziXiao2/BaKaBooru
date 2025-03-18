@@ -1,17 +1,16 @@
-import type { AxiosResponse } from 'axios'
-import type { Atlas, AtlasRequestDTO, ImageRequestDTO, ImageResponseDTO } from '@/types'
+import type { Source, AtlasRequestDTO, ImageRequestDTO } from '@/types'
 import api from '@/api/index.ts'
 
-export function getAtlases(sourceId: number): Promise<AxiosResponse<Atlas[]>> {
-  return api.get('', {
+export async function getAtlases(source: Source) {
+  const response = await api.get(source.url, {
     params: {
       type: 'atlas',
-      source_id: sourceId,
     },
   })
+  return response.data
 }
 
-export function addAtlas(atlas: AtlasRequestDTO) {
+export function createAtlas(atlas: AtlasRequestDTO) {
   return api.post('', atlas, {
     params: {
       type: 'atlas',
@@ -19,7 +18,7 @@ export function addAtlas(atlas: AtlasRequestDTO) {
   })
 }
 
-export function getImages(atlasId: number): Promise<AxiosResponse<ImageResponseDTO[]>> {
+export function getImages(atlasId: number) {
   return api.get('', {
     params: {
       type: 'image',

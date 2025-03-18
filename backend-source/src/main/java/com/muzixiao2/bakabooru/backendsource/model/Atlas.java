@@ -35,10 +35,4 @@ public class Atlas {
     //更新时间
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    //所属图源id
-    @Column(name = "source_id")
-    private Long sourceId;
-
-
 }
