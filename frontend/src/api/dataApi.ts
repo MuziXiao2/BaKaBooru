@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import type { Group, SourceReferenceDTO, SourceResponseDTO } from '@/types'
+import type { Group, SourceReferenceDTO } from '@/types'
 import api from '@/api/index.ts'
 
 const url = 'http://localhost:8080/api'
@@ -31,11 +31,12 @@ export function addSource(source: SourceReferenceDTO) {
   })
 }
 
-export function getSources(group: Group): Promise<AxiosResponse<SourceResponseDTO[]>> {
-  return api.get(url, {
+export async function getSources(group: Group) {
+  const response = await api.get(url, {
     params: {
       type: 'source',
       group_id: group.id,
     },
   })
+  return response.data
 }

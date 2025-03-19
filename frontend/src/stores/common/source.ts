@@ -37,7 +37,7 @@ export const useSoucreStore = defineStore('source', {
 
       for (const group of this.groups) {
         const response = await getSources(group)
-        this.sources[group.id] = response.data
+        this.sources[group.id] = response
       }
 
       this.isSourcesLoaded = true

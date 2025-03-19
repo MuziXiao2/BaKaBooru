@@ -29,7 +29,7 @@ const handleSelect = async (key: string) => {
       viewStateStore.setCurrentAtlas(viewUiStore.contextMenu.atlas as Atlas)
       await imageStore.fetchImages()
       viewStateStore.setCurrentImage(imageStore.images[0])
-      await viewUiStore.openModal(modal, 'ViewAtlas')
+      viewUiStore.openModal(modal, 'ViewAtlas')
       break
     case 'share':
       break

@@ -7,7 +7,11 @@ import { useViewUiStore } from '@/stores'
 
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
-const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
+const {
+  currentImage: image,
+  currentAtlas: atlas,
+  currentSource: source,
+} = storeToRefs(viewStateStore)
 </script>
 
 <template>
@@ -21,7 +25,12 @@ const { currentImage: image, currentAtlas: atlas } = storeToRefs(viewStateStore)
           align-items: center;
         "
     >
-      <n-image v-if="image" :src="image.url" width="100%" object-fit="contain" />
+      <n-image
+        v-if="image"
+        :src="source.ossUrl + '/' + image.uuid + '.' + image.extension"
+        width="100%"
+        object-fit="contain"
+      />
       <n-empty v-else description="No Data" />
     </n-layout-content>
 

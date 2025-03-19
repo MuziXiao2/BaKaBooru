@@ -76,9 +76,10 @@ public class ApiController {
         };
     }
 
-    // 上传图片
+    // 上传图片文件
     @PostMapping(params = "type=upload")
     public UploadResponseDTO uploadImage(@RequestParam("file") MultipartFile file) {
         return MinIOUtil.upload(file);
     }
+
 }

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "source")
 public class SourceConfig {
     private String name;
-    private String url;
+    private String sourceUrl;
+    private String ossUrl;
     private String creator;
     private String createdAt;
     private String updatedAt;

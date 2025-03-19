@@ -11,9 +11,12 @@ export const useImageStore = defineStore('image', {
   getters: {},
   actions: {
     async fetchImages() {
+      const currentSource = useViewStateStore().currentSource
       const currentAtlas = useViewStateStore().currentAtlas
-      if (!currentAtlas) return
-      const response = await getImages(currentAtlas.id)
+
+      if (!currentSource || !currentAtlas) return
+      const response = await getImages(currentSource, currentAtlas)
+
       this.images = response.data
       this.isImagesLoaded = true
     },

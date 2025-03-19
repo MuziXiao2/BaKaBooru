@@ -14,7 +14,6 @@ export const useAtlasStore = defineStore('atlas', {
       const currentSource = useViewStateStore().currentSource
       if (!currentSource) return
       const response = await getAtlases(currentSource)
-
       this.atlases = response.data
 
       this.isAtlasesLoaded = true

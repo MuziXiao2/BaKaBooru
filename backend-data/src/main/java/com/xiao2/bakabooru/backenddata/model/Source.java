@@ -28,9 +28,12 @@ public class Source {
     //图源类型
     @Column(name = "type")
     private String type;
-    //图源url
-    @Column(name = "url")
-    private String url;
+    //图源URL
+    @Column(name = "source_url")
+    private String sourceUrl;
+    //OSSURL
+    @Column(name = "oss_url")
+    private String ossUrl;
     //图源者
     @Column(name = "creator")
     private String creator;

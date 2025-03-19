@@ -12,7 +12,8 @@ public class SourceConverter {
     public static Source toSource(SourceInfo sourceInfo) {
         Source source = new Source();
         source.setName(sourceInfo.getName());
-        source.setUrl(sourceInfo.getUrl());
+        source.setSourceUrl(sourceInfo.getSourceUrl());
+        source.setOssUrl(sourceInfo.getOssUrl());
         source.setCreator(sourceInfo.getCreator());
         source.setCreatedAt(Instant.parse(sourceInfo.getCreatedAt()));
         source.setUpdatedAt(Instant.parse(sourceInfo.getUpdatedAt()));
@@ -24,13 +25,13 @@ public class SourceConverter {
     public static SourceResponseDTO toSourceResponseDTO(Source source) {
         SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
 
-        sourceResponseDTO.setId(source.getId());
         sourceResponseDTO.setGroupId(source.getGroupId());
         sourceResponseDTO.setSn(source.getSn());
 
         sourceResponseDTO.setName(source.getName());
         sourceResponseDTO.setType(source.getType());
-        sourceResponseDTO.setUrl(source.getUrl());
+        sourceResponseDTO.setSourceUrl(source.getSourceUrl());
+        sourceResponseDTO.setOssUrl(source.getOssUrl());
         sourceResponseDTO.setCreatedAt(source.getCreatedAt());
         sourceResponseDTO.setUpdatedAt(source.getUpdatedAt());
 

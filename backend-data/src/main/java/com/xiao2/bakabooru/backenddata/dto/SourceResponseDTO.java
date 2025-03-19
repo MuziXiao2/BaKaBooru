@@ -14,7 +14,8 @@ public class SourceResponseDTO {
 
     private String name;
     private String type;
-    private String url;
+    private String sourceUrl;
+    private String ossUrl;
     private Instant createdAt;
     private Instant updatedAt;
 }

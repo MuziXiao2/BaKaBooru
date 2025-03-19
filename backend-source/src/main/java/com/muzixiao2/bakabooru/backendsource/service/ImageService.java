@@ -31,7 +31,7 @@ public class ImageService {
         if (!atlasRepository.existsById(atlasId))
             throw new IllegalArgumentException("图集不存在");
 
-        // 获取Image的sn (!!!高并发下可能出问题!!!)
+        // 获取图片sn (!!!高并发下可能出问题!!!)
         Long sn = imageRepository.countByAtlasId(atlasId);
         image.setSn(sn);
 

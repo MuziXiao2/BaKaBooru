@@ -4,7 +4,8 @@ export interface Source {
 
   name: string
   type: string
-  url: string
+  sourceUrl: string
+  ossUrl: string
   createAt: Date
   updatedAt: Date
 }
@@ -18,7 +19,7 @@ export interface SourceReferenceDTO {
   groupId: number
 
   type: string
-  url: string
+  sourceUrl: string
 }
 
 export interface SourceResponseDTO {
@@ -27,7 +28,8 @@ export interface SourceResponseDTO {
 
   name: string
   type: string
-  url: string
+  sourceUrl: string
+  ossUrl: string
   createAt: Date
   updatedAt: Date
 }

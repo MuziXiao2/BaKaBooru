@@ -14,7 +14,8 @@ public class SourceService {
         SourceInfo sourceInfo = new SourceInfo();
 
         sourceInfo.setName(sourceConfig.getName());
-        sourceInfo.setUrl(sourceConfig.getUrl());
+        sourceInfo.setSourceUrl(sourceConfig.getSourceUrl());
+        sourceInfo.setOssUrl(sourceConfig.getOssUrl());
         sourceInfo.setCreator(sourceConfig.getCreator());
         sourceInfo.setCreatedAt(sourceConfig.getCreatedAt());
         sourceInfo.setUpdatedAt(sourceConfig.getUpdatedAt());

@@ -1,8 +1,8 @@
-import type { Source, AtlasRequestDTO, ImageRequestDTO } from '@/types'
+import type { Source, AtlasRequestDTO, ImageRequestDTO, Atlas } from '@/types'
 import api from '@/api/index.ts'
 
 export async function getAtlases(source: Source) {
-  const response = await api.get(source.url, {
+  const response = await api.get(source.sourceUrl, {
     params: {
       type: 'atlas',
     },
@@ -18,13 +18,14 @@ export function createAtlas(atlas: AtlasRequestDTO) {
   })
 }
 
-export function getImages(atlasId: number) {
-  return api.get('', {
+export async function getImages(source: Source, atlas: Atlas) {
+  const response = await api.get(source.sourceUrl, {
     params: {
       type: 'image',
-      atlas_id: atlasId,
+      atlas_id: atlas.id,
     },
   })
+  return response.data
 }
 
 export function addImage(imageRequestDTO: ImageRequestDTO) {

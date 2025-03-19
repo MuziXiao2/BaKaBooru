@@ -11,7 +11,7 @@ export const useViewUiStore = defineStore('view-ui', {
   state: () => ({
     isSiderCollapsed: false,
 
-    showViewAtlas: false,
+    openedModal: null as string | null,
 
     contextMenu: {
       visible: false,
@@ -22,7 +22,7 @@ export const useViewUiStore = defineStore('view-ui', {
   }),
   getters: {},
   actions: {
-    openModal(modal: ModalApiInjection, key: string) {
+    openModal(modal: ModalApiInjection, name: string) {
       const viewStateStore = useViewStateStore()
 
       const options = {
@@ -49,15 +49,15 @@ export const useViewUiStore = defineStore('view-ui', {
         },
       }
 
-      viewStateStore.setCurrentModal(modal.create(options[key]))
+      viewStateStore.setCurrentModal(modal.create(options[name]))
 
-      this.showViewAtlas = true
+      this.openedModal = name
     },
 
     closeModal() {
       const viewStateStore = useViewStateStore()
       viewStateStore.currentModal?.destroy()
-      this.showViewAtlas = false
+      this.openedModal = null
     },
 
     openContextMenu(x: number, y: number, atlas: Atlas) {

@@ -6,5 +6,5 @@ import lombok.Data;
 public class SourceReferenceDTO {
     private Long groupId;
     private String type;
-    private String url;
+    private String sourceUrl;
 }
