@@ -53,7 +53,7 @@ const {
         </template>
 
         <template #header-extra>
-          <n-float-button :right="15" :top="15" shape="square" @click="viewUiStore.closeModal()">
+          <n-float-button :right="15" :top="15" shape="square" @click="viewUiStore.closeViewAtlasModal()">
             <CloseIcon />
           </n-float-button>
         </template>

@@ -23,6 +23,11 @@ export const useViewUiStore = defineStore('view-ui', {
       modalStore.openModal(modal, 'ViewAtlas')
     },
 
+    closeViewAtlasModal() {
+      const modalStore = useModalStore()
+      modalStore.closeModal()
+    },
+
     openContextMenu(x: number, y: number) {
       this.contextMenu.visible = true
       this.contextMenu.x = x
