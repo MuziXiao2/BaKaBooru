@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { getImages } from '@/api'
-import { useViewStateStore } from '@/stores'
-import type { Image } from '@/types'
+import type { Atlas, Image } from '@/types'
 
 export const useImageStore = defineStore('image', {
   state: () => ({
@@ -10,14 +9,10 @@ export const useImageStore = defineStore('image', {
   }),
   getters: {},
   actions: {
-    async fetchImages() {
-      const currentSource = useViewStateStore().currentSource
-      const currentAtlas = useViewStateStore().currentAtlas
-
-      if (!currentSource || !currentAtlas) return
-      const response = await getImages(currentSource, currentAtlas)
-
-      this.images = response.data
+    async update(source: Source, atlas: Atlas) {
+      this.isImagesLoaded = false
+      if (!atlas) return
+      this.images = await getImages(source, atlas)
       this.isImagesLoaded = true
     },
   },

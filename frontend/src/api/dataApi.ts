@@ -4,39 +4,41 @@ import api from '@/api/index.ts'
 
 const url = 'http://localhost:8080/api'
 
-export function createGroup(name: string) {
-  return api.post(
+export async function createGroup(name: string) {
+  const response = await api.post(
     url,
     { name: name },
     {
       params: { type: 'group' },
     },
   )
+  return response.data.data
 }
 
-export function getGroups(): Promise<AxiosResponse<Group[]>> {
-  return api.get(url, {
+export async function getGroups(): Promise<AxiosResponse<Group[]>> {
+  const response = await api.get(url, {
     params: {
       type: 'group',
     },
   })
+  return response.data.data
 }
 
-export function addSource(source: SourceReferenceDTO) {
-  return api.post(url, source, {
+export async function addSource(source: SourceReferenceDTO) {
+  const response = await api.post(url, source, {
     params: {
       type: 'source',
       action: 'add',
     },
   })
+  return response.data.data
 }
 
-export async function getSources(group: Group) {
+export async function getSources() {
   const response = await api.get(url, {
     params: {
       type: 'source',
-      group_id: group.id,
     },
   })
-  return response.data
+  return response.data.data
 }

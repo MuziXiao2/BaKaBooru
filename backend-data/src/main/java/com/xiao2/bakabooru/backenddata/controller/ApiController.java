@@ -61,12 +61,12 @@ public class ApiController {
 
     // GET 请求
     @GetMapping
-    public List<?> getApi(
-            @RequestParam("type") String type,
-            @RequestParam(value = "group_id", required = false) Long groupId) {
+    public ResponseResult<List<?>> getApi(
+            @RequestParam("type") String type
+    ) {
         return switch (type) {
-            case "group" -> groupService.getGroups();
-            case "source" -> sourceService.getSources(groupId);
+            case "group" -> ResponseResult.success(groupService.getGroups(), "获取组成功");
+            case "source" -> ResponseResult.success(sourceService.getSources(), "获取图源成功");
             default -> throw new IllegalArgumentException("无效的 type 参数");
         };
     }

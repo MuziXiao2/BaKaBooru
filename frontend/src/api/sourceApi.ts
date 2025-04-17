@@ -7,7 +7,7 @@ export async function getAtlases(source: Source) {
       type: 'atlas',
     },
   })
-  return response.data
+  return response.data.data
 }
 
 export function createAtlas(atlas: AtlasRequestDTO) {
@@ -25,7 +25,7 @@ export async function getImages(source: Source, atlas: Atlas) {
       atlas_id: atlas.id,
     },
   })
-  return response.data
+  return response.data.data
 }
 
 export function addImage(imageRequestDTO: ImageRequestDTO) {

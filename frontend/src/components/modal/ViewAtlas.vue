@@ -27,7 +27,7 @@ const {
     >
       <n-image
         v-if="image"
-        :src="source.ossUrl + '/' + image.uuid + '.' + image.extension"
+        :src="source.ossUrl + '/' + image.uuid"
         width="100%"
         object-fit="contain"
       />
@@ -61,8 +61,8 @@ const {
         <template #default>
           <n-p> 标题: {{ atlas.title }}</n-p>
           <n-p> 创建者:{{ atlas.creator }}</n-p>
-          <n-p> 更新日期:{{ atlas.updated_at }}</n-p>
-          <n-p> 创建日期:{{ atlas.create_at }}</n-p>
+          <n-p> 更新日期:{{ atlas.updatedAt }}</n-p>
+          <n-p> 创建日期:{{ atlas.createAt }}</n-p>
           <n-divider />
           <n-h1>Images</n-h1>
           <image-list />

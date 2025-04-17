@@ -5,9 +5,9 @@ import { useSoucreStore } from '@/stores/common/source.ts'
 import { useViewUiStore } from '@/stores'
 
 const formValue = ref<{
-  url: string
-  type: string
   groupId: string
+  type: string
+  sourceUrl: string
 }>({})
 const sourceStore = useSoucreStore()
 
@@ -34,6 +34,7 @@ async function handleClick() {
   await useSoucreStore().fetchGroupsAndSources()
   useViewUiStore().closeModal()
 }
+
 </script>
 
 <template>
@@ -46,7 +47,7 @@ async function handleClick() {
       label-width="auto"
     >
       <n-form-item label="URL">
-        <n-input v-model:value="formValue.url" placeholder="请输入URL" />
+        <n-input v-model:value="formValue.sourceUrl" placeholder="请输入URL" />
       </n-form-item>
 
       <n-form-item label="类型">
@@ -57,7 +58,7 @@ async function handleClick() {
         />
       </n-form-item>
 
-      <n-form-item label="图源组">
+      <n-form-item label="组">
         <n-select
           v-model:value="formValue.groupId"
           placeholder="请选择组"

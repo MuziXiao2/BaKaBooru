@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { useViewUiStore } from '@/stores'
-import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { useModal } from 'naive-ui'
-import type Atlas from '@/types/module/atlas'
-import { useImageStore } from '@/stores/common/image.ts'
 
 const modal = useModal()
-const imageStore = useImageStore()
 const viewUiStore = useViewUiStore()
-const viewStateStore = useViewStateStore()
 
 const options = [
   { label: '查看', key: 'view' },
@@ -26,10 +21,7 @@ const handleSelect = async (key: string) => {
 
   switch (key) {
     case 'view':
-      viewStateStore.setCurrentAtlas(viewUiStore.contextMenu.atlas as Atlas)
-      await imageStore.fetchImages()
-      viewStateStore.setCurrentImage(imageStore.images[0])
-      viewUiStore.openModal(modal, 'ViewAtlas')
+      await viewUiStore.openViewAtlasModal(modal)
       break
     case 'share':
       break

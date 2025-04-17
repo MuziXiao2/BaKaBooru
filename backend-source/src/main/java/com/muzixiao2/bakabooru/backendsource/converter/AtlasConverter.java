@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class AtlasConverter {
     @PrePersist
     public static Atlas toAtlas(AtlasRequestDTO atlasRequestDTO) {
-
         Atlas atlas = new Atlas();
 
         atlas.setTitle(atlasRequestDTO.getTitle());

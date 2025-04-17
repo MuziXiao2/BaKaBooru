@@ -31,10 +31,10 @@ public class SourceService {
     // 添加图源
     public Source addSource(SourceReferenceDTO sourceReferenceDTO) {
         ResponseEntity<ResponseResult<SourceInfo>> responseEntity = restTemplate.exchange(
-                sourceReferenceDTO.getUrl() + "?type=source",
+                sourceReferenceDTO.getSourceUrl() + "?type=source",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<ResponseResult<SourceInfo>>() {
+                new ParameterizedTypeReference<>() {
                 }
         );
 
@@ -55,8 +55,8 @@ public class SourceService {
     }
 
     // 获取所有图源
-    public List<SourceResponseDTO> getSources(Long groupId) {
-        List<Source> sources = sourceRepository.findAllByGroupId(groupId);
+    public List<SourceResponseDTO> getSources() {
+        List<Source> sources = sourceRepository.findAll();
         return sources
                 .stream()
                 .map(SourceConverter::toSourceResponseDTO)

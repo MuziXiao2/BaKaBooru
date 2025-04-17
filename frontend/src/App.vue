@@ -28,6 +28,5 @@ import MessageBox from '@/components/common/MessageBox.vue'
 import Navbar from '@/components/app/Navbar.vue'
 
 const globalUiStore = useGlobalUiStore()
-
 const theme = computed(() => (globalUiStore.isDarkMode ? darkTheme : null))
 </script>

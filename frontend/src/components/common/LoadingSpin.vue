@@ -1,7 +1,5 @@
 <template>
-  <n-spin :show="true" description="加载中...">
-
-  </n-spin>
+  <n-spin :show="true" description="加载中..."/>
 </template>
 
 <script setup lang="ts">
