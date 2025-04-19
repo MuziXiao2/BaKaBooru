@@ -61,7 +61,7 @@ public class ApiController {
 
     // GET 请求
     @GetMapping
-    public ResponseResult<List<?>> getApi(
+    public ResponseResult<?> getApi(
             @RequestParam("type") String type
     ) {
         return switch (type) {

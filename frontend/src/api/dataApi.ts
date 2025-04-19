@@ -15,7 +15,7 @@ export async function createGroup(name: string) {
   return response.data.data
 }
 
-export async function getGroups(): Promise<AxiosResponse<Group[]>> {
+export async function getGroups(){
   const response = await api.get(url, {
     params: {
       type: 'group',

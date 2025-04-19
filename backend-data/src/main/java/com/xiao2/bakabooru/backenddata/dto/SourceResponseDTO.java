@@ -10,8 +10,6 @@ import java.time.Instant;
 public class SourceResponseDTO {
     private Long sn;
     private Long groupId;
-
-
     private String name;
     private String type;
     private String sourceUrl;

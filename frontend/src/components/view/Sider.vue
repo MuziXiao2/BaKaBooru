@@ -7,6 +7,7 @@ import { useAtlasStore, useSoucreStore, useViewStateStore } from '@/stores'
 import { type MenuOption, NButton } from 'naive-ui'
 import { renderIcon } from '@/utils/icon.ts'
 import { HomeOutline as HomeIcon } from '@vicons/ionicons5'
+import type { Source } from '@/types'
 
 const sourceStore = useSoucreStore()
 const atlasStore = useAtlasStore()
