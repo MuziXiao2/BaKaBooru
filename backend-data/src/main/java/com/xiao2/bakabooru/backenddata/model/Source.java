@@ -25,9 +25,6 @@ public class Source {
     //图源名称
     @Column(name = "name")
     private String name;
-    //图源类型
-    @Column(name = "type")
-    private String type;
     //图源URL
     @Column(name = "source_url")
     private String sourceUrl;

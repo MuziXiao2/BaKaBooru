@@ -1,44 +1,52 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { addSource } from '@/api'
 import { useSoucreStore } from '@/stores/common/source.ts'
-import { useViewUiStore } from '@/stores'
+import { useModalStore } from '@/stores'
+import type { Group, SourceReferenceDTO } from '@/types'
 
-const formValue = ref<{
-  groupId: string
-  type: string
-  sourceUrl: string
-}>({})
-const sourceStore = useSoucreStore()
-
+const soucreStore = useSoucreStore()
+const modalStore = useModalStore()
 const rules = {
+  groupId: {
+    required: true,
+    message: '组',
+    trigger: 'blur',
+  },
   url: {
     required: true,
-    message: '图源链接',
-    trigger: 'blur',
-  },
-  type: {
-    required: true,
-    message: '图源类型',
-    trigger: 'blur',
-  },
-  group: {
-    required: true,
-    message: '图源分组',
+    message: '图源URL',
     trigger: 'blur',
   },
 }
+
+const formValue = ref<SourceReferenceDTO>({ groupId: null, url: null })
+
+onMounted(async () => {
+  await soucreStore.update()
+})
+
+const groupSelectOptions = computed(
+  () =>
+    soucreStore.groups?.map((group: Group) => ({
+      label: group.name,
+      value: group.id,
+    })) || [],
+)
 
 async function handleClick() {
-  await addSource(formValue.value)
-  await useSoucreStore().fetchGroupsAndSources()
-  useViewUiStore().closeModal()
+  if (formValue.value.groupId && formValue.value.url) {
+    await addSource(formValue.value)
+    await soucreStore.update()
+    modalStore.closeModal()
+  } else {
+    console.log('fuck')
+  }
 }
-
 </script>
 
 <template>
-  <n-card title="添加源">
+  <n-card title="添加图源">
     <n-form
       :model="formValue"
       :rules="rules"
@@ -46,26 +54,16 @@ async function handleClick() {
       label-placement="left"
       label-width="auto"
     >
-      <n-form-item label="URL">
-        <n-input v-model:value="formValue.sourceUrl" placeholder="请输入URL" />
-      </n-form-item>
-
-      <n-form-item label="类型">
-        <n-select
-          v-model:value="formValue.type"
-          placeholder="请选择类型"
-          :options="sourceStore.sourceTypeSelectOptions"
-        />
-      </n-form-item>
-
       <n-form-item label="组">
         <n-select
           v-model:value="formValue.groupId"
           placeholder="请选择组"
-          :options="sourceStore.groupSelectOptions"
+          :options="groupSelectOptions"
         />
       </n-form-item>
-
+      <n-form-item label="URL">
+        <n-input v-model:value="formValue.url" placeholder="请输入URL" />
+      </n-form-item>
       <n-form-item style="display: flex; justify-content: end">
         <n-button type="primary" @click="handleClick">创建</n-button>
       </n-form-item>

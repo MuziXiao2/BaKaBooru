@@ -12,7 +12,6 @@ public class AtlasResponseDTO {
     private String title;
     private String coverUrl;
     private String creator;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long sourceId;
 }

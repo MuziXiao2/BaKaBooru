@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Atlas, Source } from '@/types'
-import AtlasCard from '@/components/common/atlases-container/AtlasCard.vue'
+import AtlasCard from '@/components/common/container/atlases-container/AtlasCard.vue'
 
 const props = defineProps<{
   source: Source

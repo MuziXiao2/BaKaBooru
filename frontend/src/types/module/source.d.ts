@@ -1,10 +1,10 @@
 export interface Source {
+  id: number
   sn: number
   groupId: number
 
   name: string
-  type: string
-  sourceUrl: string
+  url: string
   ossUrl: string
   createAt: Date
   updatedAt: Date
@@ -16,10 +16,8 @@ export interface SourceRequestDTO {
 }
 
 export interface SourceReferenceDTO {
-  groupId: number
-
-  type: string
-  sourceUrl: string
+  groupId: number | null
+  url: string | null
 }
 
 export interface Group {

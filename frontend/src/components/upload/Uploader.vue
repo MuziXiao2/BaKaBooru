@@ -2,6 +2,8 @@
 import { useUploadStateStore } from '@/stores/modules/upload/upload-state.ts'
 import { useSoucreStore } from '@/stores'
 import { onMounted } from 'vue'
+import SourceSelect from '@/components/common/select/SourceSelect.vue'
+import type { Source } from '@/types'
 
 const sourceStore = useSoucreStore()
 const uploadStateStore = useUploadStateStore()
@@ -12,33 +14,21 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
 }
 
 onMounted(async () => {
-  await sourceStore.fetchGroupsAndSources()
-  uploadStateStore.updateGroupSelectOptions()
+  await sourceStore.update()
 })
 
-const handleGroupSelect = () => {
-  uploadStateStore.updateSourceSelectOptions()
+const handleSelect = (source: Source) => {
+  console.log(source)
 }
-
-const handleSourceSelect = () => {}
 </script>
 
 <template>
   <n-h1>上传图片</n-h1>
   <n-flex :wrap="false" class="select-container">
-    <n-select
-      v-model:value="uploadStateStore.currentGroupId"
-      @update:value="handleGroupSelect"
-      placeholder="请选择组"
-      :options="uploadStateStore.groupSelectOptions"
-      class="short-select"
-    />
-    <n-select
-      v-model:value="uploadStateStore.currentSourceId"
-      @update:value="handleSourceSelect"
-      placeholder="请选择图源"
-      :options="uploadStateStore.sourceSelectOptions"
-      class="short-select"
+    <source-select
+      :groups="sourceStore.groups"
+      :sources="sourceStore.sources"
+      :on-selected="handleSelect"
     />
     <n-button @click="uploadStateStore.saveData">保存</n-button>
   </n-flex>
@@ -50,7 +40,7 @@ const handleSourceSelect = () => {}
     action="http://localhost:8080/api?type=upload"
   >
     <n-upload-dragger>
-      <n-text style="font-size: 16px"> 点击或者拖动文件到该区域来上传</n-text>
+      <n-text style="font-size: 16px">点击或者拖动文件到该区域来上传</n-text>
     </n-upload-dragger>
   </n-upload>
 </template>

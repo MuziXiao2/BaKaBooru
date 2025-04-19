@@ -27,7 +27,7 @@ const menuOptions = computed(() => {
         props.sources
           .filter((source) => source.groupId === group.id)
           ?.map((source) => ({
-            key: source.sn,
+            key: source.id,
             group: group.id,
             label: () => h(NButton, { text: true }, { default: () => source.name }),
             icon: renderIcon(TestIcon),
@@ -49,7 +49,7 @@ const menuOptions = computed(() => {
 
 const handleSelected = (key: string) => {
   if (props.onSelected) {
-    props.onSelected(props.sources.find((source) => source.sn == key) || null)
+    props.onSelected(props.sources.find((source) => source.id == key) || null)
   }
 }
 </script>

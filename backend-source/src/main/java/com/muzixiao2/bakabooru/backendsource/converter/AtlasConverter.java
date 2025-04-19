@@ -29,7 +29,7 @@ public class AtlasConverter {
         atlasResponseDTO.setTitle(atlas.getTitle());
         atlasResponseDTO.setCoverUrl(atlas.getCoverUrl());
         atlasResponseDTO.setCreator(atlas.getCreator());
-        atlasResponseDTO.setCreateAt(atlas.getCreateAt());
+        atlasResponseDTO.setCreatedAt(atlas.getCreateAt());
         atlasResponseDTO.setUpdatedAt(atlas.getUpdatedAt());
 
         return atlasResponseDTO;

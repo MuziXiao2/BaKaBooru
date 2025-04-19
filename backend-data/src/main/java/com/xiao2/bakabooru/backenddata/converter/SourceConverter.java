@@ -25,11 +25,10 @@ public class SourceConverter {
     public static SourceResponseDTO toSourceResponseDTO(Source source) {
         SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
 
+        sourceResponseDTO.setId(source.getId());
         sourceResponseDTO.setGroupId(source.getGroupId());
         sourceResponseDTO.setSn(source.getSn());
-
         sourceResponseDTO.setName(source.getName());
-        sourceResponseDTO.setType(source.getType());
         sourceResponseDTO.setSourceUrl(source.getSourceUrl());
         sourceResponseDTO.setOssUrl(source.getOssUrl());
         sourceResponseDTO.setCreatedAt(source.getCreatedAt());

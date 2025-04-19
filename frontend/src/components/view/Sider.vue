@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Search from '@/components/view/sider/Search.vue'
-import SourceList from '@/components/common/sources-container/SourceList.vue'
+import SourceContainer from '@/components/common/container/sources-container/SourceContainer.vue'
 import CreateMenu from '@/components/view/sider/CreateMenu.vue'
 import { h, onMounted } from 'vue'
 import { useAtlasStore, useSoucreStore, useViewStateStore } from '@/stores'
@@ -32,7 +32,7 @@ const handleSelected = async (source: Source) => {
 </script>
 
 <template>
-  <source-list
+  <source-container
     title="图源"
     size="small"
     :groups="sourceStore.groups"
@@ -44,7 +44,7 @@ const handleSelected = async (source: Source) => {
     <template #extra>
       <create-menu />
     </template>
-  </source-list>
+  </source-container>
   <search />
 </template>
 

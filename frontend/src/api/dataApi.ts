@@ -1,5 +1,4 @@
-import type { AxiosResponse } from 'axios'
-import type { Group, SourceReferenceDTO } from '@/types'
+import type { SourceReferenceDTO } from '@/types'
 import api from '@/api/index.ts'
 
 const url = 'http://localhost:8080/api'
@@ -15,7 +14,7 @@ export async function createGroup(name: string) {
   return response.data.data
 }
 
-export async function getGroups(){
+export async function getGroups() {
   const response = await api.get(url, {
     params: {
       type: 'group',
