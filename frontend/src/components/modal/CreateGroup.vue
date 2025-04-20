@@ -5,13 +5,6 @@ import { useModalStore, useSoucreStore } from '@/stores'
 
 const formValue = ref<{ name: string | null }>({ name: null })
 
-const rules = {
-  name: {
-    required: true,
-    message: '图源组名称',
-    trigger: 'blur',
-  },
-}
 const modalStore = useModalStore()
 
 async function handleClick() {
@@ -27,7 +20,7 @@ async function handleClick() {
 
 <template>
   <n-card title="新建组">
-    <n-form :label-width="80" :model="formValue" :rules="rules" size="small" label-placement="left">
+    <n-form :label-width="80" :model="formValue" size="small" label-placement="left">
       <n-form-item label="名称" label-width="auto">
         <n-input v-model:value="formValue.name" placeholder="请输入组名" />
       </n-form-item>

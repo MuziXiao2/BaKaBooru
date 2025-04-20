@@ -13,8 +13,7 @@ public class SourceService {
     public SourceInfo getSourceInfo() {
         SourceInfo sourceInfo = new SourceInfo();
 
-        sourceInfo.setName(sourceConfig.getName());
-        sourceInfo.setSourceUrl(sourceConfig.getSourceUrl());
+        sourceInfo.setDefaultName(sourceConfig.getDefaultName());
         sourceInfo.setOssUrl(sourceConfig.getOssUrl());
         sourceInfo.setCreator(sourceConfig.getCreator());
         sourceInfo.setCreatedAt(sourceConfig.getCreatedAt());

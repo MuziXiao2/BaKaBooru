@@ -1,8 +1,17 @@
 import type { Source, AtlasRequestDTO, ImageRequestDTO, Atlas } from '@/types'
 import api from '@/api/index.ts'
 
+export async function getSourceInfo(source: Source) {
+  const response = await api.get(source.url, {
+    params: {
+      type: 'source',
+    },
+  })
+  return response.data.data
+}
+
 export async function getAtlases(source: Source) {
-  const response = await api.get(source.sourceUrl, {
+  const response = await api.get(source.url, {
     params: {
       type: 'atlas',
     },
@@ -19,7 +28,7 @@ export function createAtlas(atlas: AtlasRequestDTO) {
 }
 
 export async function getImages(source: Source, atlas: Atlas) {
-  const response = await api.get(source.sourceUrl, {
+  const response = await api.get(source.url, {
     params: {
       type: 'image',
       atlas_id: atlas.id,

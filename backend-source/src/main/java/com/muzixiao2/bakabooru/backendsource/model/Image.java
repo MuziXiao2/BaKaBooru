@@ -13,23 +13,22 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //图片序号
+    //序号
     @Column(name = "sn")
-    private Long sn;
-    //所属图集id
+    private Double sn;
+    //所属图集ID
     @Column(name = "atlas_id")
     private Long atlasId;
-    //图片uuid
+    //UUID
     @Column(name = "uuid", unique = true)
     private String uuid;
-
-    //图片标题
+    //标题
     @Column(name = "title")
     private String title;
-    //图片类型&后缀名(不含'.')
+    //文件后缀名
     @Column(name = "extension")
     private String extension;
-    //图片大小(字节)
+    //图片大小
     @Column(name = "size")
     private Long size;
 }

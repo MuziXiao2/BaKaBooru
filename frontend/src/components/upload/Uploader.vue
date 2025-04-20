@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import { useUploadStateStore } from '@/stores/modules/upload/upload-state.ts'
 import { useSoucreStore } from '@/stores'
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import SourceSelect from '@/components/common/select/SourceSelect.vue'
 import type { Source } from '@/types'
 
 const sourceStore = useSoucreStore()
 const uploadStateStore = useUploadStateStore()
 
-const handleFinish = ({ event }: { event?: ProgressEvent }) => {
-  const response = JSON.parse((event?.target as XMLHttpRequest).response)
-  uploadStateStore.addData(response.title, response.uuid, response.extension, response.size)
-}
-
 onMounted(async () => {
   await sourceStore.update()
 })
 
 const handleSelect = (source: Source) => {
-  console.log(source)
+  uploadStateStore.currentSource = source
 }
+
+const handleFinish = ({ event }: { event?: ProgressEvent }) => {
+  const response = JSON.parse((event?.target as XMLHttpRequest).response)
+  uploadStateStore.addData(response.title, response.uuid, response.extension, response.size)
+}
+
+const uploadUrl = computed(() => {
+  return uploadStateStore.currentSource
+    ? uploadStateStore.currentSource.url + '?type=upload'
+    : undefined
+})
 </script>
 
 <template>
@@ -37,7 +43,7 @@ const handleSelect = (source: Source) => {
     @finish="handleFinish"
     multiple
     directory-dnd
-    action="http://localhost:8080/api?type=upload"
+    :action="uploadUrl"
   >
     <n-upload-dragger>
       <n-text style="font-size: 16px">点击或者拖动文件到该区域来上传</n-text>

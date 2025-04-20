@@ -5,39 +5,31 @@ import { useSoucreStore } from '@/stores/common/source.ts'
 import { useModalStore } from '@/stores'
 import type { Group, SourceReferenceDTO } from '@/types'
 
-const soucreStore = useSoucreStore()
+const sourceStore = useSoucreStore()
 const modalStore = useModalStore()
-const rules = {
-  groupId: {
-    required: true,
-    message: '组',
-    trigger: 'blur',
-  },
-  url: {
-    required: true,
-    message: '图源URL',
-    trigger: 'blur',
-  },
-}
 
-const formValue = ref<SourceReferenceDTO>({ groupId: null, url: null })
+const formValue = ref<SourceReferenceDTO>({
+  groupId: null,
+  name: null,
+  url: null,
+})
 
 onMounted(async () => {
-  await soucreStore.update()
+  await sourceStore.update()
 })
 
 const groupSelectOptions = computed(
   () =>
-    soucreStore.groups?.map((group: Group) => ({
+    sourceStore.groups?.map((group: Group) => ({
       label: group.name,
       value: group.id,
     })) || [],
 )
 
 async function handleClick() {
-  if (formValue.value.groupId && formValue.value.url) {
+  if (formValue.value.groupId && formValue.value.name && formValue.value.url) {
     await addSource(formValue.value)
-    await soucreStore.update()
+    await sourceStore.update()
     modalStore.closeModal()
   } else {
     console.log('fuck')
@@ -49,7 +41,6 @@ async function handleClick() {
   <n-card title="添加图源">
     <n-form
       :model="formValue"
-      :rules="rules"
       size="small"
       label-placement="left"
       label-width="auto"
@@ -60,6 +51,9 @@ async function handleClick() {
           placeholder="请选择组"
           :options="groupSelectOptions"
         />
+      </n-form-item>
+      <n-form-item label="名称" label-width="auto">
+        <n-input v-model:value="formValue.name" placeholder="请输入图源名称" />
       </n-form-item>
       <n-form-item label="URL">
         <n-input v-model:value="formValue.url" placeholder="请输入URL" />

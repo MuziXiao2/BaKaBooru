@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import { createAtlas, addImage } from '@/api'
-import type { ImageRequestDTO, AtlasRequestDTO, CustomTreeOption } from '@/types'
+import type { ImageRequestDTO, AtlasRequestDTO, CustomTreeOption, Source } from '@/types'
 import type { SelectOption } from 'naive-ui'
 
 export const useUploadStateStore = defineStore('upload-state', {
   state: () => ({
-    currentGroupId: null as number | null,
-    currentSourceId: null as number | null,
+    currentSource: null as Source | null,
 
     groupSelectOptions: [] as SelectOption[],
     sourceSelectOptions: [] as SelectOption[],
@@ -21,7 +20,6 @@ export const useUploadStateStore = defineStore('upload-state', {
   }),
   getters: {},
   actions: {
-
     addData(title: string, uuid: string, extension: string, size: number) {
       const atlasKey = `${this.data.length}`
       const imageKey = uuid
@@ -44,7 +42,6 @@ export const useUploadStateStore = defineStore('upload-state', {
     },
 
     async saveData() {
-      console.log(this.data)
       for (const d of this.data) {
         const atlas = this.atlasesInfo[d.key]
         const response = await createAtlas(atlas)

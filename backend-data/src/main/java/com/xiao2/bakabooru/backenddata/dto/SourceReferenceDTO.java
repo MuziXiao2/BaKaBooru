@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class SourceReferenceDTO {
-    private Long groupId;
+    private String name;
     private String url;
+    private Long groupId;
 }

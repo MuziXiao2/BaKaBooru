@@ -25,6 +25,29 @@ public class ApiController {
     @Autowired
     private SourceService sourceService;
 
+    // GET请求
+    @GetMapping
+    public ResponseResult<?> getApi(
+            @RequestParam("type") String type,
+            @RequestParam(value = "atlas_id", required = false) Long atlasId) {
+        return switch (type) {
+            case "source" -> {
+                SourceInfo sourceInfo = sourceService.getSourceInfo();
+                yield ResponseResult.success(sourceInfo, "获取图源信息成功");
+            }
+            case "atlas" -> {
+                List<AtlasResponseDTO> atlases = atlasService.getAtlases();
+                yield ResponseResult.success(atlases, "获取图集列表成功");
+            }
+            case "image" -> {
+                List<ImageResponseDTO> images = imageService.getImages(atlasId);
+                yield ResponseResult.success(images, "获取图片列表成功");
+            }
+            default -> throw new IllegalArgumentException("无效的 type 参数");
+        };
+    }
+
+
     // POST请求
     @PostMapping
     public ResponseResult<?> postApi(
@@ -52,28 +75,6 @@ public class ApiController {
         } catch (Exception e) {
             throw new RuntimeException("请求体解析失败: " + e.getMessage(), e);
         }
-    }
-
-    // GET请求
-    @GetMapping
-    public ResponseResult<?> getApi(
-            @RequestParam("type") String type,
-            @RequestParam(value = "atlas_id", required = false) Long atlasId) {
-        return switch (type) {
-            case "source" -> {
-                SourceInfo sourceInfo = sourceService.getSourceInfo();
-                yield ResponseResult.success(sourceInfo, "获取图源信息成功");
-            }
-            case "atlas" -> {
-                List<AtlasResponseDTO> atlases = atlasService.getAtlases();
-                yield ResponseResult.success(atlases, "获取图集列表成功");
-            }
-            case "image" -> {
-                List<ImageResponseDTO> images = imageService.getImages(atlasId);
-                yield ResponseResult.success(images, "获取图片列表成功");
-            }
-            default -> throw new IllegalArgumentException("无效的 type 参数");
-        };
     }
 
     // 上传图片文件

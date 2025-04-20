@@ -1,27 +1,24 @@
-export interface Source {
+export interface Group {
   id: number
-  sn: number
-  groupId: number
-
   name: string
-  url: string
-  ossUrl: string
-  createAt: Date
-  updatedAt: Date
 }
 
-export interface SourceRequestDTO {
+export interface Source {
+  id: number
   name: string
-  port: number
+  url: string
+  groupId: number
+  addedAt: never
+
+  defaultName: string
+  ossUrl: string
+  creator: string
+  createdAt: never
+  updatedAt: never
 }
 
 export interface SourceReferenceDTO {
-  groupId: number | null
+  name: string | null
   url: string | null
-}
-
-export interface Group {
-  id: number
-  sn: number
-  name: string
+  groupId: number | null
 }

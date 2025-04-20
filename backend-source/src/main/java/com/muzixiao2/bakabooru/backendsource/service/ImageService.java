@@ -31,9 +31,9 @@ public class ImageService {
         if (!atlasRepository.existsById(atlasId))
             throw new IllegalArgumentException("图集不存在");
 
-        // 获取图片sn (!!!高并发下可能出问题!!!)
-        Long sn = imageRepository.countByAtlasId(atlasId);
-        image.setSn(sn);
+        // 获取顺序
+        Double maxSn =imageRepository.findMaxSn();
+        image.setSn(maxSn + 1.0);
 
         // 保存Image对象
         image = imageRepository.save(image);
@@ -44,7 +44,7 @@ public class ImageService {
     // 从图集获取所有图片
     public List<ImageResponseDTO> getImages(Long atlasId) {
         return imageRepository
-                .findByAtlasIdOrderBySnAsc(atlasId)
+                .findAllByAtlasIdOrderBySnAsc(atlasId)
                 .stream()
                 .map(ImageConverter::toImageResponseDTO)
                 .collect(Collectors.toList());

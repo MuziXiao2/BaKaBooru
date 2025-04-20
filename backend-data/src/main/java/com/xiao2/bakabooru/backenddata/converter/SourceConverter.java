@@ -9,15 +9,11 @@ import java.time.Instant;
 
 public class SourceConverter {
 
-    public static Source toSource(SourceInfo sourceInfo) {
+    public static Source toSource(SourceReferenceDTO sourceReferenceDTO) {
         Source source = new Source();
-        source.setName(sourceInfo.getName());
-        source.setSourceUrl(sourceInfo.getSourceUrl());
-        source.setOssUrl(sourceInfo.getOssUrl());
-        source.setCreator(sourceInfo.getCreator());
-        source.setCreatedAt(Instant.parse(sourceInfo.getCreatedAt()));
-        source.setUpdatedAt(Instant.parse(sourceInfo.getUpdatedAt()));
-
+        source.setName(sourceReferenceDTO.getName());
+        source.setUrl(sourceReferenceDTO.getUrl());
+        source.setGroupId(sourceReferenceDTO.getGroupId());
         return source;
     }
 
@@ -27,12 +23,9 @@ public class SourceConverter {
 
         sourceResponseDTO.setId(source.getId());
         sourceResponseDTO.setGroupId(source.getGroupId());
-        sourceResponseDTO.setSn(source.getSn());
         sourceResponseDTO.setName(source.getName());
-        sourceResponseDTO.setSourceUrl(source.getSourceUrl());
-        sourceResponseDTO.setOssUrl(source.getOssUrl());
-        sourceResponseDTO.setCreatedAt(source.getCreatedAt());
-        sourceResponseDTO.setUpdatedAt(source.getUpdatedAt());
+        sourceResponseDTO.setUrl(source.getUrl());
+        sourceResponseDTO.setAddedAt(source.getAddedAt());
 
         return sourceResponseDTO;
     }

@@ -3,6 +3,7 @@ package com.xiao2.bakabooru.backenddata.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
@@ -15,29 +16,20 @@ public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //图源组id
-    @Column(name = "group_id")
-    private Long groupId;
-    //图源序号
+    //序号
     @Column(name = "sn")
-    private Long sn;
-
+    private Double sn;
     //图源名称
     @Column(name = "name")
     private String name;
     //图源URL
-    @Column(name = "source_url")
-    private String sourceUrl;
-    //OSSURL
-    @Column(name = "oss_url")
-    private String ossUrl;
-    //图源者
-    @Column(name = "creator")
-    private String creator;
-    //创建时间
-    @Column(name = "created_at")
-    private Instant createdAt;
-    //更新时间
-    @Column(name = "updated_at")
-    private Instant updatedAt;
+    @Column(name = "url")
+    private String url;
+    //所属组ID
+    @Column(name = "group_id")
+    private Long groupId;
+    //添加时间
+    @Column(name = "added_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private Instant addedAt;
 }

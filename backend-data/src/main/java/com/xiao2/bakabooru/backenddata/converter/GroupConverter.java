@@ -18,7 +18,6 @@ public class GroupConverter {
     public static GroupResponseDTO toGroupResponseDTO(Group group) {
         GroupResponseDTO groupResponseDTO = new GroupResponseDTO();
         groupResponseDTO.setId(group.getId());
-        groupResponseDTO.setSn(group.getSn());
         groupResponseDTO.setName(group.getName());
         return groupResponseDTO;
     }

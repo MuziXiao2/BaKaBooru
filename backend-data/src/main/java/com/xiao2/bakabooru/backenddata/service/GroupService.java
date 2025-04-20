@@ -20,14 +20,14 @@ public class GroupService {
 
     //添加组
     public Group createGroup(GroupRequestDTO groupRequestDTO) {
-        // 创建Group对象
+        // 创建对象
         Group group = GroupConverter.toGroup(groupRequestDTO);
 
-        // 获取sn (!!!高并发下可能出问题!!!)
-        Long sn = groupRepository.count() + 1;
-        group.setSn(sn);
+        // 获取顺序
+        Double maxSn = groupRepository.findMaxSn();
+        group.setSn(maxSn + 1.0);
 
-        // 保存Group对象
+        // 保存对象
         groupRepository.save(group);
         return group;
     }

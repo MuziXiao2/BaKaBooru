@@ -9,12 +9,8 @@ import java.time.Instant;
 @NoArgsConstructor
 public class SourceResponseDTO {
     private Long id;
-    private Long sn;
-    private Long groupId;
     private String name;
-    private String type;
-    private String sourceUrl;
-    private String ossUrl;
-    private Instant createdAt;
-    private Instant updatedAt;
+    private String url;
+    private Long groupId;
+    private Instant addedAt;
 }

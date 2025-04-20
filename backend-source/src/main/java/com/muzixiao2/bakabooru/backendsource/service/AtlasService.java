@@ -17,21 +17,19 @@ public class AtlasService {
     @Autowired
     private AtlasRepository atlasRepository;
 
-    // 给图源添加图集
+    // 给图源创建图集
     public Atlas createAtlas(AtlasRequestDTO atlasRequestDTO) {
         // 创建Atlas对象
         Atlas atlas = AtlasConverter.toAtlas(atlasRequestDTO);
-
-        //保存Atlas对象
+        // 保存Atlas对象
         atlas = atlasRepository.save(atlas);
-
         return atlas;
     }
 
     // 获取所有图集
     public List<AtlasResponseDTO> getAtlases() {
         return atlasRepository
-                .findAll()
+                .findAllByOrderBySnAsc()
                 .stream()
                 .map(AtlasConverter::toAtlasResponseDTO)
                 .collect(Collectors.toList());

@@ -3,6 +3,7 @@ package com.muzixiao2.bakabooru.backendsource.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Data
@@ -12,6 +13,6 @@ public class AtlasResponseDTO {
     private String title;
     private String coverUrl;
     private String creator;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }
