@@ -19,7 +19,7 @@ const {
     <n-layout-content
       :native-scrollbar="false"
       content-style="
-          height:100%;
+          height: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -53,7 +53,12 @@ const {
         </template>
 
         <template #header-extra>
-          <n-float-button :right="15" :top="15" shape="square" @click="viewUiStore.closeViewAtlasModal()">
+          <n-float-button
+            :right="15"
+            :top="15"
+            shape="square"
+            @click="viewUiStore.closeViewAtlasModal()"
+          >
             <CloseIcon />
           </n-float-button>
         </template>

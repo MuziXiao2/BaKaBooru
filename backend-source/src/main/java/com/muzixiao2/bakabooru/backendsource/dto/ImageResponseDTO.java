@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImageResponseDTO {
     private Long id;
-    private Long sn;
-    private Long atlasId;
+    private Double sn;
     private String uuid;
-
     private String title;
     private String extension;
     private Long size;
+    private Long atlasId;
 }

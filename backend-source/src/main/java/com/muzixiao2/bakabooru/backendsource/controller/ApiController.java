@@ -79,8 +79,8 @@ public class ApiController {
 
     // 上传图片文件
     @PostMapping(params = "type=upload")
-    public UploadResponseDTO uploadImage(@RequestParam("file") MultipartFile file) {
-        return MinIOUtil.upload(file);
+    public ResponseResult<UploadResponseDTO> uploadImage(@RequestParam("file") MultipartFile file) {
+        return  ResponseResult.success(MinIOUtil.upload(file), "上传图片成功");
     }
 
 }

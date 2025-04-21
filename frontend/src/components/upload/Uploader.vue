@@ -17,8 +17,8 @@ const handleSelect = (source: Source) => {
 }
 
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
-  const response = JSON.parse((event?.target as XMLHttpRequest).response)
-  uploadStateStore.addData(response.title, response.uuid, response.extension, response.size)
+  const response = JSON.parse((event?.target as XMLHttpRequest).response).data
+  uploadStateStore.addData(response)
 }
 
 const uploadUrl = computed(() => {

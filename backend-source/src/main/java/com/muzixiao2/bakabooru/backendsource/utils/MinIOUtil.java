@@ -75,24 +75,20 @@ public class MinIOUtil {
                     .build();
             StatObjectResponse stat = minioClient.statObject(statArgs);
 
-            // 构造永久访问 URL
+            // 获取信息
             Long size = stat.size();
-            String url = String.format("%s/%s/%s", endpoint, bucketName, uuid);
-
             String originalFilename = file.getOriginalFilename();
-
             String title, extension;
             int pointIndex = originalFilename.lastIndexOf(".");
             if (pointIndex != -1) {
                 title = originalFilename.substring(0, pointIndex);
-                extension = originalFilename.substring(pointIndex + 1);
+                extension = originalFilename.substring(pointIndex);
             } else {
                 title = originalFilename;
                 extension = "";
             }
 
-
-            return new UploadResponseDTO(title, uuid, extension, url, size);
+            return new UploadResponseDTO(title, uuid, extension, size);
         } catch (MinioException e) {
             throw new RuntimeException("Failed to upload file to MinIO: " + e.getMessage(), e);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
