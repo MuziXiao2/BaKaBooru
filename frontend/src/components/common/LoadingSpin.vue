@@ -1,10 +1,10 @@
-<template>
-  <n-spin :show="true" description="加载中..."/>
-</template>
-
 <script setup lang="ts">
 import { NSpin } from 'naive-ui'
 </script>
+
+<template>
+  <n-spin :show="true" description="加载中..." />
+</template>
 
 <style scoped>
 .n-spin {

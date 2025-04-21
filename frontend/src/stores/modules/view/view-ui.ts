@@ -14,10 +14,6 @@ export const useViewUiStore = defineStore('view-ui', {
   getters: {},
   actions: {
     async openViewAtlasModal(modal: ModalApiInjection) {
-      const viewStateStore = useViewStateStore()
-      const imageStore = useImageStore()
-      await imageStore.update(viewStateStore.currentSource, viewStateStore.currentAtlas)
-      viewStateStore.setCurrentImage(imageStore.images[0])
 
       const modalStore = useModalStore()
       modalStore.openModal(modal, 'ViewAtlas')

@@ -8,12 +8,11 @@ public class ImageConverter {
     public static Image toImage(ImageRequestDTO imageRequestDTO) {
         Image image = new Image();
 
-        image.setAtlasId(imageRequestDTO.getAtlasId());
         image.setUuid(imageRequestDTO.getUuid());
-
+        image.setSize(imageRequestDTO.getSize());
         image.setTitle(imageRequestDTO.getTitle());
         image.setExtension(imageRequestDTO.getExtension());
-        image.setSize(imageRequestDTO.getSize());
+        image.setAtlasId(imageRequestDTO.getAtlasId());
 
         return image;
     }
@@ -25,7 +24,6 @@ public class ImageConverter {
         imageResponseDTO.setSn(image.getSn());
         imageResponseDTO.setAtlasId(image.getAtlasId());
         imageResponseDTO.setUuid(image.getUuid());
-
         imageResponseDTO.setTitle(image.getTitle());
         imageResponseDTO.setExtension(image.getExtension());
         imageResponseDTO.setSize(image.getSize());

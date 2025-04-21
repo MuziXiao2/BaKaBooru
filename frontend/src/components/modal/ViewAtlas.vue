@@ -3,15 +3,28 @@ import ImageList from '@/components/common/ImageList.vue'
 import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
 import { storeToRefs } from 'pinia'
 import { CloseOutline as CloseIcon } from '@vicons/ionicons5'
-import { useViewUiStore } from '@/stores'
+import { useImageStore, useViewUiStore } from '@/stores'
+import { onMounted } from 'vue'
+import type { Image } from '@/types'
 
+const imageStore = useImageStore()
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
+
 const {
   currentImage: image,
   currentAtlas: atlas,
   currentSource: source,
 } = storeToRefs(viewStateStore)
+
+onMounted(async () => {
+  await imageStore.update(viewStateStore.currentSource, viewStateStore.currentAtlas)
+  viewStateStore.setCurrentImage(imageStore.images[0])
+})
+
+function handleClick(image: Image) {
+  viewStateStore.setCurrentImage(image)
+}
 </script>
 
 <template>
@@ -70,7 +83,11 @@ const {
           <n-p> 创建日期:{{ atlas.createAt }}</n-p>
           <n-divider />
           <n-h1>Images</n-h1>
-          <image-list />
+          <image-list
+            :images="imageStore.images"
+            :is-loaded="imageStore.isImagesLoaded"
+            :on-click="handleClick"
+          />
           <n-divider />
           <n-h1>Tag</n-h1>
           test1

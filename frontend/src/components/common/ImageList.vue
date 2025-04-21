@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import type Image from '@/types'
-import { useImageStore } from '@/stores/common/image.ts'
-import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
+import type { Image } from '@/types'
+import LoadingSpin from '@/components/common/LoadingSpin.vue'
+import { computed } from 'vue'
 
-const imageStore = useImageStore()
-const viewStateStore = useViewStateStore()
+const props = defineProps<{
+  images: Image[]
+  isLoaded: boolean
+  onClick?: (image: Image) => void
+}>()
 
-const handleClick = async (image: Image) => {
-  viewStateStore.setCurrentImage(image)
+const handleClick = (row) => {
+  if (props.onClick) {
+    props.onClick(props.images[row.sn])
+  }
 }
 
 const columns = [
@@ -25,16 +30,23 @@ const columns = [
   },
 ]
 
-const rowProps = (image: Image) => {
-  return {
-    style: 'cursor: pointer;',
-    onClick: () => handleClick(image),
-  }
-}
+const rowProps = (row) => ({
+  style: 'cursor: pointer;',
+  onClick: () => handleClick(row),
+})
+
+const data = computed(() =>
+  props.images.map((image, index) => ({
+    sn: index,
+    title: image.title,
+    size: image.size,
+  })),
+)
 </script>
 
 <template>
-  <n-data-table :columns="columns" :data="imageStore.images" :row-props="rowProps" />
+  <n-data-table v-if="isLoaded" :columns="columns" :data="data" :row-props="rowProps" />
+  <loading-spin v-else />
 </template>
 
 <style scoped></style>

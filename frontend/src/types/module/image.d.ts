@@ -1,11 +1,10 @@
 export interface Image {
   id: number
-  atlasId: number
   uuid: string
-
+  size: number
   title: string
   extension: string
-  size: number
+  atlasId: number
 }
 
 export interface ImageRequestDTO {

@@ -7,7 +7,6 @@ import Default from '@/components/view/atlases/Default.vue'
 import ContextMenu from '@/components/view/atlases/ContextMenu.vue'
 import AtlasesContainer from '@/components/common/container/atlases-container/AtlasesContainer.vue'
 
-
 const modal = useModal()
 const viewUiStore = useViewUiStore()
 const viewStateStore = useViewStateStore()
