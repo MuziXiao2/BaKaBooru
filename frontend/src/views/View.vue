@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ViewLayout from '@/components/layout/ViewLayout.vue'
+import ViewLayout from '@/views/layout/ViewLayout.vue'
 import Sider from '@/components/view/Sider.vue'
 import Atlases from '@/components/view/Atlases.vue'
 

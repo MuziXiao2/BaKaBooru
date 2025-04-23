@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import View from '@/views/View.vue'
 import Upload from '@/views/Upload.vue'
+import Tag from '@/views/Tag.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      // 重定向到 /view
+      // 默认
       path: '/',
       redirect: '/view',
     },
@@ -23,6 +24,20 @@ const router = createRouter({
       name: 'Upload',
       component: Upload,
       meta: { navItem: 'upload', title: 'Upload' },
+    },
+    {
+      // 标签页
+      path: '/tag',
+      name: 'Tag',
+      component: Tag,
+      meta: { navItem: 'tag', title: 'Tag' },
+    },
+    {
+      // 设置页
+      path: '/tag',
+      name: 'Tag',
+      component: Tag,
+      meta: { navItem: 'tag', title: 'Tag' },
     },
   ],
 })

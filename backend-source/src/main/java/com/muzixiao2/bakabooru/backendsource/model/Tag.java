@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+import java.util.HashSet;
+
 @Entity
 @Table(name = "tag")
 @Data
@@ -14,10 +17,11 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name",nullable = false,unique = true)
+    //名称
     private String name;
+    //描述
+    private String description;
 
-    @Column(name = "group_name")
-    private String groupName;
-
+    @ManyToMany(mappedBy = "tags")
+    private Set<Atlas> atlas = new HashSet<>();
 }

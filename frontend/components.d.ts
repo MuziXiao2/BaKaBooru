@@ -7,16 +7,19 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AddSource: typeof import('./src/components/modal/AddSource.vue')['default']
+    AddSource: typeof import('./src/components/modal/view/AddSource.vue')['default']
     AppLayout: typeof import('./src/components/layout/AppLayout.vue')['default']
     AtlasCard: typeof import('./src/components/common/container/atlases-container/AtlasCard.vue')['default']
+    AtlasCardList: typeof import('./src/components/common/container/atlases-container/AtlasCardList.vue')['default']
     AtlasContainer: typeof import('./src/components/common/atlases-container/AtlasContainer.vue')['default']
     Atlases: typeof import('./src/components/view/Atlases.vue')['default']
+    AtlasesCardList: typeof import('./src/components/common/container/atlases-container/AtlasesCardList.vue')['default']
     AtlasesContainer: typeof import('./src/components/common/container/atlases-container/AtlasesContainer.vue')['default']
     ContextMenu: typeof import('./src/components/view/atlases/ContextMenu.vue')['default']
-    CreateGroup: typeof import('./src/components/modal/CreateGroup.vue')['default']
+    CreateGroup: typeof import('./src/components/modal/view/CreateGroup.vue')['default']
     CreateMenu: typeof import('./src/components/view/sider/CreateMenu.vue')['default']
     Default: typeof import('./src/components/view/atlases/Default.vue')['default']
+    DefaultPage: typeof import('./src/components/view/atlases/DefaultPage.vue')['default']
     GroupSelect: typeof import('./src/components/common/select/GroupSelect.vue')['default']
     ImageList: typeof import('./src/components/common/ImageList.vue')['default']
     LoadingSpin: typeof import('./src/components/common/LoadingSpin.vue')['default']
@@ -54,13 +57,14 @@ declare module 'vue' {
     Search: typeof import('./src/components/view/sider/Search.vue')['default']
     ShowOrEdit: typeof import('./src/components/common/ShowOrEdit.vue')['default']
     Sider: typeof import('./src/components/view/Sider.vue')['default']
-    SourceContainer: typeof import('./src/components/common/container/sources-container/SourceContainer.vue')['default']
     SourceList: typeof import('./src/components/common/container/sources-container/SourceList.vue')['default']
     SourceSelect: typeof import('./src/components/common/select/SourceSelect.vue')['default']
+    TagList: typeof import('./src/components/common/container/tag-container/TagList.vue')['default']
+    TagTable: typeof import('./src/components/common/container/tag-container/TagTable.vue')['default']
     UploadedList: typeof import('./src/components/upload/UploadedList.vue')['default']
     Uploader: typeof import('./src/components/upload/Uploader.vue')['default']
     UploadLayout: typeof import('./src/components/layout/UploadLayout.vue')['default']
-    ViewAtlas: typeof import('./src/components/modal/ViewAtlas.vue')['default']
+    ViewAtlas: typeof import('./src/components/modal/view/ViewAtlas.vue')['default']
     ViewLayout: typeof import('./src/components/layout/ViewLayout.vue')['default']
   }
 }

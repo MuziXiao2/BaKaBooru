@@ -1,7 +1,7 @@
 import { h } from 'vue'
-import AddSource from '@/components/modal/AddSource.vue'
-import ViewAtlas from '@/components/modal/ViewAtlas.vue'
-import CreateGroup from '@/components/modal/CreateGroup.vue'
+import AddSource from '@/components/modal/view/AddSource.vue'
+import ViewAtlas from '@/components/modal/view/ViewAtlas.vue'
+import CreateGroup from '@/components/modal/view/CreateGroup.vue'
 import type { ModalProps } from 'naive-ui'
 
 interface ModalConfig extends ModalProps {

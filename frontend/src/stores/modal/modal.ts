@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type { ModalApiInjection } from 'naive-ui/es/modal/src/ModalProvider'
 import type { ModalReactive } from 'naive-ui'
-import { modalList } from '@/stores/modules/modal/modalList.ts'
+import { modalList } from '@/stores/modal/modalList.ts'
 
 export const useModalStore = defineStore('modal', {
   state: () => ({

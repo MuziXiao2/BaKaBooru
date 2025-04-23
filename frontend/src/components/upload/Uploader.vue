@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUploadStateStore } from '@/stores/modules/upload/upload-state.ts'
+import { useUploadStateStore } from '@/stores/upload/upload-state.ts'
 import { useSoucreStore } from '@/stores'
 import { computed, onMounted } from 'vue'
 import SourceSelect from '@/components/common/select/SourceSelect.vue'

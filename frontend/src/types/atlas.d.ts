@@ -4,7 +4,7 @@ export interface Atlas {
   coverUrl: string
   creator: string
   updatedAt: Date
-  createAt: Date
+  createdAt: Date
   sourceId: number
 }
 

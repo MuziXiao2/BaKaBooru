@@ -1,5 +1,8 @@
-export type * from './module/atlas'
-export type * from './module/image'
-export type * from './module/source'
-export type * from './module/upload'
-export type * from './module/global'
+export type * from './atlas'
+export type * from './image'
+export type * from './source'
+export type * from './tag'
+
+export type * from './upload'
+export type * from './global'
+

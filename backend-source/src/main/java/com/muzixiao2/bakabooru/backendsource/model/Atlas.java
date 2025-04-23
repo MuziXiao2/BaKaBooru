@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.time.Instant;
-import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "atlas")
@@ -38,4 +40,12 @@ public class Atlas {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "atlas_tags",
+            joinColumns = @JoinColumn(name = "atlas_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
 }

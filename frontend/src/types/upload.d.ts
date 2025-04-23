@@ -1,5 +1,5 @@
 import type { TreeOption } from 'naive-ui'
-import type { ImageResponseDTO } from '@/types'
+import type { ImageResponseDTO } from '@/types/index'
 
 export interface CustomTreeOption extends TreeOption {
   type: 'Image' | 'Atlas'

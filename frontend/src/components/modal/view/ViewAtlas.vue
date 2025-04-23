@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ImageList from '@/components/common/ImageList.vue'
-import { useViewStateStore } from '@/stores/modules/view/view-state.ts'
+import { useViewStateStore } from '@/stores/view/view-state.ts'
 import { storeToRefs } from 'pinia'
 import { CloseOutline as CloseIcon } from '@vicons/ionicons5'
 import { useImageStore, useViewUiStore } from '@/stores'
@@ -80,7 +80,7 @@ function handleClick(image: Image) {
           <n-p> 标题: {{ atlas.title }}</n-p>
           <n-p> 创建者:{{ atlas.creator }}</n-p>
           <n-p> 更新日期:{{ atlas.updatedAt }}</n-p>
-          <n-p> 创建日期:{{ atlas.createAt }}</n-p>
+          <n-p> 创建日期:{{ atlas.createdAt }}</n-p>
           <n-divider />
           <n-h1>Images</n-h1>
           <image-list
@@ -90,13 +90,9 @@ function handleClick(image: Image) {
           />
           <n-divider />
           <n-h1>Tag</n-h1>
-          test1
-          <br />
-          test2
-          <br />
-          test3
-          <br />
-          test4
+          <n-p>test4</n-p>
+          <n-p>test5</n-p>
+          <n-p>test6</n-p>
           <n-divider />
           <n-h1>Action</n-h1>
           <n-button>Test1</n-button>

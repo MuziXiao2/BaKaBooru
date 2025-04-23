@@ -1,4 +1,4 @@
-import type { Source, ImageRequestDTO, Atlas } from '@/types'
+import type { Source, Atlas } from '@/types'
 import api from '@/api/index.ts'
 
 export async function getSourceInfo(source: Source) {
