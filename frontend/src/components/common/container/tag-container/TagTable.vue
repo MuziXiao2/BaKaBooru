@@ -27,7 +27,7 @@ function rowProps(row) {
   return {
     style: 'cursor: pointer;',
     onClick: () => {
-      props.onClick()
+      props.onClick(props.tags[row.key])
     },
   }
 }

@@ -1,50 +1,19 @@
 <script setup lang="ts">
 import TagLayout from '@/views/layout/TagLayout.vue'
+import TagTable from '@/components/common/container/tag-container/TagTable.vue'
+import { useTagStore } from '@/stores/common/tag.ts'
+import { onMounted } from 'vue'
 
-const columns = [
-  {
-    title: 'Name',
-    key: 'name',
-  },
-  {
-    title: 'Count',
-    key: 'count',
-  },
-  {
-    title: 'Description',
-    key: 'description',
-  },
-]
+const tagStore = useTagStore()
 
-const data = [
-  {
-    key: 0,
-    name: 'a',
-    count: 1,
-    description: '666',
-  },
-  {
-    key: 1,
-    name: 'b',
-    count: 1,
-    description: '666',
-  },
-  {
-    key: 2,
-    name: 'c',
-    count: 1,
-    description: '666',
-  },
-]
-
-
-
+onMounted(() => tagStore.update())
 </script>
 
 <template>
   <tag-layout>
-    <template #filter> 666 </template>
+    <template #filter> 666</template>
     <template #list>
+      <tag-table :tags="tagStore.tags" :is-loaded="tagStore.isTagsLoaded" />
     </template>
   </tag-layout>
 </template>
