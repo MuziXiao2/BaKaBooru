@@ -5,14 +5,15 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class AtlasResponseDTO {
-    private Long id;
+    private String uuid;
     private String title;
-    private String coverUrl;
     private String creator;
+    private String description;
     private Instant createdAt;
     private Instant updatedAt;
 }

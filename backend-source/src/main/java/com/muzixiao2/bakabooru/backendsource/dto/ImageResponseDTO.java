@@ -1,16 +1,17 @@
 package com.muzixiao2.bakabooru.backendsource.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ImageResponseDTO {
-    private Long id;
-    private Double sn;
-    private String uuid;
+    private String hash;
     private String title;
-    private String extension;
+    private String url;
     private Long size;
-    private Long atlasId;
+    private String originalFileName;
+    private String extension;
 }

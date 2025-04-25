@@ -5,6 +5,5 @@ import lombok.Data;
 
 @Data
 public class SourceRequestDTO {
-    private String name;
-    private Long port;
+
 }

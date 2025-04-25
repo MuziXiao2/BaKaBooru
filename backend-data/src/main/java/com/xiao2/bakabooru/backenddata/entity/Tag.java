@@ -1,11 +1,11 @@
-package com.muzixiao2.bakabooru.backendsource.model;
+package com.xiao2.bakabooru.backenddata.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tag")

@@ -1,4 +1,4 @@
-package com.muzixiao2.bakabooru.backendsource.model;
+package com.muzixiao2.bakabooru.backendsource.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,22 +16,22 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 public class Atlas {
-
+    //UUID
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    //序号
-    @Column(name = "sn")
-    private Double sn;
+    @Column(nullable = false, unique = true, updatable = false)
+    private String uuid;
     //标题
-    @Column(name = "name")
+    @Column(name = "title")
     private String title;
-    //封面url
-    @Column(name = "cover_url")
-    private String coverUrl;
     //创建者
     @Column(name = "creator")
     private String creator;
+    //描述
+    @Column(name = "description")
+    private String description;
+    //封面哈希值
+    @Column(name = "cover_hash")
+    private String coverHash;
     //创建时间
     @Column(name = "created_at")
     @CreationTimestamp
@@ -41,6 +41,7 @@ public class Atlas {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    //包含标签
     @ManyToMany
     @JoinTable(
             name = "atlas_tags",

@@ -1,51 +1,65 @@
 package com.xiao2.bakabooru.backenddata.service;
 
-import com.xiao2.bakabooru.backenddata.converter.SourceConverter;
 import com.xiao2.bakabooru.backenddata.dto.*;
-import com.xiao2.bakabooru.backenddata.model.Source;
+import com.xiao2.bakabooru.backenddata.entity.Group;
+import com.xiao2.bakabooru.backenddata.entity.Source;
+import com.xiao2.bakabooru.backenddata.mapper.GroupMapper;
+import com.xiao2.bakabooru.backenddata.mapper.SourceMapper;
+import com.xiao2.bakabooru.backenddata.repository.GroupRepository;
 import com.xiao2.bakabooru.backenddata.repository.SourceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class SourceService {
 
-    @Autowired
-    private SourceRepository sourceRepository;
+    private final SourceMapper sourceMapper;
+    private final GroupRepository groupRepository;
+    private final SourceRepository sourceRepository;
 
+    public SourceService(SourceMapper sourceMapper, GroupRepository groupRepository, SourceRepository sourceRepository) {
+        this.sourceMapper = sourceMapper;
+        this.groupRepository = groupRepository;
+        this.sourceRepository = sourceRepository;
+    }
 
     // 创建图源
-    public Source createSource(SourceRequestDTO sourceRequestDTO) {
-        return null;//后期完成
+    public SourceResponseDTO createSource(SourceRequestDTO sourceRequestDTO) {
+        // TODO:后期完成
+        return null;
     }
 
     // 添加图源
-    public Source addSource(SourceReferenceDTO sourceReferenceDTO) {
-        // 创建对象
-        Source source = SourceConverter.toSource(sourceReferenceDTO);
+    public SourceResponseDTO addSource(SourceReferenceDTO sourceReferenceDTO) {
+        // 创建实体
+        Source source = sourceMapper.toEntity(sourceReferenceDTO);
 
-        // 获取顺序
-        Double maxSn = sourceRepository.findMaxSn();
-        source.setSn(maxSn + 1.0);
+        // 添加组
+        String name = source.getName();
+        if (!groupRepository.existsByName(name)) {
+            Group group = new Group();
+            group.setName(name);
+            groupRepository.save(group);
+        }
 
-        // 保存对象
+        // 保存实体
         sourceRepository.save(source);
-        return source;
+
+        // 返回结果
+        return sourceMapper.toResponseDTO(source);
     }
 
     // 获取所有图源
-    public List<SourceResponseDTO> getSources() {
-        List<Source> sources = sourceRepository.findAllByOrderBySnAsc();
+    public List<SourceResponseDTO> getAllSource() {
+        List<Source> sources = sourceRepository.findAllByOrderByAddedAtAsc();
         return sources
                 .stream()
-                .map(SourceConverter::toSourceResponseDTO)
+                .map(sourceMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
-
 
 }

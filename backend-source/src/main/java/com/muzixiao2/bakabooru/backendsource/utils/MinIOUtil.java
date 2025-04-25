@@ -1,98 +1,107 @@
 package com.muzixiao2.bakabooru.backendsource.utils;
 
+import com.muzixiao2.bakabooru.backendsource.config.MinioProperties;
 import com.muzixiao2.bakabooru.backendsource.dto.UploadResponseDTO;
 import io.minio.*;
-import io.minio.errors.MinioException;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
 
+@Component
 public class MinIOUtil {
 
-    private static final MinioClient minioClient = MinioClient.builder()
-            .endpoint("http://localhost:9000")
-            .credentials("ga9t9ShVs41vivkX0zaR", "fjogwAu69vI4g8ZpbftsbVMjJno3oBShX77wSA9p")
-            .build();
+    private final MinioClient minioClient;
+    private final String bucketName;
+    private final int urlExpirySeconds;
 
-    private static final String bucketName = "bakabooru";
-    private static final String endpoint = "http://localhost:9000"; // 与 MinioClient 的 endpoint 保持一致
+    public MinIOUtil(MinioProperties properties) {
+        this.bucketName = properties.getBucketName();
+        this.urlExpirySeconds = properties.getUrlExpiry() != null ? properties.getUrlExpiry() : 3600;
+        this.minioClient = MinioClient.builder()
+                .endpoint(properties.getEndpoint())
+                .credentials(properties.getAccessKey(), properties.getSecretKey())
+                .build();
 
-    static {
         try {
-            boolean bucketExists = minioClient.bucketExists(
-                    BucketExistsArgs.builder()
-                            .bucket(bucketName)
-                            .build());
-
-            if (!bucketExists) {
-                minioClient.makeBucket(
-                        MakeBucketArgs.builder()
-                                .bucket(bucketName)
-                                .build());
+            if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
-        } catch (MinioException e) {
-            System.out.println("MinIO error occurred: " + e.getMessage());
-            System.out.println("HTTP trace: " + e.httpTrace());
-            throw new RuntimeException("Failed to initialize MinIO bucket", e);
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException("Failed to initialize MinIO bucket", e);
+        } catch (Exception e) {
+            throw new RuntimeException("初始化MinIO桶失败", e);
         }
     }
 
     /**
-     * 上传文件到 MinIO 并返回文件信息
-     *
-     * @param file 上传的文件
-     * @return UploadResponseDTO 包含文件大小和永久访问 URL
-     * @throws IllegalArgumentException 如果文件为空或无效
+     * 利用 Commons Codec 计算MultipartFile的SHA-256哈希值（16进制字符串）
      */
-    public static UploadResponseDTO upload(MultipartFile file) {
+    public String calculateHash(MultipartFile file) {
+        try (InputStream inputStream = file.getInputStream()) {
+            return DigestUtils.sha256Hex(inputStream);
+        } catch (Exception e) {
+            throw new RuntimeException("计算文件哈希失败", e);
+        }
+    }
+
+    /**
+     * 上传文件到MinIO，objectKey由文件内容hash生成
+     */
+    public UploadResponseDTO upload(MultipartFile file) {
         if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("Uploaded file cannot be null or empty");
+            throw new IllegalArgumentException("上传文件不能为空");
         }
 
-        String uuid = UUID.randomUUID().toString();
+        try {
+            // 计算文件hash作为objectKey
+            String hash = calculateHash(file);
 
+            // 重新获取流上传文件
+            try (InputStream inputStream2 = file.getInputStream()) {
+                minioClient.putObject(
+                        PutObjectArgs.builder()
+                                .bucket(bucketName)
+                                .object(hash)
+                                .stream(inputStream2, file.getSize(), -1)
+                                .contentType(file.getContentType())
+                                .build());
+            }
 
-        try (InputStream inputStream = file.getInputStream()) {
-            // 上传文件
-            minioClient.putObject(
-                    PutObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(uuid)
-                            .stream(inputStream, file.getSize(), -1)
-                            .contentType(file.getContentType())
-                            .build());
-
-            // 获取文件元数据
-            StatObjectArgs statArgs = StatObjectArgs.builder()
-                    .bucket(bucketName)
-                    .object(uuid)
-                    .build();
-            StatObjectResponse stat = minioClient.statObject(statArgs);
-
-            // 获取信息
-            Long size = stat.size();
             String originalFilename = file.getOriginalFilename();
-            String title, extension;
-            int pointIndex = originalFilename.lastIndexOf(".");
-            if (pointIndex != -1) {
-                title = originalFilename.substring(0, pointIndex);
-                extension = originalFilename.substring(pointIndex);
+            String title;
+            String extension;
+            int idx = originalFilename != null ? originalFilename.lastIndexOf('.') : -1;
+            if (idx != -1) {
+                title = originalFilename.substring(0, idx);
+                extension = originalFilename.substring(idx); // 保留点号
             } else {
-                title = originalFilename;
+                title = originalFilename != null ? originalFilename : "";
                 extension = "";
             }
 
-            return new UploadResponseDTO(title, uuid, extension, size);
-        } catch (MinioException e) {
-            throw new RuntimeException("Failed to upload file to MinIO: " + e.getMessage(), e);
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException("Failed to upload file to MinIO", e);
+            return new UploadResponseDTO(title, hash, extension, file.getSize());
+
+        } catch (Exception e) {
+            throw new RuntimeException("上传文件到MinIO失败", e);
+        }
+    }
+
+    /**
+     * 根据图片hash生成带令牌的临时访问URL
+     *
+     * @param objectKey 图片唯一标识（hash）
+     * @return 带令牌的临时访问URL
+     */
+    public String generatePresignedUrl(String objectKey) {
+        try {
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .bucket(bucketName)
+                            .object(objectKey)
+                            .expiry(urlExpirySeconds)
+                            .build());
+        } catch (Exception e) {
+            throw new RuntimeException("生成带令牌临时链接失败", e);
         }
     }
 }

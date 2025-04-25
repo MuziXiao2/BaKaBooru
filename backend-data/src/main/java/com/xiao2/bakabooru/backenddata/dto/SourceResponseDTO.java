@@ -11,6 +11,6 @@ public class SourceResponseDTO {
     private Long id;
     private String name;
     private String url;
-    private Long groupId;
+    private String groupName;
     private Instant addedAt;
 }
