@@ -1,0 +1,94 @@
+package com.xiao2.bakabooru.hub.service;
+
+import com.xiao2.bakabooru.hub.dto.AtlasQueryDTO;
+import com.xiao2.bakabooru.hub.dto.AtlasRequestDTO;
+import com.xiao2.bakabooru.hub.dto.AtlasResponseDTO;
+import com.xiao2.bakabooru.hub.entity.Atlas;
+import com.xiao2.bakabooru.hub.entity.Source;
+import com.xiao2.bakabooru.hub.entity.Tag;
+import com.xiao2.bakabooru.hub.mapper.AtlasMapper;
+import com.xiao2.bakabooru.hub.repository.AtlasRepository;
+import com.xiao2.bakabooru.hub.repository.SourceRepository;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class AtlasService {
+    private final AtlasMapper atlasMapper;
+    private final AtlasRepository atlasRepository;
+    private final SourceRepository sourceRepository;
+
+    /**
+     * 创建图集
+     */
+    public AtlasResponseDTO createAtlas(AtlasRequestDTO atlasRequestDTO) {
+        // 创建实体
+        Atlas atlas = atlasMapper.toEntity(atlasRequestDTO);
+
+        // 设置所属图源
+        Long sourceId = atlasRequestDTO.getSourceId();
+        Source source = sourceRepository.findById(sourceId).orElse(null);
+        atlas.setSource(source);
+
+        // 保存实体
+        atlasRepository.save(atlas);
+
+        // 返回结果
+        return atlasMapper.toResponseDTO(atlas);
+    }
+
+    /**
+     * 获取图集
+     */
+    public AtlasResponseDTO getAtlas(Long id) {
+        Atlas atlas = atlasRepository.findById(id).orElse(null);
+        return atlasMapper.toResponseDTO(atlas);
+    }
+
+    /**
+     * 查询图集
+     */
+    @Transactional(readOnly = true)
+    public List<AtlasResponseDTO> searchAtlases(AtlasQueryDTO queryDTO) {
+        Specification<Atlas> specification = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            // 标题模糊匹配
+            if (queryDTO.getTitle() != null && !queryDTO.getTitle().isEmpty()) {
+                predicates.add(cb.like(root.get("title"), "%" + queryDTO.getTitle() + "%"));
+            }
+
+            // 创建者模糊匹配
+            if (queryDTO.getCreator() != null && !queryDTO.getCreator().isEmpty()) {
+                predicates.add(cb.like(root.get("creator"), "%" + queryDTO.getCreator() + "%"));
+            }
+
+            if (queryDTO.getTags() != null && !queryDTO.getTags().isEmpty()) {
+                Join<Atlas, Tag> tagJoin = root.join("tags", JoinType.INNER);
+                predicates.add(tagJoin.get("name").in(queryDTO.getTags()));
+
+                // 👇 让查询结果按 Atlas 分组
+                query.groupBy(root.get("id"));
+
+                // 👇 添加 HAVING 子句：标签名称数量必须等于条件数量
+                query.having(cb.equal(cb.countDistinct(tagJoin.get("name")), queryDTO.getTags().size()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        List<Atlas> atlasList = atlasRepository.findAll(specification);
+        return atlasList.stream().map(atlasMapper::toResponseDTO).collect(Collectors.toList());
+    }
+
+}
