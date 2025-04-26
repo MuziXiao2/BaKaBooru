@@ -8,6 +8,7 @@ import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-public interface ImageRepository extends JpaRepository<Image, Long> {
+public interface ImageRepository extends JpaRepository<Image, String> {
     Optional<Image> findByHash(String hash);
+    boolean existsByHash(String hash);
 }

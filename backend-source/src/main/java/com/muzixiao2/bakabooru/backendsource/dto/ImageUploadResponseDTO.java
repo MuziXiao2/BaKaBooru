@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UploadResponseDTO {
-    private String title;
-    private String uuid;
+public class ImageUploadResponseDTO {
+    private String hash;
+    private String originalFileName;
     private String extension;
     private Long size;
 }

@@ -24,10 +24,6 @@ public class AtlasImage {
     @JoinColumn(name = "image_hash", referencedColumnName = "hash", nullable = false)
     private Image image;
 
-    //图片顺序
-    @Column(name = "sort_order", nullable = false)
-    private int sortOrder;
-
     //图片标题
     @Column(name = "title")
     private String title;

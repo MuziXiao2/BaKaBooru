@@ -19,9 +19,6 @@ public class Image {
     @Id
     @Column(length = 64, nullable = false, unique = true, updatable = false)
     private String hash;
-    //OSS Object Key
-    @Column(name = "oss_object_key")
-    private String ossObjectKey;
     //源文件名
     @Column(name = "original_file_name")
     private String originalFileName;
@@ -32,8 +29,8 @@ public class Image {
     @Column(name = "size")
     private Long size;
     //引用数
-    @Column(name = "size")
-    private Long referenceCount;
+    @Column(name = "reference_count")
+    private Long referenceCount = 1L;
     //上传时间
     @Column(name = "uploaded_at")
     @CreationTimestamp

@@ -1,9 +1,11 @@
 package com.muzixiao2.bakabooru.backendsource.controller;
 
 import com.muzixiao2.bakabooru.backendsource.dto.*;
+import com.muzixiao2.bakabooru.backendsource.entity.Image;
 import com.muzixiao2.bakabooru.backendsource.service.*;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.List;
@@ -19,6 +21,16 @@ public class AtlasController {
     public ResponseResult<AtlasResponseDTO> addAtlas(@RequestBody AtlasRequestDTO atlasRequestDTO) {
         AtlasResponseDTO atlasResponseDTO = atlasService.addAtlas(atlasRequestDTO);
         return ResponseResult.success(atlasResponseDTO, "添加图集成功");
+    }
+
+    //添加图片
+    @PostMapping("/{uuid}")
+    public ResponseResult<ImageResponseDTO> addImage(
+            @PathVariable String uuid,
+            @RequestParam ImageRequestDTO imageRequestDTO
+    ) {
+        ImageResponseDTO imageResponseDTO = atlasService.addImage(uuid,imageRequestDTO);
+        return ResponseResult.success(imageResponseDTO, "添加图片成功");
     }
 
     //获取所有图集

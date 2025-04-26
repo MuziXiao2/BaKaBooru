@@ -12,6 +12,7 @@ import com.xiao2.bakabooru.backenddata.repository.SourceRepository;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -21,19 +22,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AtlasService {
     private final AtlasMapper atlasMapper;
     private final AtlasRepository atlasRepository;
     private final SourceRepository sourceRepository;
-
-    public AtlasService(AtlasMapper atlasMapper, AtlasRepository atlasRepository, SourceRepository sourceRepository
-
-    ) {
-        this.atlasMapper = atlasMapper;
-        this.atlasRepository = atlasRepository;
-        this.sourceRepository = sourceRepository;
-
-    }
 
     /**
      * 创建图集

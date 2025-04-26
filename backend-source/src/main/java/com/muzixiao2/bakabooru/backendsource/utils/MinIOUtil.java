@@ -1,7 +1,7 @@
 package com.muzixiao2.bakabooru.backendsource.utils;
 
 import com.muzixiao2.bakabooru.backendsource.config.MinioProperties;
-import com.muzixiao2.bakabooru.backendsource.dto.UploadResponseDTO;
+import com.muzixiao2.bakabooru.backendsource.dto.ImageUploadResponseDTO;
 import io.minio.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,7 @@ public class MinIOUtil {
     /**
      * 上传文件到MinIO，objectKey由文件内容hash生成
      */
-    public UploadResponseDTO upload(MultipartFile file) {
+    public ImageUploadResponseDTO upload(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("上传文件不能为空");
         }
@@ -56,30 +56,35 @@ public class MinIOUtil {
             // 计算文件hash作为objectKey
             String hash = calculateHash(file);
 
+            // 先判断文件是否已存在
+            boolean exists = minioClient.statObject(
+                    StatObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(hash)
+                            .build()) != null;
+
             // 重新获取流上传文件
-            try (InputStream inputStream2 = file.getInputStream()) {
-                minioClient.putObject(
-                        PutObjectArgs.builder()
-                                .bucket(bucketName)
-                                .object(hash)
-                                .stream(inputStream2, file.getSize(), -1)
-                                .contentType(file.getContentType())
-                                .build());
+            if (!exists) {
+                try (InputStream inputStream2 = file.getInputStream()) {
+                    minioClient.putObject(
+                            PutObjectArgs.builder()
+                                    .bucket(bucketName)
+                                    .object(hash)
+                                    .stream(inputStream2, file.getSize(), -1)
+                                    .contentType(file.getContentType())
+                                    .build());
+                }
             }
 
+            // 获取源文件信息
             String originalFilename = file.getOriginalFilename();
-            String title;
-            String extension;
-            int idx = originalFilename != null ? originalFilename.lastIndexOf('.') : -1;
+            String extension = "";
+            int idx = originalFilename.lastIndexOf('.');
             if (idx != -1) {
-                title = originalFilename.substring(0, idx);
-                extension = originalFilename.substring(idx); // 保留点号
-            } else {
-                title = originalFilename != null ? originalFilename : "";
-                extension = "";
+                extension = originalFilename.substring(idx);
+                originalFilename = originalFilename.substring(0, idx);
             }
-
-            return new UploadResponseDTO(title, hash, extension, file.getSize());
+            return new ImageUploadResponseDTO(hash, originalFilename, extension, file.getSize());
 
         } catch (Exception e) {
             throw new RuntimeException("上传文件到MinIO失败", e);

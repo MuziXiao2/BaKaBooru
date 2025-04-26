@@ -45,7 +45,7 @@ public class Atlas {
     @ManyToMany
     @JoinTable(
             name = "atlas_tags",
-            joinColumns = @JoinColumn(name = "atlas_id"),
+            joinColumns = @JoinColumn(name = "atlas_uuid"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();

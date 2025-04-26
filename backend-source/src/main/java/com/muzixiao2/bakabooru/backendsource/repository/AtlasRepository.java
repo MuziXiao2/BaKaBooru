@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface AtlasRepository extends JpaRepository<Atlas, Long> {
     Optional<Atlas> findByUuid(String uuid);
-    List<Atlas> findAllByUpdatedAtAfterOrderBySnAsc(Instant updatedAfter);
+
+    List<Atlas> findAllByUpdatedAtAfterOrderByCreateAtAsc(Instant updatedAfter);
 }

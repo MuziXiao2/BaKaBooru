@@ -4,9 +4,6 @@ import lombok.Data;
 
 @Data
 public class ImageRequestDTO {
-    private String uuid;
+    private String hash;
     private String title;
-    private Long size;
-    private String extension;
-    private Long atlasId;
 }
