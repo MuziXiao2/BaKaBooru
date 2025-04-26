@@ -3,6 +3,7 @@ package com.muzixiao2.bakabooru.backendsource.utils;
 import com.muzixiao2.bakabooru.backendsource.config.MinioProperties;
 import com.muzixiao2.bakabooru.backendsource.dto.ImageUploadResponseDTO;
 import io.minio.*;
+import io.minio.http.Method;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,6 +77,7 @@ public class MinIOUtil {
                     GetPresignedObjectUrlArgs.builder()
                             .bucket(bucketName)
                             .object(objectKey)
+                            .method(Method.GET)
                             .expiry(urlExpirySeconds)
                             .build());
         } catch (Exception e) {

@@ -29,7 +29,7 @@ public class AtlasController {
     public ResponseResult<ImageResponseDTO> addImage(
             @Parameter(description = "图集的UUID", required = true)
             @PathVariable String uuid,
-            @RequestParam ImageRequestDTO imageRequestDTO
+            @RequestBody ImageRequestDTO imageRequestDTO
     ) {
         ImageResponseDTO imageResponseDTO = atlasService.addImage(uuid, imageRequestDTO);
         return ResponseResult.success(imageResponseDTO, "添加图片成功");
