@@ -8,13 +8,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AtlasMapper {
-    @Mapping(target = "coverHash", ignore = true)
-    @Mapping(target = "createAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "tags", ignore = true)
     @Mapping(target = "uuid", expression = "java(java.util.UUID.randomUUID().toString())")
     Atlas toEntity(AtlasRequestDTO atlasRequestDTO);
 
-    @Mapping(target = "createdAt", ignore = true)
     AtlasResponseDTO toResponseDTO(Atlas atlas);
 }

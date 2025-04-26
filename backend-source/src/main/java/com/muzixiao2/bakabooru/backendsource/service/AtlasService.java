@@ -75,7 +75,7 @@ public class AtlasService {
     public List<AtlasResponseDTO> getAllAtlases(Instant updatedAfter) {
         //获取所需实体
         List<Atlas> atlasList = (updatedAfter == null) ? atlasRepository.findAll()//全量查询
-                : atlasRepository.findAllByUpdatedAtAfterOrderByCreateAtAsc(updatedAfter);// 增量查询
+                : atlasRepository.findAllByUpdatedAtAfterOrderByCreatedAtAsc(updatedAfter);// 增量查询
         //转换为响应DTO
         return atlasList.stream().map(atlasMapper::toResponseDTO).collect(Collectors.toList());
     }

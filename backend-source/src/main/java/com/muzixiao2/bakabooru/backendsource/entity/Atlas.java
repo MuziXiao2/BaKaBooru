@@ -35,7 +35,7 @@ public class Atlas {
     //创建时间
     @Column(name = "created_at")
     @CreationTimestamp
-    private Instant createAt;
+    private Instant createdAt;
     //更新时间
     @Column(name = "updated_at")
     @UpdateTimestamp

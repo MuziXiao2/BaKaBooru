@@ -1,13 +1,11 @@
 package com.muzixiao2.bakabooru.backendsource.controller;
 
 import com.muzixiao2.bakabooru.backendsource.dto.*;
-import com.muzixiao2.bakabooru.backendsource.entity.Atlas;
-import com.muzixiao2.bakabooru.backendsource.entity.AtlasImage;
-import com.muzixiao2.bakabooru.backendsource.entity.Image;
 import com.muzixiao2.bakabooru.backendsource.service.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -16,9 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
     private final ImageService imageService;
 
-    // 上传图片
     @PostMapping
+    @Operation(summary = "上传图片", description = "上传一张图片文件，返回图片的哈希、大小等信息")
     public ResponseResult<ImageUploadResponseDTO> uploadImage(
+            @Parameter(description = "要上传的图片文件", required = true)
             @RequestParam("file") MultipartFile imageFile
     ) {
         if (imageFile == null || imageFile.isEmpty())
