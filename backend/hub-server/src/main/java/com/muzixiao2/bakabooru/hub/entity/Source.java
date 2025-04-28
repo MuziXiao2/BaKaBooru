@@ -25,15 +25,21 @@ public class Source {
     //图源URL
     @Column(name = "url")
     private String url;
-    //所属组ID
+    //组名
     @Column(name = "group_name")
     private String groupName;
+    //创建者
+    @Column(name = "creator")
+    private String creator;
+    //创建时间
+    @Column(name = "create_at", nullable = false)
+    private String createdAt;
+    //更新时间
+    @Column(name = "updated_at", nullable = false)
+    @UpdateTimestamp
+    private Instant updatedAt;
     //添加时间
     @Column(name = "added_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Instant addedAt;
-    //更新时间
-    @Column(name = "updated_at", nullable = false, updatable = false)
-    @UpdateTimestamp
-    private Instant updatedAt;
 }

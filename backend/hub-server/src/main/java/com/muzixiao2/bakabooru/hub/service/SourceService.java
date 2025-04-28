@@ -1,5 +1,6 @@
 package com.muzixiao2.bakabooru.hub.service;
 
+import com.muzixiao2.bakabooru.hub.dto.frontend.SourceReferenceDTO;
 import com.muzixiao2.bakabooru.hub.dto.frontend.SourceResponseDTO;
 import com.muzixiao2.bakabooru.hub.entity.Group;
 import com.muzixiao2.bakabooru.hub.entity.Source;
