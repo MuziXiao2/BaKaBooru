@@ -1,11 +1,16 @@
 package com.muzixiao2.bakabooru.source.controller;
 
 import com.muzixiao2.bakabooru.source.dto.*;
+import com.muzixiao2.bakabooru.source.dto.request.AtlasRequestDTO;
+import com.muzixiao2.bakabooru.source.dto.request.ImageRequestDTO;
+import com.muzixiao2.bakabooru.source.dto.response.AtlasResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.response.ImageResponseDTO;
 import com.muzixiao2.bakabooru.source.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -50,7 +55,7 @@ public class AtlasController {
     @Operation(summary = "获取单个图集详情", description = "根据图集UUID获取其详细信息")
     public ResponseResult<AtlasResponseDTO> getAtlas(
             @Parameter(description = "图集UUID", required = true)
-            @PathVariable String uuid
+            @PathVariable("uuid") String uuid
     ) {
         AtlasResponseDTO atlasResponseDTO = atlasService.getAtlas(uuid);
         return ResponseResult.success(atlasResponseDTO, "获取图集详情成功");
@@ -60,7 +65,7 @@ public class AtlasController {
     @Operation(summary = "获取图集下所有图片", description = "根据图集UUID，查询该图集中包含的所有图片")
     public ResponseResult<List<ImageResponseDTO>> getImages(
             @Parameter(description = "图集UUID", required = true)
-            @PathVariable String uuid
+            @PathVariable("uuid") String uuid
     ) {
         List<ImageResponseDTO> imageResponseDTOList = atlasService.getImages(uuid);
         return ResponseResult.success(imageResponseDTOList, "获取图片列表成功");

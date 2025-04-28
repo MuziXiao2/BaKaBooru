@@ -1,6 +1,6 @@
 package com.muzixiao2.bakabooru.source.service;
 
-import com.muzixiao2.bakabooru.source.dto.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.response.ImageUploadResponseDTO;
 import com.muzixiao2.bakabooru.source.entity.Image;
 import com.muzixiao2.bakabooru.source.mapper.ImageMapper;
 import com.muzixiao2.bakabooru.source.repository.ImageRepository;

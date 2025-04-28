@@ -1,6 +1,6 @@
 package com.muzixiao2.bakabooru.source.service;
 
-import com.muzixiao2.bakabooru.source.dto.SourceInfo;
+import com.muzixiao2.bakabooru.source.dto.response.SourceResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.muzixiao2.bakabooru.source.config.SourceConfig;
@@ -10,17 +10,16 @@ import com.muzixiao2.bakabooru.source.config.SourceConfig;
 public class SourceService {
     private final SourceConfig sourceConfig;
 
-    public SourceInfo getSourceInfo() {
-        SourceInfo sourceInfo = new SourceInfo();
+    public SourceResponseDTO getSource() {
+        SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
 
-        sourceInfo.setDefaultName(sourceConfig.getDefaultName());
-        sourceInfo.setDefaultName(sourceConfig.getUrl());
-        sourceInfo.setOssUrl(sourceConfig.getOssUrl());
-        sourceInfo.setCreator(sourceConfig.getCreator());
-        sourceInfo.setCreatedAt(sourceConfig.getCreatedAt());
-        sourceInfo.setUpdatedAt(sourceConfig.getUpdatedAt());
+        sourceResponseDTO.setDefaultName(sourceConfig.getDefaultName());
+        sourceResponseDTO.setDefaultName(sourceConfig.getUrl());
+          sourceResponseDTO.setCreator(sourceConfig.getCreator());
+        sourceResponseDTO.setCreatedAt(sourceConfig.getCreatedAt());
+        sourceResponseDTO.setUpdatedAt(sourceConfig.getUpdatedAt());
 
-        return sourceInfo;
+        return sourceResponseDTO;
     }
 
 }
