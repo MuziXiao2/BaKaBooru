@@ -6,9 +6,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class BackendDataApplication {
+public class HubServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BackendDataApplication.class, args);
+        SpringApplication.run(HubServerApplication.class, args);
     }
 }

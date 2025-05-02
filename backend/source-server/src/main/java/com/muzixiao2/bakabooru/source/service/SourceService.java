@@ -14,12 +14,11 @@ public class SourceService {
         SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
 
         sourceResponseDTO.setDefaultName(sourceConfig.getDefaultName());
-        sourceResponseDTO.setDefaultName(sourceConfig.getUrl());
-          sourceResponseDTO.setCreator(sourceConfig.getCreator());
+        sourceResponseDTO.setUrl(sourceConfig.getUrl());
+        sourceResponseDTO.setCreator(sourceConfig.getCreator());
         sourceResponseDTO.setCreatedAt(sourceConfig.getCreatedAt());
         sourceResponseDTO.setUpdatedAt(sourceConfig.getUpdatedAt());
 
         return sourceResponseDTO;
     }
-
 }

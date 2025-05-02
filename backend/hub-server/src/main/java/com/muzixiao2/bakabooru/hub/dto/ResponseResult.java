@@ -3,11 +3,13 @@ package com.muzixiao2.bakabooru.hub.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 通用响应对象，统一格式用于所有请求的响应
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class ResponseResult<T> {
 

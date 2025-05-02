@@ -16,7 +16,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class SourceSyncInitializer implements CommandLineRunner {
-
     private final SourceClientFactory sourceClientFactory;
     private final SourceRepository sourceRepository;
 
@@ -24,12 +23,13 @@ public class SourceSyncInitializer implements CommandLineRunner {
     public void run(String... args) {
         log.info("更新图源信息...");
 
-        SourceClient client;
+        SourceClient sourceClient;
         SourceSyncDTO sourceSyncDTO;
         List<Source> sources = sourceRepository.findAllByOrderByAddedAtAsc();
         for (Source source : sources) {
-            client = sourceClientFactory.createClient(source.getUrl());
-            sourceSyncDTO = client.fetchSource().getData();
+            sourceClient = sourceClientFactory.createClient(source.getUrl());
+            sourceSyncDTO = sourceClient.fetchSource().getData();
+
             source.setDefaultName(sourceSyncDTO.getDefaultName());
             source.setCreator(sourceSyncDTO.getCreator());
             source.setCreatedAt(sourceSyncDTO.getCreatedAt());
