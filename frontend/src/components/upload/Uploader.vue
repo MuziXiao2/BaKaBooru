@@ -12,8 +12,8 @@ onMounted(async () => {
   await sourceStore.update()
 })
 
-const handleSelect = (source: Source) => {
-  uploadStateStore.currentSource = source
+const handleSelect = (sourceMeta: Source) => {
+  uploadStateStore.currentSource = sourceMeta
 }
 
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
@@ -31,9 +31,9 @@ const uploadUrl = computed(() => {
 <template>
   <n-h1>上传图片</n-h1>
   <n-flex :wrap="false" class="select-container">
-    <source-select
+    <sourceMeta-select
       :groups="sourceStore.groups"
-      :sources="sourceStore.sources"
+      :sourceMetas="sourceStore.sourceMetas"
       :on-selected="handleSelect"
     />
     <n-button @click="uploadStateStore.saveData">保存</n-button>

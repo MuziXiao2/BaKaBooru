@@ -1,13 +1,13 @@
-package com.muzixiao2.bakabooru.hub.dto.sync;
+package com.muzixiao2.bakabooru.hub.dto;
 
 import lombok.Data;
 
 import java.time.Instant;
 
 @Data
-public class SourceSyncDTO {
-    private String url;
+public class SourceRemoteDTO {
     private String defaultName;
+    private String url;
     private String creator;
     private Instant createdAt;
     private Instant updatedAt;

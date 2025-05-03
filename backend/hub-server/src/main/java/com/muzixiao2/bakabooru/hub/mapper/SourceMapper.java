@@ -1,13 +1,23 @@
 package com.muzixiao2.bakabooru.hub.mapper;
 
-import com.muzixiao2.bakabooru.hub.dto.frontend.SourceReferenceDTO;
-import com.muzixiao2.bakabooru.hub.dto.frontend.SourceResponseDTO;
-import com.muzixiao2.bakabooru.hub.entity.Source;
+import com.muzixiao2.bakabooru.hub.dto.SourceReferenceDTO;
+import com.muzixiao2.bakabooru.hub.dto.SourceRemoteDTO;
+import com.muzixiao2.bakabooru.hub.dto.SourceResponseDTO;
+import com.muzixiao2.bakabooru.hub.entity.SourceMeta;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface SourceMapper {
-    Source toEntity(SourceReferenceDTO sourceSyncDTO);
+    SourceMeta toMeta(SourceReferenceDTO sourceSyncDTO);
 
-    SourceResponseDTO toResponseDTO(Source dto);
+    @Mapping(source = "sourceMeta.name", target = "name", defaultExpression = "java(sourceRemoteDTO.getDefaultName())")
+    @Mapping(source = "sourceMeta.id", target = "id")
+    @Mapping(source = "sourceMeta.url", target = "url")
+    @Mapping(source = "sourceRemoteDTO.creator", target = "creator")
+    @Mapping(source = "sourceRemoteDTO.updatedAt", target = "updatedAt")
+    @Mapping(source = "sourceRemoteDTO.createdAt", target = "createdAt")
+    @Mapping(source = "sourceMeta.addedAt", target = "addedAt")
+    SourceResponseDTO toSourceResponseDTO(SourceMeta sourceMeta, SourceRemoteDTO sourceRemoteDTO);
+
 }

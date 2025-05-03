@@ -15,7 +15,8 @@ public class SourceController {
 
     @GetMapping
     @Operation(summary = "获取图源信息", description = "获取当前source服务的基本信息，比如名称、版本、权限等")
-    public ResponseResult<SourceResponseDTO> getSource() {
-        return ResponseResult.success(sourceService.getSource(), "获取图源信息成功");
+    public ApiResponse<SourceResponseDTO> getSource() {
+        SourceResponseDTO sourceResponseDTO = sourceService.getSource();
+        return ApiResponse.success(sourceResponseDTO);
     }
 }

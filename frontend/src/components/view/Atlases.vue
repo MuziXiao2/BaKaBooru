@@ -32,7 +32,7 @@ function handleRightClick(atlas: Atlas, event: MouseEvent) {
   <!-- 图集列表 -->
   <atlas-card-list
     v-else
-    :source="viewStateStore.currentSource"
+    :sourceMeta="viewStateStore.currentSource"
     :atlases="viewStateStore.atlases"
     :on-left-click="handleLeftClick"
     :on-right-click="handleRightClick"
