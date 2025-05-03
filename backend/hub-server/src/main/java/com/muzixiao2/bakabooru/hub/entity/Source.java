@@ -33,10 +33,9 @@ public class Source {
     private String creator;
     //创建时间
     @Column(name = "create_at", nullable = false)
-    private String createdAt;
+    private Instant createdAt;
     //更新时间
     @Column(name = "updated_at", nullable = false)
-    @UpdateTimestamp
     private Instant updatedAt;
     //添加时间
     @Column(name = "added_at", nullable = false, updatable = false)

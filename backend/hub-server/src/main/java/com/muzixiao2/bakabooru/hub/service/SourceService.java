@@ -23,31 +23,24 @@ public class SourceService {
     private final SourceMapper sourceMapper;
     private final GroupRepository groupRepository;
     private final SourceRepository sourceRepository;
-    private final SourceClientFactory sourceClientFactory;
+    private final SyncService syncService;
 
     // 添加图源
     public SourceResponseDTO addSource(SourceReferenceDTO sourceReferenceDTO) {
-        String url = sourceReferenceDTO.getUrl();
-        String name = sourceReferenceDTO.getName();
-
-        // 同步信息
-        SourceClient sourceClient = sourceClientFactory.createClient(sourceReferenceDTO.getUrl());
-        SourceSyncDTO sourceSyncDTO = sourceClient.fetchSource().getData();
-
-        // 创建实体
-        Source source = sourceMapper.toEntity(sourceSyncDTO);
-        source.setName(name);
-        source.setUrl(url);
+        String groupName = sourceReferenceDTO.getGroupName();
 
         // 添加组
-        if (!groupRepository.existsByName(name)) {
+        if (!groupRepository.existsByName(groupName)) {
             Group group = new Group();
-            group.setName(name);
+            group.setName(groupName);
             groupRepository.save(group);
         }
 
-        // 保存实体
-        sourceRepository.save(source);
+        // 创建图源
+        Source source = sourceMapper.toEntity(sourceReferenceDTO);
+
+        // 同步图源信息
+        source = syncService.syncSource(source);
 
         // 返回结果
         return sourceMapper.toResponseDTO(source);

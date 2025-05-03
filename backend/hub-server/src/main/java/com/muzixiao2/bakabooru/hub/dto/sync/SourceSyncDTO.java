@@ -9,6 +9,6 @@ public class SourceSyncDTO {
     private String url;
     private String defaultName;
     private String creator;
-    private String createdAt;
+    private Instant createdAt;
     private Instant updatedAt;
 }
