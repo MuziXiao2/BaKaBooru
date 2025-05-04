@@ -25,12 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AtlasService {
-    private final MinIOUtil minIOUtil;
     private final AtlasMapper atlasMapper;
-    private final ImageMapper imageMapper;
     private final AtlasRepository atlasRepository;
-    private final AtlasImageRepository atlasImageRepository;
-    private final ImageRepository imageRepository;
 
     // 添加图集
     @Transactional
@@ -41,28 +37,6 @@ public class AtlasService {
         atlas = atlasRepository.save(atlas);
         // 返回响应DTO
         return atlasMapper.toResponseDTO(atlas);
-    }
-
-    // 添加图片
-    @Transactional
-    public ImageResponseDTO addImage(String uuid, ImageRequestDTO imageRequestDTO) {
-        //获取所需实体
-        Atlas atlas = atlasRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("图集不存在"));
-        Image image = imageRepository.findByHash(imageRequestDTO.getHash())
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        //创建图集图片关系
-        AtlasImage atlasImage = new AtlasImage();
-        atlasImage.setAtlas(atlas);
-        atlasImage.setImage(image);
-        atlasImage.setTitle(imageRequestDTO.getTitle());
-        //保存图集图片关系
-        atlasImageRepository.save(atlasImage);
-        //转换为响应DTO
-        ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
-        imageResponseDTO.setUrl(minIOUtil.generatePresignedUrl(image.getHash()));
-        imageResponseDTO.setTitle(atlasImage.getTitle());
-        return imageResponseDTO;
     }
 
     // 获取单个图集
@@ -82,19 +56,5 @@ public class AtlasService {
         List<Atlas> atlasList = atlasRepository.findAll();
         //转换为响应DTO
         return atlasList.stream().map(atlasMapper::toResponseDTO).collect(Collectors.toList());
-    }
-
-    // 获取图片列表
-    @Transactional(readOnly = true)
-    public List<ImageResponseDTO> getImages(String uuid) {
-        Atlas atlas = atlasRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图集不存在"));
-        List<AtlasImage> atlasImageList = atlasImageRepository.findAllByAtlas(atlas);
-        return atlasImageList.stream().map(atlasImage -> {
-            Image image = atlasImage.getImage();
-            ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
-            imageResponseDTO.setUrl(minIOUtil.generatePresignedUrl(image.getHash()));
-            imageResponseDTO.setTitle(atlasImage.getTitle());
-            return imageResponseDTO;
-        }).toList();
     }
 }

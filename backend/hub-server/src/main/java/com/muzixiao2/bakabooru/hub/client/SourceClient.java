@@ -5,6 +5,7 @@ import com.muzixiao2.bakabooru.hub.dto.atlas.AtlasReferenceDTO;
 import com.muzixiao2.bakabooru.hub.dto.atlas.AtlasRemoteDTO;
 import com.muzixiao2.bakabooru.hub.dto.source.SourceRemoteDTO;
 import feign.Headers;
+import feign.Param;
 import feign.RequestLine;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public interface SourceClient {
 
     @RequestLine("POST /atlas")
     ApiResponse<AtlasRemoteDTO> addAtlas(AtlasReferenceDTO atlasReferenceDTO);
+    @RequestLine("GET /atlas/{uuid}")
+    ApiResponse<AtlasRemoteDTO> fetchAtlas(@Param("uuid") String atlasUuid);
     @RequestLine("GET /atlas")
     ApiResponse<List<AtlasRemoteDTO>> fetchAllAtlases();
 }

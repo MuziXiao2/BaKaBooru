@@ -33,6 +33,14 @@ public class AtlasService {
         return atlasMapper.toResponseDTO(atlasRemoteDTO);
     }
 
+    //获取单个图集
+    @Transactional(readOnly = true)
+    public AtlasResponseDTO getAtlas(Long sourceId, String atlasUuid) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+        AtlasRemoteDTO atlasRemoteDTO = sourceClient.fetchAtlas(atlasUuid).getData();
+        return atlasMapper.toResponseDTO(atlasRemoteDTO);
+    }
+
     //获取所有图集
     @Transactional(readOnly = true)
     public List<AtlasResponseDTO> getAllAtlases(Long sourceId) {

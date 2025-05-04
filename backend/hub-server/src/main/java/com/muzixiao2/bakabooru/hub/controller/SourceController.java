@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "图源管理", description = "用于管理图像来源服务器的接口")
 public class SourceController {
-
     private final SourceService sourceService;
 
     @Operation(

@@ -1,15 +1,23 @@
 package com.muzixiao2.bakabooru.source.service;
 
+import com.muzixiao2.bakabooru.source.dto.request.ImageRequestDTO;
+import com.muzixiao2.bakabooru.source.dto.response.ImageResponseDTO;
 import com.muzixiao2.bakabooru.source.dto.response.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.source.entity.Atlas;
+import com.muzixiao2.bakabooru.source.entity.AtlasImage;
 import com.muzixiao2.bakabooru.source.entity.Image;
 import com.muzixiao2.bakabooru.source.mapper.ImageMapper;
+import com.muzixiao2.bakabooru.source.repository.AtlasImageRepository;
+import com.muzixiao2.bakabooru.source.repository.AtlasRepository;
 import com.muzixiao2.bakabooru.source.repository.ImageRepository;
 import com.muzixiao2.bakabooru.source.utils.HashUtil;
 import com.muzixiao2.bakabooru.source.utils.MinIOUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,9 +26,11 @@ public class ImageService {
     private final MinIOUtil minIOUtil;
     private final ImageMapper imageMapper;
     private final ImageRepository imageRepository;
+    private final AtlasRepository atlasRepository;
+    private final AtlasImageRepository atlasImageRepository;
 
-    // 添加图片
-    public ImageUploadResponseDTO addImage(MultipartFile imageFile) {
+    // 上传图片
+    public ImageUploadResponseDTO uploadImage(MultipartFile imageFile) {
         String hash = HashUtil.calculateHash(imageFile);
         Optional<Image> imageOptional = imageRepository.findByHash(hash);
         ImageUploadResponseDTO imageUploadResponseDTO;
@@ -32,5 +42,41 @@ public class ImageService {
             imageUploadResponseDTO = imageMapper.toUploadResponseDTO(imageOptional.get());
         }
         return imageUploadResponseDTO;
+    }
+
+    // 添加图片
+    @Transactional
+    public ImageResponseDTO addImage(String uuid, ImageRequestDTO imageRequestDTO) {
+        //获取所需实体
+        Atlas atlas = atlasRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图集不存在"));
+        Image image = imageRepository.findByHash(imageRequestDTO.getHash())
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        //创建图集图片关系
+        AtlasImage atlasImage = new AtlasImage();
+        atlasImage.setAtlas(atlas);
+        atlasImage.setImage(image);
+        atlasImage.setTitle(imageRequestDTO.getTitle());
+        //保存图集图片关系
+        atlasImageRepository.save(atlasImage);
+        //转换为响应DTO
+        ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
+        imageResponseDTO.setUrl(minIOUtil.generatePresignedUrl(image.getHash()));
+        imageResponseDTO.setTitle(atlasImage.getTitle());
+        return imageResponseDTO;
+    }
+
+    // 获取图片列表
+    @Transactional(readOnly = true)
+    public List<ImageResponseDTO> getImages(String uuid) {
+        Atlas atlas = atlasRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图集不存在"));
+        List<AtlasImage> atlasImageList = atlasImageRepository.findAllByAtlas(atlas);
+        return atlasImageList.stream().map(atlasImage -> {
+            Image image = atlasImage.getImage();
+            ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
+            imageResponseDTO.setUrl(minIOUtil.generatePresignedUrl(image.getHash()));
+            imageResponseDTO.setTitle(atlasImage.getTitle());
+            return imageResponseDTO;
+        }).toList();
     }
 }
