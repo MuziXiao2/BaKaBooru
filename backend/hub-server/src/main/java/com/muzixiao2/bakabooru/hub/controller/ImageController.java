@@ -1,11 +1,8 @@
 package com.muzixiao2.bakabooru.hub.controller;
 
 import com.muzixiao2.bakabooru.hub.dto.ApiResponse;
-import com.muzixiao2.bakabooru.hub.dto.atlas.AtlasReferenceDTO;
-import com.muzixiao2.bakabooru.hub.dto.atlas.AtlasResponseDTO;
 import com.muzixiao2.bakabooru.hub.dto.image.ImageReferenceDTO;
 import com.muzixiao2.bakabooru.hub.dto.image.ImageResponseDTO;
-import com.muzixiao2.bakabooru.hub.dto.image.ImageUploadRemoteDTO;
 import com.muzixiao2.bakabooru.hub.dto.image.ImageUploadResponseDTO;
 import com.muzixiao2.bakabooru.hub.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
