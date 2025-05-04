@@ -26,9 +26,8 @@ public class ImageController {
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "上传图片", description = "上传一张图片文件，返回图片的哈希、大小等信息")
     public ApiResponse<ImageUploadResponseDTO> uploadImage(
-            @RequestParam("file")
             @Schema(type = "string", format = "binary")
-            MultipartFile file
+            @RequestParam("file") MultipartFile file
     ) {
         if (file == null || file.isEmpty())
             return ApiResponse.error("666", "文件为空");

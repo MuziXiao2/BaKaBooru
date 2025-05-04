@@ -30,9 +30,7 @@ public class SourceClientRegistry implements InitializingBean {
     public SourceClient getClient(Long sourceId) {
         SourceMeta sourceMeta = sourceRepository.findById(sourceId)
                 .orElseThrow(() -> new IllegalArgumentException("图源不存在"));
-        SourceClient sourceClient = sourceClientMap.get(sourceMeta);
-        if (sourceClient == null) throw new IllegalArgumentException("图源无法连接");
-        return sourceClient;
+        return sourceClientMap.computeIfAbsent(sourceMeta, meta -> sourceClientFactory.createClient(meta.getUrl()));
     }
 
 }

@@ -2,10 +2,7 @@ package com.muzixiao2.bakabooru.hub.service;
 
 import com.muzixiao2.bakabooru.hub.client.SourceClient;
 import com.muzixiao2.bakabooru.hub.client.SourceClientRegistry;
-import com.muzixiao2.bakabooru.hub.dto.image.ImageReferenceDTO;
-import com.muzixiao2.bakabooru.hub.dto.image.ImageRemoteDTO;
-import com.muzixiao2.bakabooru.hub.dto.image.ImageResponseDTO;
-import com.muzixiao2.bakabooru.hub.dto.image.ImageUploadRemoteDTO;
+import com.muzixiao2.bakabooru.hub.dto.image.*;
 import com.muzixiao2.bakabooru.hub.mapper.ImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,12 +17,19 @@ public class ImageService {
     private final ImageMapper imageMapper;
     private final SourceClientRegistry sourceClientRegistry;
 
-    // 添加图片
+    // 上传图片
     @Transactional
-    public ImageResponseDTO addImage(Long sourceId, String atlasUuid, ImageReferenceDTO imageReferenceDTO, MultipartFile file) {
+    public ImageUploadResponseDTO uploadImage(Long sourceId, MultipartFile file) {
         SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
         ImageUploadRemoteDTO imageUploadRemoteDTO = sourceClient.uploadImage(file).getData();
-        imageReferenceDTO.setHash(imageUploadRemoteDTO.getHash());
+
+        return imageMapper.toResponseDTO(imageUploadRemoteDTO) ;
+    }
+
+    // 添加图片
+    @Transactional
+    public ImageResponseDTO addImage(Long sourceId, String atlasUuid, ImageReferenceDTO imageReferenceDTO) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
         ImageRemoteDTO imageRemoteDTO = sourceClient.addImage(atlasUuid, imageReferenceDTO).getData();
         return imageMapper.toResponseDTO(imageRemoteDTO);
     }
