@@ -15,7 +15,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/atlas")
+@RequestMapping("/atlas")
 @RequiredArgsConstructor
 public class AtlasController {
     private final AtlasService atlasService;
@@ -42,12 +42,8 @@ public class AtlasController {
 
     @GetMapping
     @Operation(summary = "获取所有图集", description = "可选按更新时间过滤，返回图集列表")
-    public ApiResponse<List<AtlasResponseDTO>> getAllAtlases(
-            @Parameter(description = "只获取更新时间在此之后的图集")
-            @RequestParam(value = "updatedAfter", required = false)
-            Instant updatedAfter
-    ) {
-        List<AtlasResponseDTO> atlasResponseDTOList = atlasService.getAllAtlases(updatedAfter);
+    public ApiResponse<List<AtlasResponseDTO>> getAllAtlases() {
+        List<AtlasResponseDTO> atlasResponseDTOList = atlasService.getAllAtlases();
         return ApiResponse.success(atlasResponseDTOList);
     }
 

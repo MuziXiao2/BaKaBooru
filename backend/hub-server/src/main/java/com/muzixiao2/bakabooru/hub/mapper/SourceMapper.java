@@ -1,8 +1,8 @@
 package com.muzixiao2.bakabooru.hub.mapper;
 
-import com.muzixiao2.bakabooru.hub.dto.SourceReferenceDTO;
-import com.muzixiao2.bakabooru.hub.dto.SourceRemoteDTO;
-import com.muzixiao2.bakabooru.hub.dto.SourceResponseDTO;
+import com.muzixiao2.bakabooru.hub.dto.source.SourceReferenceDTO;
+import com.muzixiao2.bakabooru.hub.dto.source.SourceRemoteDTO;
+import com.muzixiao2.bakabooru.hub.dto.source.SourceResponseDTO;
 import com.muzixiao2.bakabooru.hub.entity.SourceMeta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

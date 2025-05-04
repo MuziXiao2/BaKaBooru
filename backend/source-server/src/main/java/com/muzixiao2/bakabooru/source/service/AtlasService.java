@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.muzixiao2.bakabooru.source.utils.MinIOUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class AtlasService {
     private final ImageRepository imageRepository;
 
     // 添加图集
+    @Transactional
     public AtlasResponseDTO addAtlas(AtlasRequestDTO atlasRequestDTO) {
         // 创建实体
         Atlas atlas = atlasMapper.toEntity(atlasRequestDTO);
@@ -42,6 +44,7 @@ public class AtlasService {
     }
 
     // 添加图片
+    @Transactional
     public ImageResponseDTO addImage(String uuid, ImageRequestDTO imageRequestDTO) {
         //获取所需实体
         Atlas atlas = atlasRepository.findByUuid(uuid)
@@ -63,6 +66,7 @@ public class AtlasService {
     }
 
     // 获取单个图集
+    @Transactional(readOnly = true)
     public AtlasResponseDTO getAtlas(String uuid) {
         //获取所需实体
         Atlas atlas = atlasRepository.findByUuid(uuid).orElse(null);
@@ -72,15 +76,16 @@ public class AtlasService {
     }
 
     // 获取所有图集
-    public List<AtlasResponseDTO> getAllAtlases(Instant updatedAfter) {
+    @Transactional(readOnly = true)
+    public List<AtlasResponseDTO> getAllAtlases() {
         //获取所需实体
-        List<Atlas> atlasList = (updatedAfter == null) ? atlasRepository.findAll()//全量查询
-                : atlasRepository.findAllByUpdatedAtAfterOrderByCreatedAtAsc(updatedAfter);// 增量查询
+        List<Atlas> atlasList = atlasRepository.findAll();
         //转换为响应DTO
         return atlasList.stream().map(atlasMapper::toResponseDTO).collect(Collectors.toList());
     }
 
     // 获取图片列表
+    @Transactional(readOnly = true)
     public List<ImageResponseDTO> getImages(String uuid) {
         Atlas atlas = atlasRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图集不存在"));
         List<AtlasImage> atlasImageList = atlasImageRepository.findAllByAtlas(atlas);

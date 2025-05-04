@@ -2,6 +2,7 @@ package com.muzixiao2.bakabooru.hub.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,6 +12,7 @@ import java.time.Instant;
 @Table(name = "source-meta")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"id"})
 public class SourceMeta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

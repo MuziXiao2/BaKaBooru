@@ -1,8 +1,8 @@
 package com.muzixiao2.bakabooru.hub.controller;
 
 import com.muzixiao2.bakabooru.hub.dto.ApiResponse;
-import com.muzixiao2.bakabooru.hub.dto.SourceReferenceDTO;
-import com.muzixiao2.bakabooru.hub.dto.SourceResponseDTO;
+import com.muzixiao2.bakabooru.hub.dto.source.SourceReferenceDTO;
+import com.muzixiao2.bakabooru.hub.dto.source.SourceResponseDTO;
 import com.muzixiao2.bakabooru.hub.service.SourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/source")
+@RequestMapping("/source")
 @RequiredArgsConstructor
 @Tag(name = "图源管理", description = "用于管理图像来源服务器的接口")
 public class SourceController {

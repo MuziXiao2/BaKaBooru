@@ -1,7 +1,6 @@
-package com.muzixiao2.bakabooru.hub.dto;
+package com.muzixiao2.bakabooru.hub.dto.source;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 

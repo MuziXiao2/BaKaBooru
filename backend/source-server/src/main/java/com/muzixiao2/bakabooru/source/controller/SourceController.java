@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/source")
+@RequestMapping("/source")
 @RequiredArgsConstructor
 public class SourceController {
     private final SourceService sourceService;

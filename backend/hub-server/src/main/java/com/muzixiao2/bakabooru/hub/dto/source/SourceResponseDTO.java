@@ -1,4 +1,4 @@
-package com.muzixiao2.bakabooru.hub.dto;
+package com.muzixiao2.bakabooru.hub.dto.source;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
