@@ -1,7 +1,7 @@
 package com.muzixiao2.bakabooru.source.mapper;
 
-import com.muzixiao2.bakabooru.source.dto.response.ImageUploadResponseDTO;
-import com.muzixiao2.bakabooru.source.dto.response.ImageResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.image.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.image.ImageResponseDTO;
 import com.muzixiao2.bakabooru.source.entity.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

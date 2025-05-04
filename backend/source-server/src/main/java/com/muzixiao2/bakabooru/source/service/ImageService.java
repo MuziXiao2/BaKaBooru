@@ -1,8 +1,8 @@
 package com.muzixiao2.bakabooru.source.service;
 
-import com.muzixiao2.bakabooru.source.dto.request.ImageRequestDTO;
-import com.muzixiao2.bakabooru.source.dto.response.ImageResponseDTO;
-import com.muzixiao2.bakabooru.source.dto.response.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.image.ImageRequestDTO;
+import com.muzixiao2.bakabooru.source.dto.image.ImageResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.image.ImageUploadResponseDTO;
 import com.muzixiao2.bakabooru.source.entity.Atlas;
 import com.muzixiao2.bakabooru.source.entity.AtlasImage;
 import com.muzixiao2.bakabooru.source.entity.Image;

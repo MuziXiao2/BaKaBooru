@@ -1,4 +1,4 @@
-package com.muzixiao2.bakabooru.source.dto.response;
+package com.muzixiao2.bakabooru.source.dto.source;
 
 import lombok.Data;
 

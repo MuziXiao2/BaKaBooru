@@ -1,4 +1,4 @@
-package com.muzixiao2.bakabooru.source.dto.response;
+package com.muzixiao2.bakabooru.source.dto.image;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageResponseDTO {
+public class ImageUploadResponseDTO {
     private String hash;
-    private String title;
-    private String url;
-    private Long size;
     private String originalFileName;
     private String extension;
+    private Long size;
 }

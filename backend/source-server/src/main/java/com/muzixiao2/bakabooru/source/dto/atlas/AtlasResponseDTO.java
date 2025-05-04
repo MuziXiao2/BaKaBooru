@@ -1,4 +1,4 @@
-package com.muzixiao2.bakabooru.source.dto.response;
+package com.muzixiao2.bakabooru.source.dto.atlas;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

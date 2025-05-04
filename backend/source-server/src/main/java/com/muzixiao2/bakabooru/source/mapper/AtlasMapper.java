@@ -1,7 +1,7 @@
 package com.muzixiao2.bakabooru.source.mapper;
 
-import com.muzixiao2.bakabooru.source.dto.request.AtlasRequestDTO;
-import com.muzixiao2.bakabooru.source.dto.response.AtlasResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.atlas.AtlasRequestDTO;
+import com.muzixiao2.bakabooru.source.dto.atlas.AtlasResponseDTO;
 import com.muzixiao2.bakabooru.source.entity.Atlas;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,10 +1,8 @@
 package com.muzixiao2.bakabooru.source.controller;
 
 import com.muzixiao2.bakabooru.source.dto.*;
-import com.muzixiao2.bakabooru.source.dto.request.AtlasRequestDTO;
-import com.muzixiao2.bakabooru.source.dto.request.ImageRequestDTO;
-import com.muzixiao2.bakabooru.source.dto.response.AtlasResponseDTO;
-import com.muzixiao2.bakabooru.source.dto.response.ImageResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.atlas.AtlasRequestDTO;
+import com.muzixiao2.bakabooru.source.dto.atlas.AtlasResponseDTO;
 import com.muzixiao2.bakabooru.source.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.List;
 
 @RestController

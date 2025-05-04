@@ -1,4 +1,4 @@
-package com.muzixiao2.bakabooru.source.dto.request;
+package com.muzixiao2.bakabooru.source.dto.atlas;
 
 import lombok.Data;
 

@@ -1,25 +1,16 @@
 package com.muzixiao2.bakabooru.source.service;
 
-import com.muzixiao2.bakabooru.source.dto.request.AtlasRequestDTO;
-import com.muzixiao2.bakabooru.source.dto.response.AtlasResponseDTO;
-import com.muzixiao2.bakabooru.source.dto.request.ImageRequestDTO;
-import com.muzixiao2.bakabooru.source.dto.response.ImageResponseDTO;
-import com.muzixiao2.bakabooru.source.entity.AtlasImage;
-import com.muzixiao2.bakabooru.source.entity.Image;
+import com.muzixiao2.bakabooru.source.dto.atlas.AtlasRequestDTO;
+import com.muzixiao2.bakabooru.source.dto.atlas.AtlasResponseDTO;
 import com.muzixiao2.bakabooru.source.mapper.AtlasMapper;
 import com.muzixiao2.bakabooru.source.entity.Atlas;
-import com.muzixiao2.bakabooru.source.mapper.ImageMapper;
-import com.muzixiao2.bakabooru.source.repository.AtlasImageRepository;
 import com.muzixiao2.bakabooru.source.repository.AtlasRepository;
-import com.muzixiao2.bakabooru.source.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.muzixiao2.bakabooru.source.utils.MinIOUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

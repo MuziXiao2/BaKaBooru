@@ -1,6 +1,6 @@
 package com.muzixiao2.bakabooru.source.service;
 
-import com.muzixiao2.bakabooru.source.dto.response.SourceResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.source.SourceResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.muzixiao2.bakabooru.source.config.SourceConfig;

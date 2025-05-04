@@ -1,11 +1,13 @@
-package com.muzixiao2.bakabooru.source.dto.response;
+package com.muzixiao2.bakabooru.hub.dto.image;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class ImageUploadResponseDTO {
+public class ImageUploadRemoteDTO {
     private String hash;
     private String originalFileName;
     private String extension;

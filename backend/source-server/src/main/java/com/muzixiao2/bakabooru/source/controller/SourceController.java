@@ -1,7 +1,7 @@
 package com.muzixiao2.bakabooru.source.controller;
 
 import com.muzixiao2.bakabooru.source.dto.*;
-import com.muzixiao2.bakabooru.source.dto.response.SourceResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.source.SourceResponseDTO;
 import com.muzixiao2.bakabooru.source.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

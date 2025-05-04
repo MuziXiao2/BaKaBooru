@@ -1,7 +1,7 @@
 package com.muzixiao2.bakabooru.source.utils;
 
 import com.muzixiao2.bakabooru.source.config.MinioProperties;
-import com.muzixiao2.bakabooru.source.dto.response.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.source.dto.image.ImageUploadResponseDTO;
 import io.minio.*;
 import io.minio.http.Method;
 import org.springframework.stereotype.Component;
