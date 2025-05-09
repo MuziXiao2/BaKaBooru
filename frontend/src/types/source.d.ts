@@ -12,3 +12,5 @@ export interface SourceReferenceDTO {
   name: string | null
   url: string
 }
+
+export type Sources = Record<string, Source>

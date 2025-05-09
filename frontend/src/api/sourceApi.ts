@@ -3,7 +3,7 @@ import api from '@/api/index.ts'
 
 const baseUrl = 'http://localhost:8080/source'
 
-export async function getAllSources() {
+export async function getAllSources(): Promise<Source[]> {
   const response = await api.get(baseUrl)
   return response.data.data
 }

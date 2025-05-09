@@ -1,17 +1,22 @@
 import { defineStore } from 'pinia'
 import { getAllSources } from '@/api'
-import type { Source } from '@/types'
+import type { Sources } from '@/types'
 
 export const useSoucreStore = defineStore('source', {
   state: () => ({
     isSourcesLoaded: false,
-    sources: [] as Source[],
+    sources: [] as Sources,
   }),
-  getters: {},
+  getters: {
+    getSource: (state) => (id: string) => {
+      return state.sourceMap[id] || null
+    },
+  },
   actions: {
     async update() {
       this.isSourcesLoaded = false
-      this.sources = await getAllSources()
+      const sources = await getAllSources()
+      this.sources = Object.fromEntries(sources.map((source) => [source.id, source]))
       this.isSourcesLoaded = true
     },
   },
