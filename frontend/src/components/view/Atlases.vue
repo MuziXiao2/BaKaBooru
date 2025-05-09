@@ -22,6 +22,7 @@ function handleRightClick(atlas: Atlas, event: MouseEvent) {
   viewUiStore.closeContextMenu()
   nextTick().then(() => viewUiStore.openContextMenu(event.clientX, event.clientY))
 }
+
 </script>
 
 <template>
@@ -32,7 +33,7 @@ function handleRightClick(atlas: Atlas, event: MouseEvent) {
   <!-- 图集列表 -->
   <atlas-card-list
     v-else
-    :sourceMeta="viewStateStore.currentSource"
+    :source="viewStateStore.currentSource"
     :atlases="viewStateStore.atlases"
     :on-left-click="handleLeftClick"
     :on-right-click="handleRightClick"

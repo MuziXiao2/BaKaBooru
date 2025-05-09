@@ -1,24 +1,13 @@
 export interface Atlas {
-  id: number
+  uuid: string
   title: string
-  coverUrl: string
   creator: string
-  updatedAt: Date
-  createdAt: Date
-  sourceId: number
+  updatedAt: string
+  createdAt: string
 }
 
 export interface AtlasRequestDTO {
   title: string
   creator: string
-}
-
-export interface AtlasResponseDTO {
-  id: number
-  title: string
-  coverUrl: string
-  creator: string
-  updatedAt: Date
-  createAt: Date
-  sourceId: number
+  description: string
 }

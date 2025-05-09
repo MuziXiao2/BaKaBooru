@@ -1,7 +1,6 @@
 import { h } from 'vue'
 import AddSource from '@/components/modal/view/AddSource.vue'
 import ViewAtlas from '@/components/modal/view/ViewAtlas.vue'
-import CreateGroup from '@/components/modal/view/CreateGroup.vue'
 import type { ModalProps } from 'naive-ui'
 
 interface ModalConfig extends ModalProps {
@@ -27,13 +26,6 @@ export const modalList: ModalList = {
   AddSource: {
     preset: 'card',
     content: () => h(AddSource),
-    closable: false,
-    contentStyle: 'padding: 0;',
-    style: 'width: auto; height: auto;',
-  },
-  CreateGroup: {
-    preset: 'card',
-    content: () => h(CreateGroup),
     closable: false,
     contentStyle: 'padding: 0;',
     style: 'width: auto; height: auto;',

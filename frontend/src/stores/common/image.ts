@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getImages } from '@/api'
+import { getAllImages } from '@/api'
 import type { Atlas, Image, Source } from '@/types'
 
 export const useImageStore = defineStore('image', {
@@ -9,10 +9,10 @@ export const useImageStore = defineStore('image', {
   }),
   getters: {},
   actions: {
-    async update(source: Source | null, atlas: Atlas | null) {
+    async update(source: Source, atlas: Atlas) {
       this.isImagesLoaded = false
       if (!atlas) return
-      this.images = await getImages(source, atlas)
+      this.images = await getAllImages(source.id, atlas.uuid)
       this.isImagesLoaded = true
     },
   },

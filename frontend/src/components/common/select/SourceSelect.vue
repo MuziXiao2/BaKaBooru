@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Group, Source } from '@/types'
+import type { Source } from '@/types'
 import { computed } from 'vue'
 
 const props = defineProps<{
-  groups: Group[]
   sources: Source[]
   onSelected?: (source: Source) => void
 }>()

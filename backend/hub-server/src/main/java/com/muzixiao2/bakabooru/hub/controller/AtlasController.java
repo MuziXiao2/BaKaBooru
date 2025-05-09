@@ -59,8 +59,11 @@ public class AtlasController {
             summary = "获取所有图集",
             description = "获取该图源的所有图集"
     )
-    @GetMapping
-    public ApiResponse<List<AtlasResponseDTO>> getAllAtlases(@RequestParam("sourceId") Long sourceId) {
+    @GetMapping("/{sourceId}")
+    public ApiResponse<List<AtlasResponseDTO>> getAllAtlases(
+            @Parameter(description = "图源ID", required = true)
+            @PathVariable("sourceId") Long sourceId
+    ) {
         List<AtlasResponseDTO> atlasResponseDTOList = atlasService.getAllAtlases(sourceId);
         return ApiResponse.success(atlasResponseDTOList);
     }

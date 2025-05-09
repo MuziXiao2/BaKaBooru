@@ -1,22 +1,14 @@
 export interface Image {
-  id: number
-  uuid: string
-  size: number
+  hash: number
   title: string
+  url: string
+  size: number
+  originalFileName: string
   extension: string
-  atlasId: number
 }
 
-export interface ImageRequestDTO {
-  uuid: string
+export interface ImageReferenceDTO {
   title: string
-  extension: string
-  size: number
-  atlasId: number
+  hash: string
 }
-export interface ImageResponseDTO {
-  uuid: string
-  title: string
-  extension: string
-  size: number
-}
+

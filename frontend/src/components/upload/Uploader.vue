@@ -12,8 +12,8 @@ onMounted(async () => {
   await sourceStore.update()
 })
 
-const handleSelect = (sourceMeta: Source) => {
-  uploadStateStore.currentSource = sourceMeta
+const handleSelect = (source: Source) => {
+  uploadStateStore.currentSource = source
 }
 
 const handleFinish = ({ event }: { event?: ProgressEvent }) => {
@@ -21,21 +21,17 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
   uploadStateStore.addData(response)
 }
 
+const baseUrl = 'http://localhost:8080/image'
 const uploadUrl = computed(() => {
-  return uploadStateStore.currentSource
-    ? uploadStateStore.currentSource.url + '?type=upload'
-    : undefined
+  source = uploadStateStore.currentSource
+  return source ? baseUrl + `/image/${source.id}/upload` : undefined
 })
 </script>
 
 <template>
   <n-h1>上传图片</n-h1>
   <n-flex :wrap="false" class="select-container">
-    <sourceMeta-select
-      :groups="sourceStore.groups"
-      :sourceMetas="sourceStore.sourceMetas"
-      :on-selected="handleSelect"
-    />
+    <source-select :sources="sourceStore.sources" :on-selected="handleSelect" />
     <n-button @click="uploadStateStore.saveData">保存</n-button>
   </n-flex>
   <n-upload

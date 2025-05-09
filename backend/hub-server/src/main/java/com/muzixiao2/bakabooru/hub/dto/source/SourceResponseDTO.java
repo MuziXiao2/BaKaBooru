@@ -10,18 +10,18 @@ import java.time.Instant;
 @NoArgsConstructor
 @Schema(description = "图源信息响应体")
 public class SourceResponseDTO {
-    @Schema(description = "图源ID", example = "1")
-    private Long id;
-    @Schema(description = "图源名称", example = "local-source")
+    @Schema(description = "ID")
+    private String id;
+    @Schema(description = "名称")
     private String name;
-    @Schema(description = "图源服务器地址", example = "http://localhost:8080")
+    @Schema(description = "服务器地址")
     private String url;
-    @Schema(description = "图源创建者", example = "test")
+    @Schema(description = "创建者")
     private String creator;
-    @Schema(description = "图源更新时间")
+    @Schema(description = "更新时间")
     private Instant updatedAt;
-    @Schema(description = "图源创建时间")
+    @Schema(description = "创建时间")
     private Instant createdAt;
-    @Schema(description = "图源添加时间")
+    @Schema(description = "添加时间")
     private Instant addedAt;
 }

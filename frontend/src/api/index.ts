@@ -31,5 +31,6 @@ api.interceptors.response.use(
 )
 
 export default api
-export * from './dataApi.ts'
 export * from './sourceApi.ts'
+export * from './atlasApi.ts'
+export * from './imageApi.ts'

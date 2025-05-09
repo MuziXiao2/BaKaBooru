@@ -7,5 +7,4 @@ export * from '@/stores/view/view-state.ts'
 export * from '@/stores/upload/upload-state.ts'
 export * from '@/stores/modal/modal.ts'
 
-
 export * from './global.ts'

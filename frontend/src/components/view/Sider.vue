@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Search from '@/components/view/sider/Search.vue'
-import SourceList from '@/components/common/container/sourceMetas-container/SourceList.vue'
+import SourceList from '@/components/common/container/sources-container/SourceList.vue'
 import CreateMenu from '@/components/view/sider/CreateMenu.vue'
 import { h, onMounted } from 'vue'
 import { useAtlasStore, useSoucreStore, useViewStateStore } from '@/stores'
@@ -13,9 +13,7 @@ const sourceStore = useSoucreStore()
 const atlasStore = useAtlasStore()
 const viewStateStore = useViewStateStore()
 
-onMounted(async () => {
-  await sourceStore.update()
-})
+onMounted(async () => await sourceStore.update())
 
 const defaultOption: MenuOption = {
   key: 'default',
@@ -24,27 +22,26 @@ const defaultOption: MenuOption = {
   show: true,
 }
 
-const handleSelected = async (sourceMeta: Source) => {
-  viewStateStore.currentSource = sourceMeta
-  await atlasStore.update(sourceMeta)
+const handleSelected = async (source: Source) => {
+  viewStateStore.currentSource = source
+  await atlasStore.update(source)
   viewStateStore.atlases = atlasStore.atlases
 }
 </script>
 
 <template>
-  <sourceMeta-list
+  <source-list
     title="图源"
     size="small"
-    :groups="sourceStore.groups"
-    :sourceMetas="sourceStore.sourceMetas"
     :is-loaded="sourceStore.isSourcesLoaded"
+    :sources="sourceStore.sources"
     :default-option="defaultOption"
     :on-selected="handleSelected"
   >
     <template #extra>
       <create-menu />
     </template>
-  </sourceMeta-list>
+  </source-list>
   <search />
 </template>
 

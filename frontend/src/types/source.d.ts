@@ -1,24 +1,14 @@
-export interface Group {
-  id: number
-  name: string
-}
-
 export interface Source {
-  id: number
+  id: string
   name: string
   url: string
-  groupId: number
-  addedAt: never
-
-  defaultName: string
-  ossUrl: string
   creator: string
-  createdAt: never
-  updatedAt: never
+  createdAt: string
+  updatedAt: string
+  addedAt: string
 }
 
 export interface SourceReferenceDTO {
   name: string | null
-  url: string | null
-  groupId: number | null
+  url: string
 }

@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { createAtlas, addImage } from '@/api'
 import type {
   ImageRequestDTO,
   AtlasRequestDTO,
@@ -45,25 +44,6 @@ export const useUploadStateStore = defineStore('upload-state', {
       })
     },
 
-    async saveData() {
-      for (const d of this.data) {
-        const atlas = {
-          title: d.title,
-          creator: d.creator,
-        }
-        const atlasId = (await createAtlas(this.currentSource, atlas)).id
-        for (const c of d.children) {
-          const image = {
-            uuid: c.uuid,
-            title: c.title,
-            extension: c.extension,
-            size: c.size,
-            atlasId: atlasId,
-          }
-
-          await addImage(this.currentSource, image)
-        }
-      }
-    },
+    async saveData() {},
   },
 })
