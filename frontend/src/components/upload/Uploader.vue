@@ -23,7 +23,7 @@ const handleFinish = ({ event }: { event?: ProgressEvent }) => {
 
 const baseUrl = 'http://localhost:8080/image'
 const uploadUrl = computed(() => {
-  source = uploadStateStore.currentSource
+  const source = uploadStateStore.currentSource
   return source ? baseUrl + `/image/${source.id}/upload` : undefined
 })
 </script>

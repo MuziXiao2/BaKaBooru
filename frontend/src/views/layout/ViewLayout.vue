@@ -29,12 +29,12 @@ const viewUiStore = useViewUiStore()
 }
 
 .n-layout-sider {
-  background: rgba(128, 128, 128, 0.3);
-  padding: 5px 0;
+  background: rgba(128, 128, 128, 40%);
+  padding: 1px 0;
 }
 
 .n-layout-content {
-  background: rgba(128, 128, 128, 0.4);
+  background: rgba(128, 128, 128, 50%);
   padding: 10px;
 }
 

@@ -16,6 +16,7 @@ onMounted(() => tagStore.update())
       <tag-table :tags="tagStore.tags" :is-loaded="tagStore.isTagsLoaded" />
     </template>
   </tag-layout>
+
 </template>
 
 <style scoped></style>
