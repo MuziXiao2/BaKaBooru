@@ -23,4 +23,8 @@ const theme = computed(() => (globalUiStore.isDarkMode ? darkTheme : null))
   </n-config-provider>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+
+
+</style>

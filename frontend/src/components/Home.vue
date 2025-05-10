@@ -14,7 +14,7 @@ onMounted(async () => await soucreStore.update())
 </script>
 
 <template>
-  <HomeLayout>
+  <HomeLayout style="height: 100vh">
     <template #header>
       <n-breadcrumb>
         <n-breadcrumb-item>主页</n-breadcrumb-item>
@@ -32,4 +32,6 @@ onMounted(async () => await soucreStore.update())
   </HomeLayout>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

@@ -6,10 +6,10 @@ const uiStore = useUiStore()
 
 <template>
   <n-layout>
-    <n-layout-header style="height: 64px; padding: 24px" bordered>
+    <n-layout-header style="height: 3%; padding: 6px">
       <slot name="header" />
     </n-layout-header>
-    <n-layout has-sider :native-scrollbar="false">
+    <n-layout has-sider style="height: 97%">
       <!--左侧边栏-->
       <n-layout-sider
         :collapsed="uiStore.isSiderCollapsed"
@@ -29,10 +29,6 @@ const uiStore = useUiStore()
 </template>
 
 <style scoped>
-.n-layout {
-  height: calc(100vh - 43px);
-}
-
 .n-layout-sider {
   background: rgba(128, 128, 128, 40%);
   padding: 1px 0;
