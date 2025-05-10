@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useViewUiStore } from '@/stores'
+import { useUiStore } from '@/stores'
 import { useModal } from 'naive-ui'
 
 const modal = useModal()

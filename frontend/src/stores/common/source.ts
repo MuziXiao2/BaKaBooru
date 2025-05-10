@@ -5,11 +5,11 @@ import type { Sources } from '@/types'
 export const useSoucreStore = defineStore('source', {
   state: () => ({
     isSourcesLoaded: false,
-    sources: [] as Sources,
+    sources: {} as Sources,
   }),
   getters: {
     getSource: (state) => (id: string) => {
-      return state.sourceMap[id] || null
+      return state.sources[id] || null
     },
   },
   actions: {

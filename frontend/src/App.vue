@@ -3,8 +3,8 @@ import { computed } from 'vue'
 import { NConfigProvider, NMessageProvider, NLoadingBarProvider, darkTheme } from 'naive-ui'
 
 import { useGlobalUiStore } from '@/stores'
-import MessageBox from '@/components/common/MessageBox.vue'
-import Navbar from '@/components/app/Navbar.vue'
+import MessageBox from '@/LAJI/MessageBox.vue'
+import Home from '@/components/Home.vue'
 
 const globalUiStore = useGlobalUiStore()
 const theme = computed(() => (globalUiStore.isDarkMode ? darkTheme : null))
@@ -15,12 +15,7 @@ const theme = computed(() => (globalUiStore.isDarkMode ? darkTheme : null))
     <n-message-provider>
       <n-loading-bar-provider>
         <n-modal-provider>
-          <n-layout>
-            <n-layout-header bordered>
-              <navbar />
-            </n-layout-header>
-            <router-view />
-          </n-layout>
+          <Home />
           <message-box v-if="globalUiStore.message.visible" :message="globalUiStore.message" />
         </n-modal-provider>
       </n-loading-bar-provider>
@@ -28,8 +23,4 @@ const theme = computed(() => (globalUiStore.isDarkMode ? darkTheme : null))
   </n-config-provider>
 </template>
 
-<style scoped>
-.n-layout {
-  height: 100vh;
-}
-</style>
+<style scoped></style>

@@ -3,7 +3,7 @@ import type { AtlasRequestDTO } from '@/types'
 
 const baseUrl = 'http://localhost:8080/atlas'
 
-export async function getAllAtlases(sourceId: number) {
+export async function getAllAtlases(sourceId: string) {
   const response = await api.get(baseUrl + `/${sourceId}`)
   return response.data.data
 }

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import UploadLayout from '@/views/layout/UploadLayout.vue'
-import UploadedList from '@/components/upload/UploadedList.vue'
-import Uploader from '@/components/upload/Uploader.vue'
+import UploadedList from '@/LAJI/UploadedList.vue'
+import Uploader from '@/LAJI/Uploader.vue'
 </script>
 
 <template>
   <upload-layout>
     <template #header>
-      <Uploader />
+      <uploader />
     </template>
     <template #content>
-      <UploadedList />
+      <uploaded-list />
     </template>
     <template #sider>
       <n-h1>Atlas Info</n-h1>

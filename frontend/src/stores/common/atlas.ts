@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getAllAtlases } from '@/api'
-import type { Atlas, Source } from '@/types'
+import type { Atlas } from '@/types'
 
 export const useAtlasStore = defineStore('atlas', {
   state: () => ({
@@ -9,10 +9,10 @@ export const useAtlasStore = defineStore('atlas', {
   }),
   getters: {},
   actions: {
-    async update(source: Source) {
+    async update(sourceId: string) {
       this.isAtlasesLoaded = false
-      if (!source) return
-      this.atlases = await getAllAtlases(source.id)
+      if (!sourceId) return
+      this.atlases = await getAllAtlases(sourceId)
       this.isAtlasesLoaded = true
     },
   },

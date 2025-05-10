@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Atlas, Source } from '@/types'
-import AtlasCard from '@/components/common/container/atlases-container/AtlasCard.vue'
+import type { Atlas } from '@/types'
+import AtlasCard from '@/components/common/container/AtlasesContainer/AtlasCard.vue'
 
 const props = defineProps<{
-  source: Source
   atlases: Atlas[]
   onLeftClick?: (atlas: Atlas) => void
   onRightClick?: (atlas: Atlas, event: MouseEvent) => void

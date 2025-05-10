@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ImageList from '@/components/common/ImageList.vue'
-import { useViewStateStore } from '@/stores/view/view-state.ts'
+import ImageList from '@/LAJI/ImageList.vue'
+import { useViewStateStore } from '@/stores/home/view-state.ts'
 import { storeToRefs } from 'pinia'
 import { CloseOutline as CloseIcon } from '@vicons/ionicons5'
 import { useImageStore, useViewUiStore } from '@/stores'

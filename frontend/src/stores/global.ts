@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useGlobalUiStore = defineStore('global-ui', {
   state: () => ({
-    isDarkMode: true,
+    isDarkMode: false,
     message: {
       visible: false,
       content: 'Test',
