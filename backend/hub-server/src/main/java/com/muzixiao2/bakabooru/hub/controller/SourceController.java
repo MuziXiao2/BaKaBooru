@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/source")
+@RequestMapping
 @RequiredArgsConstructor
 @Tag(name = "图源管理", description = "用于管理图像来源服务器的接口")
 public class SourceController {
@@ -29,7 +29,7 @@ public class SourceController {
                     content = @Content(schema = @Schema(implementation = SourceReferenceDTO.class))
             )
     )
-    @PostMapping
+    @PostMapping("/source")
     public ApiResponse<SourceResponseDTO> addSource(@RequestBody SourceReferenceDTO sourceReferenceDTO) {
         SourceResponseDTO sourceResponseDTO = sourceService.addSource(sourceReferenceDTO);
         return ApiResponse.success(sourceResponseDTO);
@@ -39,7 +39,7 @@ public class SourceController {
             summary = "获取图源信息",
             description = "根据 ID 获取图源服务器的详细信息"
     )
-    @GetMapping("/{id}")
+    @GetMapping("/source/{id}")
     public ApiResponse<SourceResponseDTO> getSource(@PathVariable("id") Long id) {
         SourceResponseDTO sourceResponseDTO = sourceService.getSource(id);
         return ApiResponse.success(sourceResponseDTO);
@@ -49,7 +49,7 @@ public class SourceController {
             summary = "获取所有图源",
             description = "列出系统中所有注册的图源服务器"
     )
-    @GetMapping
+    @GetMapping("/source")
     public ApiResponse<List<SourceResponseDTO>> getAllSources() {
         List<SourceResponseDTO> sourceResponseDTOList = sourceService.getAllSources();
         return ApiResponse.success(sourceResponseDTOList);

@@ -40,7 +40,7 @@ public class SourceService {
         SourceMeta sourceMeta = sourceRepository.findById(sourceId)
                 .orElseThrow(() -> new IllegalArgumentException("图源不存在"));
         SourceClient client = sourceClientRegistry.getClient(sourceId);
-        SourceRemoteDTO sourceRemoteDTO = client.fetchSource().getData();
+        SourceRemoteDTO sourceRemoteDTO = client.getSource().getData();
         return sourceMapper.toSourceResponseDTO(sourceMeta, sourceRemoteDTO);
     }
 

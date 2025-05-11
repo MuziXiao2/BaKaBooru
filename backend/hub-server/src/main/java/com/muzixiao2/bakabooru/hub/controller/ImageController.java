@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/image")
+@RequestMapping
 @RequiredArgsConstructor
 @Tag(name = "图片管理", description = "用于管理图片的接口")
 public class ImageController {
@@ -28,7 +28,7 @@ public class ImageController {
             summary = "上传图片",
             description = "上传一张图片文件，返回图片的哈希、大小等信息"
     )
-    @PostMapping(path = "/{sourceId}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/source/{sourceId}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ImageUploadResponseDTO> uploadImage(
             @Parameter(description = "图源ID", required = true)
             @PathVariable("sourceId") Long sourceId,
@@ -48,7 +48,7 @@ public class ImageController {
                     content = @Content(schema = @Schema(implementation = ImageReferenceDTO.class))
             )
     )
-    @PostMapping("/{sourceId}/{atlasUuid}")
+    @PostMapping("/source/{sourceId}/atlas/{atlasUuid}/image")
     public ApiResponse<ImageResponseDTO> addImage(
             @Parameter(description = "图源ID", required = true)
             @PathVariable("sourceId") Long sourceId,
@@ -65,7 +65,7 @@ public class ImageController {
             summary = "获取图片",
             description = "获取图片信息"
     )
-    @GetMapping("/{sourceId}/{imageHash}")
+    @GetMapping("/source/{sourceId}/image/{imageHash}")
     public ApiResponse<ImageResponseDTO> getImage(
             @Parameter(description = "图源ID", required = true)
             @PathVariable("sourceId") Long sourceId,
@@ -80,7 +80,7 @@ public class ImageController {
             summary = "获取所有图片",
             description = "获取该图集的所有图片"
     )
-    @GetMapping("/{sourceId}/{atlasUuid}")
+    @GetMapping("/source/{sourceId}/atlas/{atlasUuid}/image")
     public ApiResponse<List<ImageResponseDTO>> getAllImages(
             @Parameter(description = "图源ID", required = true)
             @PathVariable("sourceId") Long sourceId,

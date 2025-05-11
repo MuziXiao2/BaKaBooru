@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/atlas")
+@RequestMapping
 @RequiredArgsConstructor
 @Tag(name = "图集管理", description = "用于管理图集的接口")
 public class AtlasController {
     private final AtlasService atlasService;
 
-    @PostMapping
+    @PostMapping("/source/atlas")
     @Operation(summary = "添加图集", description = "根据请求内容新增一个图集记录")
     public ApiResponse<AtlasResponseDTO> addAtlas(
             @RequestBody AtlasRequestDTO atlasRequestDTO
@@ -28,21 +28,20 @@ public class AtlasController {
         return ApiResponse.success(atlasResponseDTO);
     }
 
-    @GetMapping
+    @GetMapping("/source/atlas/{atlasUuid}")
+    @Operation(summary = "获取单个图集详情", description = "根据图集UUID获取其详细信息")
+    public ApiResponse<AtlasResponseDTO> getAtlas(
+            @Parameter(description = "图集UUID", required = true)
+            @PathVariable("atlasUuid") String atlasUuid
+    ) {
+        AtlasResponseDTO atlasResponseDTO = atlasService.getAtlas(atlasUuid);
+        return ApiResponse.success(atlasResponseDTO);
+    }
+
+    @GetMapping("/source/atlas")
     @Operation(summary = "获取所有图集", description = "可选按更新时间过滤，返回图集列表")
     public ApiResponse<List<AtlasResponseDTO>> getAllAtlases() {
         List<AtlasResponseDTO> atlasResponseDTOList = atlasService.getAllAtlases();
         return ApiResponse.success(atlasResponseDTOList);
     }
-
-    @GetMapping("/{uuid}")
-    @Operation(summary = "获取单个图集详情", description = "根据图集UUID获取其详细信息")
-    public ApiResponse<AtlasResponseDTO> getAtlas(
-            @Parameter(description = "图集UUID", required = true)
-            @PathVariable("uuid") String uuid
-    ) {
-        AtlasResponseDTO atlasResponseDTO = atlasService.getAtlas(uuid);
-        return ApiResponse.success(atlasResponseDTO);
-    }
-
 }

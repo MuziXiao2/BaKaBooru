@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/atlas")
+@RequestMapping
 @RequiredArgsConstructor
 @Tag(name = "图集管理", description = "用于管理图集的接口")
 public class AtlasController {
@@ -30,7 +30,7 @@ public class AtlasController {
                     content = @Content(schema = @Schema(implementation = AtlasReferenceDTO.class))
             )
     )
-    @PostMapping("/{sourceId}")
+    @PostMapping("/source/{sourceId}")
     public ApiResponse<AtlasResponseDTO> addAtlas(
             @Parameter(description = "图源ID", required = true)
             @PathVariable("sourceId") Long sourceId,
@@ -44,7 +44,7 @@ public class AtlasController {
             summary = "获取单个图集",
             description = "获取该图源下的单个图集"
     )
-    @GetMapping("/{sourceId}/{atlasUuid}")
+    @GetMapping("/source/{sourceId}/atlas/{atlasUuid}")
     public ApiResponse<AtlasResponseDTO> getAtlas(
             @Parameter(description = "图源ID", required = true)
             @PathVariable("sourceId") Long sourceId,
@@ -59,7 +59,7 @@ public class AtlasController {
             summary = "获取所有图集",
             description = "获取该图源的所有图集"
     )
-    @GetMapping("/{sourceId}")
+    @GetMapping("/source/{sourceId}/atlas")
     public ApiResponse<List<AtlasResponseDTO>> getAllAtlases(
             @Parameter(description = "图源ID", required = true)
             @PathVariable("sourceId") Long sourceId

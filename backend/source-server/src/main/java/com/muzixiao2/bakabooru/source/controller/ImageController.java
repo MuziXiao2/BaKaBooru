@@ -17,13 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/image")
+@RequestMapping
 @RequiredArgsConstructor
 @Tag(name = "图片管理", description = "用于管理图片的接口")
 public class ImageController {
     private final ImageService imageService;
 
-    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/source/image/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "上传图片", description = "上传一张图片文件，返回图片的哈希、大小等信息")
     public ApiResponse<ImageUploadResponseDTO> uploadImage(
             @Schema(type = "string", format = "binary")
@@ -35,32 +35,32 @@ public class ImageController {
         return ApiResponse.success(imageUploadResponseDTO);
     }
 
-    @PostMapping("/{uuid}")
+    @PostMapping("/source/atlas/{atlasUuid}/image")
     @Operation(summary = "向图集添加图片", description = "给指定UUID的图集添加一张图片记录")
     public ApiResponse<ImageResponseDTO> addImage(
             @Parameter(description = "图集的UUID", required = true)
-            @PathVariable("uuid") String atlasUuid,
+            @PathVariable("atlasUuid") String atlasUuid,
             @RequestBody ImageRequestDTO imageRequestDTO
     ) {
         ImageResponseDTO imageResponseDTO = imageService.addImage(atlasUuid, imageRequestDTO);
         return ApiResponse.success(imageResponseDTO);
     }
 
-    @GetMapping("/{hash}")
+    @GetMapping("/source/image/{imageHash}")
     @Operation(summary = "获取图片信息", description = "根据图片哈希值，查询图片信息")
     public ApiResponse<ImageResponseDTO> getImage(
             @Parameter(description = "图集UUID", required = true)
-            @PathVariable("hash") String hash
+            @PathVariable("imageHash") String imageHash
     ) {
-        ImageResponseDTO imageResponseDTO = imageService.getImage(hash);
+        ImageResponseDTO imageResponseDTO = imageService.getImage(imageHash);
         return ApiResponse.success(imageResponseDTO);
     }
 
-    @GetMapping("/{uuid}")
+    @GetMapping("/source/atlas/{atlasUuid}/image")
     @Operation(summary = "获取图集下所有图片", description = "根据图集UUID，查询该图集中包含的所有图片")
     public ApiResponse<List<ImageResponseDTO>> getAllImages(
             @Parameter(description = "图集UUID", required = true)
-            @PathVariable("uuid") String atlasUuid
+            @PathVariable("atlasUuid") String atlasUuid
     ) {
         List<ImageResponseDTO> imageResponseDTOList = imageService.getAllImages(atlasUuid);
         return ApiResponse.success(imageResponseDTOList);

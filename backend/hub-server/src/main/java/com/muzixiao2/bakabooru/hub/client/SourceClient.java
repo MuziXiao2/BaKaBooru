@@ -17,29 +17,29 @@ import java.util.List;
 
 public interface SourceClient {
     @RequestLine("GET /source")
-    ApiResponse<SourceRemoteDTO> fetchSource();
+    ApiResponse<SourceRemoteDTO> getSource();
 
-    @RequestLine("POST /atlas")
+    @RequestLine("POST /source/atlas")
     @Headers("Content-Type: application/json")
     ApiResponse<AtlasRemoteDTO> addAtlas(AtlasReferenceDTO atlasReferenceDTO);
 
-    @RequestLine("GET /atlas/{uuid}")
-    ApiResponse<AtlasRemoteDTO> fetchAtlas(@Param("uuid") String atlasUuid);
+    @RequestLine("GET /source/atlas/{atlasUuid}")
+    ApiResponse<AtlasRemoteDTO> getAtlas(@Param("atlasUuid") String atlasUuid);
 
-    @RequestLine("GET /atlas")
-    ApiResponse<List<AtlasRemoteDTO>> fetchAllAtlases();
+    @RequestLine("GET /source/atlas")
+    ApiResponse<List<AtlasRemoteDTO>> getAllAtlases();
 
-    @RequestLine("POST /image/upload")
+    @RequestLine("POST /source/image/upload")
     @Headers("Content-Type: multipart/form-data")
     ApiResponse<ImageUploadRemoteDTO> uploadImage(@Param("file") MultipartFile file);
 
-    @RequestLine("POST /image/{uuid}")
+    @RequestLine("POST /source/atlas/{atlasUuid}/image")
     @Headers("Content-Type: application/json")
-    ApiResponse<ImageRemoteDTO> addImage(@Param("uuid") String atlasUuid, ImageReferenceDTO imageReferenceDTO);
+    ApiResponse<ImageRemoteDTO> addImage(@Param("atlasUuid") String atlasUuid, ImageReferenceDTO imageReferenceDTO);
 
-    @RequestLine("GET /image/{hash}")
-    ApiResponse<ImageRemoteDTO> fetchImage(@Param("hash") String hash);
+    @RequestLine("GET /source/image/{imageHash}")
+    ApiResponse<ImageRemoteDTO> getImage(@Param("imageHash") String hash);
 
-    @RequestLine("GET /image/{uuid}")
-    ApiResponse<List<ImageRemoteDTO>> fetchImages(@Param("uuid") String atlasUuid);
+    @RequestLine("GET /source/atlas/{atlasUuid}/image")
+    ApiResponse<List<ImageRemoteDTO>> getImages(@Param("atlasUuid") String atlasUuid);
 }

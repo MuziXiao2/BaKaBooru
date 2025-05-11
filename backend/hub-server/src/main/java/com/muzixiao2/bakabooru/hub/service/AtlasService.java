@@ -33,7 +33,7 @@ public class AtlasService {
     @Transactional(readOnly = true)
     public AtlasResponseDTO getAtlas(Long sourceId, String atlasUuid) {
         SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
-        AtlasRemoteDTO atlasRemoteDTO = sourceClient.fetchAtlas(atlasUuid).getData();
+        AtlasRemoteDTO atlasRemoteDTO = sourceClient.getAtlas(atlasUuid).getData();
         return atlasMapper.toResponseDTO(atlasRemoteDTO);
     }
 
@@ -41,7 +41,7 @@ public class AtlasService {
     @Transactional(readOnly = true)
     public List<AtlasResponseDTO> getAllAtlases(Long sourceId) {
         SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
-        List<AtlasRemoteDTO> atlasRemoteDTOList = sourceClient.fetchAllAtlases().getData();
+        List<AtlasRemoteDTO> atlasRemoteDTOList = sourceClient.getAllAtlases().getData();
         return atlasRemoteDTOList.stream().map(atlasMapper::toResponseDTO).toList();
     }
 }

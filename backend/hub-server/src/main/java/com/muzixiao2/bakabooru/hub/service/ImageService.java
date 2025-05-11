@@ -38,7 +38,7 @@ public class ImageService {
     @Transactional(readOnly = true)
     public ImageResponseDTO getImage(Long sourceId, String imageHash) {
         SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
-        ImageRemoteDTO imageRemoteDTO = sourceClient.fetchImage(imageHash).getData();
+        ImageRemoteDTO imageRemoteDTO = sourceClient.getImage(imageHash).getData();
         return imageMapper.toResponseDTO(imageRemoteDTO);
     }
 
@@ -46,7 +46,7 @@ public class ImageService {
     @Transactional(readOnly = true)
     public List<ImageResponseDTO> getAllImages(Long sourceId, String atlasUuid) {
         SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
-        List<ImageRemoteDTO> imageRemoteDTOList = sourceClient.fetchImages(atlasUuid).getData();
+        List<ImageRemoteDTO> imageRemoteDTOList = sourceClient.getImages(atlasUuid).getData();
         return imageRemoteDTOList.stream().map(imageMapper::toResponseDTO).toList();
     }
 }

@@ -9,13 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/source")
+@RequestMapping
 @RequiredArgsConstructor
 @Tag(name = "图源管理", description = "用于管理图像来源服务器的接口")
 public class SourceController {
     private final SourceService sourceService;
 
-    @GetMapping
+    @GetMapping("/source")
     @Operation(summary = "获取图源信息", description = "获取当前source服务的基本信息，比如名称、版本、权限等")
     public ApiResponse<SourceResponseDTO> getSource() {
         SourceResponseDTO sourceResponseDTO = sourceService.getSource();
