@@ -37,6 +37,9 @@ public interface SourceClient {
     @Headers("Content-Type: application/json")
     ApiResponse<ImageRemoteDTO> addImage(@Param("uuid") String atlasUuid, ImageReferenceDTO imageReferenceDTO);
 
+    @RequestLine("GET /image/{hash}")
+    ApiResponse<ImageRemoteDTO> fetchImage(@Param("hash") String hash);
+
     @RequestLine("GET /image/{uuid}")
     ApiResponse<List<ImageRemoteDTO>> fetchImages(@Param("uuid") String atlasUuid);
 }

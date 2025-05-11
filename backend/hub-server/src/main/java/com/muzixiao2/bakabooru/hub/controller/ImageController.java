@@ -60,6 +60,22 @@ public class ImageController {
         return ApiResponse.success(imageResponseDTO);
     }
 
+
+    @Operation(
+            summary = "获取图片",
+            description = "获取图片信息"
+    )
+    @GetMapping("/{sourceId}/{imageHash}")
+    public ApiResponse<ImageResponseDTO> getImage(
+            @Parameter(description = "图源ID", required = true)
+            @PathVariable("sourceId") Long sourceId,
+            @Parameter(description = "图片哈希值", required = true)
+            @PathVariable("imageHash") String imageHash
+    ) {
+        ImageResponseDTO imageResponseDTO = imageService.getImage(sourceId, imageHash);
+        return ApiResponse.success(imageResponseDTO);
+    }
+
     @Operation(
             summary = "获取所有图片",
             description = "获取该图集的所有图片"

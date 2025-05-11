@@ -52,10 +52,15 @@ public class ImageService {
                 .orElseThrow(() -> new IllegalArgumentException("图集不存在"));
         Image image = imageRepository.findByHash(imageRequestDTO.getHash())
                 .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        //图集封面
+        if (atlasImageRepository.count() == 0) {
+            atlas.setCoverHash(image.getHash());
+            atlasRepository.save(atlas);
+        }
         //创建图集图片关系
         AtlasImage atlasImage = new AtlasImage();
-        atlasImage.setAtlas(atlas);
-        atlasImage.setImage(image);
+        atlasImage.setAtlasUuid(atlas.getUuid());
+        atlasImage.setImageHash(image.getHash());
         atlasImage.setTitle(imageRequestDTO.getTitle());
         //保存图集图片关系
         atlasImageRepository.save(atlasImage);
@@ -66,17 +71,25 @@ public class ImageService {
         return imageResponseDTO;
     }
 
+    // 获取图片
+    @Transactional(readOnly = true)
+    public ImageResponseDTO getImage(String hash) {
+        Image image = imageRepository.findByHash(hash)
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
+        imageResponseDTO.setUrl(minIOUtil.generatePresignedUrl(image.getHash()));
+        return imageResponseDTO;
+    }
+
     // 获取图片列表
     @Transactional(readOnly = true)
-    public List<ImageResponseDTO> getImages(String uuid) {
-        Atlas atlas = atlasRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图集不存在"));
-        List<AtlasImage> atlasImageList = atlasImageRepository.findAllByAtlas(atlas);
-        return atlasImageList.stream().map(atlasImage -> {
-            Image image = atlasImage.getImage();
-            ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
-            imageResponseDTO.setUrl(minIOUtil.generatePresignedUrl(image.getHash()));
-            imageResponseDTO.setTitle(atlasImage.getTitle());
-            return imageResponseDTO;
-        }).toList();
+    public List<ImageResponseDTO> getAllImages(String uuid) {
+        Atlas atlas = atlasRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图集不存在"));
+        List<AtlasImage> atlasImageList = atlasImageRepository.findAllByAtlasUuid(atlas.getUuid());
+        return atlasImageList
+                .stream()
+                .map(atlasImage -> getImage(atlasImage.getImageHash()))
+                .toList();
     }
 }

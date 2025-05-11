@@ -46,13 +46,23 @@ public class ImageController {
         return ApiResponse.success(imageResponseDTO);
     }
 
+    @GetMapping("/{hash}")
+    @Operation(summary = "获取图片信息", description = "根据图片哈希值，查询图片信息")
+    public ApiResponse<ImageResponseDTO> getImage(
+            @Parameter(description = "图集UUID", required = true)
+            @PathVariable("hash") String hash
+    ) {
+        ImageResponseDTO imageResponseDTO = imageService.getImage(hash);
+        return ApiResponse.success(imageResponseDTO);
+    }
+
     @GetMapping("/{uuid}")
     @Operation(summary = "获取图集下所有图片", description = "根据图集UUID，查询该图集中包含的所有图片")
-    public ApiResponse<List<ImageResponseDTO>> getImages(
+    public ApiResponse<List<ImageResponseDTO>> getAllImages(
             @Parameter(description = "图集UUID", required = true)
             @PathVariable("uuid") String atlasUuid
     ) {
-        List<ImageResponseDTO> imageResponseDTOList = imageService.getImages(atlasUuid);
+        List<ImageResponseDTO> imageResponseDTOList = imageService.getAllImages(atlasUuid);
         return ApiResponse.success(imageResponseDTOList);
     }
 }

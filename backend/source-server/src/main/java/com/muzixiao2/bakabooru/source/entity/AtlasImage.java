@@ -16,20 +16,24 @@ public class AtlasImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "atlas_uuid", nullable = false)
-    private Atlas atlas;
+    // 图集 UUID
+    @Column(name = "atlas_uuid", nullable = false, length = 36)
+    private String atlasUuid;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_hash", referencedColumnName = "hash", nullable = false)
-    private Image image;
+    // 图片 Hash
+    @Column(name = "image_hash", nullable = false, length = 64)
+    private String imageHash;
 
-    //图片标题
+    // 图片顺序
+    @Column(name = "order_index")
+    private Double orderIndex;
+
+    // 图片标题
     @Column(name = "title")
     private String title;
 
-    //图片添加时间
+    // 图片添加时间
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 }

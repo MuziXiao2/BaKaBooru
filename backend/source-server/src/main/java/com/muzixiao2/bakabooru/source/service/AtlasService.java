@@ -34,8 +34,8 @@ public class AtlasService {
     @Transactional(readOnly = true)
     public AtlasResponseDTO getAtlas(String uuid) {
         //获取所需实体
-        Atlas atlas = atlasRepository.findByUuid(uuid).orElse(null);
-        if (atlas == null) throw new IllegalArgumentException("图集不存在");
+        Atlas atlas = atlasRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图集不存在"));
         //转换为响应DTO
         return atlasMapper.toResponseDTO(atlas);
     }

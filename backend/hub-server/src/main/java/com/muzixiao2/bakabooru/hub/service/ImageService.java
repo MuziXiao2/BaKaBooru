@@ -23,7 +23,7 @@ public class ImageService {
         SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
         ImageUploadRemoteDTO imageUploadRemoteDTO = sourceClient.uploadImage(file).getData();
 
-        return imageMapper.toResponseDTO(imageUploadRemoteDTO) ;
+        return imageMapper.toResponseDTO(imageUploadRemoteDTO);
     }
 
     // 添加图片
@@ -31,6 +31,14 @@ public class ImageService {
     public ImageResponseDTO addImage(Long sourceId, String atlasUuid, ImageReferenceDTO imageReferenceDTO) {
         SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
         ImageRemoteDTO imageRemoteDTO = sourceClient.addImage(atlasUuid, imageReferenceDTO).getData();
+        return imageMapper.toResponseDTO(imageRemoteDTO);
+    }
+
+    // 获取图片
+    @Transactional(readOnly = true)
+    public ImageResponseDTO getImage(Long sourceId, String imageHash) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+        ImageRemoteDTO imageRemoteDTO = sourceClient.fetchImage(imageHash).getData();
         return imageMapper.toResponseDTO(imageRemoteDTO);
     }
 
