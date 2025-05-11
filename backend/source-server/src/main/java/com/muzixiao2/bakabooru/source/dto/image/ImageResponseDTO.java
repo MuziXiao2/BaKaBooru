@@ -12,6 +12,8 @@ public class ImageResponseDTO {
     private String title;
     private String url;
     private Long size;
+    private Integer width;
+    private Integer height;
     private String originalFileName;
     private String extension;
 }

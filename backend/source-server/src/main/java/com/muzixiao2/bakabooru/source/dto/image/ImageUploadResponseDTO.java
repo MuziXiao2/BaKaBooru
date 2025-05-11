@@ -12,4 +12,6 @@ public class ImageUploadResponseDTO {
     private String originalFileName;
     private String extension;
     private Long size;
+    private Integer width;
+    private Integer height;
 }

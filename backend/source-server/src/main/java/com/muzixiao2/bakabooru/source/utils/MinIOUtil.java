@@ -4,14 +4,17 @@ import com.muzixiao2.bakabooru.source.config.MinioProperties;
 import com.muzixiao2.bakabooru.source.dto.image.ImageUploadResponseDTO;
 import io.minio.*;
 import io.minio.http.Method;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 
 @Component
 public class MinIOUtil {
-
     private final MinioClient minioClient;
     private final String bucketName;
     private final int urlExpirySeconds;
@@ -53,7 +56,14 @@ public class MinIOUtil {
         } catch (Exception e) {
             throw new RuntimeException("上传文件到MinIO失败", e);
         }
-
+        int width, height;
+        try {
+            BufferedImage image = ImageIO.read(file.getInputStream());
+            width = image.getWidth();
+            height = image.getHeight();
+        } catch (IOException e) {
+            throw new RuntimeException("获取图片信息", e);
+        }
         // 返回上传成功后的信息
         String originalFilename = file.getOriginalFilename();
         String extension = "";
@@ -62,7 +72,7 @@ public class MinIOUtil {
             extension = originalFilename.substring(idx);
             originalFilename = originalFilename.substring(0, idx);
         }
-        return new ImageUploadResponseDTO(hash, originalFilename, extension, file.getSize());
+        return new ImageUploadResponseDTO(hash, originalFilename, extension, file.getSize(), width, height);
     }
 
     /**

@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
 public interface SourceClient {
     @RequestLine("GET /source")
     ApiResponse<SourceRemoteDTO> getSource();

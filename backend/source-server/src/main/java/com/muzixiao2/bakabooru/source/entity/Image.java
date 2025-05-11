@@ -28,6 +28,12 @@ public class Image {
     //字节数
     @Column(name = "size")
     private Long size;
+    //宽
+    @Column(name = "width")
+    private Integer width;
+    //高
+    @Column(name = "height")
+    private Integer height;
     //引用数
     @Column(name = "reference_count")
     private Long referenceCount = 1L;
