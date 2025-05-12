@@ -1,30 +1,37 @@
 <script setup lang="ts">
 import type { Atlas } from '@/types'
-import FsVirtualWaterFall from '@/utils/FsVirtualWaterFall/index.vue'
+import VirtualWaterFall from '@/utils/VirtualWaterFall.vue'
+import { computed } from 'vue'
+import { useImageStore } from '@/stores'
 
 const props = defineProps<{
   atlases: Atlas[]
   onLeftClick?: (atlas: Atlas) => void
   onRightClick?: (atlas: Atlas, event: MouseEvent) => void
 }>()
-const atlasCovers = [
-  {
-    uuid: 'a',
-    url: curl,
-    width: 111,
-    height: 2223,
-  },
-]
+
+const imageStore = useImageStore()
+
+const atlasCovers = computed(() =>
+  props.atlases.map(async (atlas) => {
+    const image = await imageStore.getImage(atlas.sourceUuid, atlas.coverHash)
+    return {
+      id: atlas.uuid,
+      title: image.title,
+      url: image.url,
+      width: image.width,
+      height: image.height,
+    }
+  }),
+)
 </script>
 
 <template>
-  <FsVirtualWaterFall :items="atlasCovers" :column="4" :gap="20">
+  <VirtualWaterFall :items="atlasCovers">
     <template #item="{ item }">
-      <template #default="{ item }">
-        <img :src="item.url" style="width: 100%" />
-      </template>
+      <img :src="item.url" :alt="item.title" style="width: 100%; height: 100%" />
     </template>
-  </FsVirtualWaterFall>
+  </VirtualWaterFall>
 </template>
 
 <style scoped></style>

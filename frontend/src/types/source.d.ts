@@ -1,5 +1,5 @@
 export interface Source {
-  id: string
+  uuid: string
   name: string
   url: string
   creator: string

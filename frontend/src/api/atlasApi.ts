@@ -1,19 +1,19 @@
 import api from '@/api/index.ts'
-import type { AtlasRequestDTO } from '@/types'
+import type { Atlas, AtlasRequestDTO } from '@/types'
 
-const baseUrl = 'http://localhost:8080/atlas'
+const baseUrl = 'http://localhost:8080'
 
-export async function getAllAtlases(sourceId: string) {
-  const response = await api.get(baseUrl + `/${sourceId}`)
+export async function getAtlas(sourceUuid: string, atlasUuid: string) {
+  const response = await api.get(baseUrl + `/source/${sourceUuid}/atlas/${atlasUuid}`)
   return response.data.data
 }
 
-export async function getAtlas(sourceId: number, atlasUuid: string) {
-  const response = await api.get(baseUrl + `/${sourceId}/${atlasUuid}`)
+export async function getAllAtlases(sourceUuid: string): Promise<Atlas[]> {
+  const response = await api.get(baseUrl + `/source/${sourceUuid}/atlas`)
   return response.data.data
 }
 
-export async function addAtlas(sourceId: number, atlasRequestDTO: AtlasRequestDTO) {
-  const response = await api.post(baseUrl + `/${sourceId}`, atlasRequestDTO)
+export async function addAtlas(sourceUuid: string, atlasRequestDTO: AtlasRequestDTO) {
+  const response = await api.post(baseUrl + `/source/${sourceUuid}`, atlasRequestDTO)
   return response.data.data
 }

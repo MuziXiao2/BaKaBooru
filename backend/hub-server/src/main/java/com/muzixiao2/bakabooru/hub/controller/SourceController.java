@@ -39,9 +39,9 @@ public class SourceController {
             summary = "获取图源信息",
             description = "根据 ID 获取图源服务器的详细信息"
     )
-    @GetMapping("/source/{id}")
-    public ApiResponse<SourceResponseDTO> getSource(@PathVariable("id") Long id) {
-        SourceResponseDTO sourceResponseDTO = sourceService.getSource(id);
+    @GetMapping("/source/{sourceUuid}")
+    public ApiResponse<SourceResponseDTO> getSource(@PathVariable("sourceUuid") String sourceUuid) {
+        SourceResponseDTO sourceResponseDTO = sourceService.getSource(sourceUuid);
         return ApiResponse.success(sourceResponseDTO);
     }
 

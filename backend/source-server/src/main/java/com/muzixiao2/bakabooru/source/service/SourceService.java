@@ -12,13 +12,11 @@ public class SourceService {
 
     public SourceResponseDTO getSource() {
         SourceResponseDTO sourceResponseDTO = new SourceResponseDTO();
-
         sourceResponseDTO.setDefaultName(sourceConfig.getDefaultName());
         sourceResponseDTO.setUrl(sourceConfig.getUrl());
         sourceResponseDTO.setCreator(sourceConfig.getCreator());
         sourceResponseDTO.setCreatedAt(sourceConfig.getCreatedAt());
         sourceResponseDTO.setUpdatedAt(sourceConfig.getUpdatedAt());
-
         return sourceResponseDTO;
     }
 }

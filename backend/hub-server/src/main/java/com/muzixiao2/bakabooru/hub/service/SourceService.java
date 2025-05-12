@@ -31,15 +31,16 @@ public class SourceService {
         // 添加连接
         sourceClientRegistry.addClient(sourceMeta);
         // 返回结果
-        return getSource(sourceMeta.getId());
+        return getSource(sourceMeta.getUuid());
     }
 
     //获取单个图源信息
     @Transactional(readOnly = true)
-    public SourceResponseDTO getSource(Long sourceId) {
-        SourceMeta sourceMeta = sourceRepository.findById(sourceId)
+    public SourceResponseDTO getSource(String getUuid) {
+        SourceMeta sourceMeta = sourceRepository.findByUuid(getUuid)
                 .orElseThrow(() -> new IllegalArgumentException("图源不存在"));
-        SourceClient client = sourceClientRegistry.getClient(sourceId);
+        // 获取图源客户端
+        SourceClient client = sourceClientRegistry.getClient(getUuid);
         SourceRemoteDTO sourceRemoteDTO = client.getSource().getData();
         return sourceMapper.toSourceResponseDTO(sourceMeta, sourceRemoteDTO);
     }
@@ -48,6 +49,6 @@ public class SourceService {
     @Transactional(readOnly = true)
     public List<SourceResponseDTO> getAllSources() {
         List<SourceMeta> sourceMetas = sourceRepository.findAllByOrderByAddedAtAsc();
-        return sourceMetas.stream().map(sourceMeta -> getSource(sourceMeta.getId())).toList();
+        return sourceMetas.stream().map(sourceMeta -> getSource(sourceMeta.getUuid())).toList();
     }
 }

@@ -9,10 +9,12 @@ import java.time.Instant;
 @NoArgsConstructor
 public class AtlasResponseDTO {
     private String uuid;
+    private String sourceUuid;
     private String title;
     private String coverHash;
     private String creator;
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
+
 }

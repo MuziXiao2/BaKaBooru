@@ -3,6 +3,8 @@ export interface Image {
   title: string
   url: string
   size: number
+  width: number
+  height: number
   originalFileName: string
   extension: string
 }
@@ -11,4 +13,3 @@ export interface ImageReferenceDTO {
   title: string
   hash: string
 }
-

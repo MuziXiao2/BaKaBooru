@@ -7,21 +7,21 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "source-meta")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"id"})
 public class SourceMeta {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(nullable = false, unique = true, updatable = false)
+    private String uuid = UUID.randomUUID().toString();
     //名称
     @Column(name = "name")
     private String name;
     //URL
-    @Column(name = "url")
+    @Column(name = "url", unique = true, nullable = false)
     private String url;
     //添加时间
     @Column(name = "added_at", nullable = false, updatable = false)

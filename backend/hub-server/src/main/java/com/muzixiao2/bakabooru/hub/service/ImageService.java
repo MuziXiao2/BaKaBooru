@@ -19,8 +19,8 @@ public class ImageService {
 
     // 上传图片
     @Transactional
-    public ImageUploadResponseDTO uploadImage(Long sourceId, MultipartFile file) {
-        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+    public ImageUploadResponseDTO uploadImage(String sourceUuid, MultipartFile file) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceUuid);
         ImageUploadRemoteDTO imageUploadRemoteDTO = sourceClient.uploadImage(file).getData();
 
         return imageMapper.toResponseDTO(imageUploadRemoteDTO);
@@ -28,24 +28,24 @@ public class ImageService {
 
     // 添加图片
     @Transactional
-    public ImageResponseDTO addImage(Long sourceId, String atlasUuid, ImageReferenceDTO imageReferenceDTO) {
-        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+    public ImageResponseDTO addImage(String sourceUuid, String atlasUuid, ImageReferenceDTO imageReferenceDTO) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceUuid);
         ImageRemoteDTO imageRemoteDTO = sourceClient.addImage(atlasUuid, imageReferenceDTO).getData();
         return imageMapper.toResponseDTO(imageRemoteDTO);
     }
 
     // 获取图片
     @Transactional(readOnly = true)
-    public ImageResponseDTO getImage(Long sourceId, String imageHash) {
-        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+    public ImageResponseDTO getImage(String sourceUuid, String imageHash) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceUuid);
         ImageRemoteDTO imageRemoteDTO = sourceClient.getImage(imageHash).getData();
         return imageMapper.toResponseDTO(imageRemoteDTO);
     }
 
     // 获取所有图片
     @Transactional(readOnly = true)
-    public List<ImageResponseDTO> getAllImages(Long sourceId, String atlasUuid) {
-        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+    public List<ImageResponseDTO> getAllImages(String sourceUuid, String atlasUuid) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceUuid);
         List<ImageRemoteDTO> imageRemoteDTOList = sourceClient.getImages(atlasUuid).getData();
         return imageRemoteDTOList.stream().map(imageMapper::toResponseDTO).toList();
     }

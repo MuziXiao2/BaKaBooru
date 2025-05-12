@@ -9,10 +9,10 @@ export const useAtlasStore = defineStore('atlas', {
   }),
   getters: {},
   actions: {
-    async update(sourceId: string) {
+    async update(sourceUuid: string) {
       this.isAtlasesLoaded = false
-      if (!sourceId) return
-      this.atlases = await getAllAtlases(sourceId)
+      if (!sourceUuid) return
+      this.atlases = await getAllAtlases(sourceUuid)
       this.isAtlasesLoaded = true
     },
   },

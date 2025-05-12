@@ -27,8 +27,8 @@ public class SourceClientRegistry implements InitializingBean {
         sourceClientMap.put(sourceMeta, sourceClientFactory.createClient(sourceMeta.getUrl()));
     }
 
-    public SourceClient getClient(Long sourceId) {
-        SourceMeta sourceMeta = sourceRepository.findById(sourceId)
+    public SourceClient getClient(String sourceUuid) {
+        SourceMeta sourceMeta = sourceRepository.findByUuid(sourceUuid)
                 .orElseThrow(() -> new IllegalArgumentException("图源不存在"));
         return sourceClientMap.computeIfAbsent(sourceMeta, meta -> sourceClientFactory.createClient(meta.getUrl()));
     }

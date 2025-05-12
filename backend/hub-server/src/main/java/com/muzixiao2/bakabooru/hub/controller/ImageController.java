@@ -28,14 +28,14 @@ public class ImageController {
             summary = "上传图片",
             description = "上传一张图片文件，返回图片的哈希、大小等信息"
     )
-    @PostMapping(path = "/source/{sourceId}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/source/{sourceUuid}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ImageUploadResponseDTO> uploadImage(
             @Parameter(description = "图源ID", required = true)
-            @PathVariable("sourceId") Long sourceId,
+            @PathVariable("sourceUuid") String sourceUuid,
             @Schema(type = "string", format = "binary")
             @RequestParam("file") MultipartFile file
     ) {
-        ImageUploadResponseDTO imageUploadResponseDTO = imageService.uploadImage(sourceId, file);
+        ImageUploadResponseDTO imageUploadResponseDTO = imageService.uploadImage(sourceUuid, file);
         return ApiResponse.success(imageUploadResponseDTO);
     }
 
@@ -48,31 +48,30 @@ public class ImageController {
                     content = @Content(schema = @Schema(implementation = ImageReferenceDTO.class))
             )
     )
-    @PostMapping("/source/{sourceId}/atlas/{atlasUuid}/image")
+    @PostMapping("/source/{sourceUuid}/atlas/{atlasUuid}/image")
     public ApiResponse<ImageResponseDTO> addImage(
             @Parameter(description = "图源ID", required = true)
-            @PathVariable("sourceId") Long sourceId,
+            @PathVariable("sourceUuid") String sourceUuid,
             @Parameter(description = "图集UUID", required = true)
             @PathVariable("atlasUuid") String atlasUuid,
             @RequestBody ImageReferenceDTO imageReferenceDTO
     ) {
-        ImageResponseDTO imageResponseDTO = imageService.addImage(sourceId, atlasUuid, imageReferenceDTO);
+        ImageResponseDTO imageResponseDTO = imageService.addImage(sourceUuid, atlasUuid, imageReferenceDTO);
         return ApiResponse.success(imageResponseDTO);
     }
-
 
     @Operation(
             summary = "获取图片",
             description = "获取图片信息"
     )
-    @GetMapping("/source/{sourceId}/image/{imageHash}")
+    @GetMapping("/source/{sourceUuid}/image/{imageHash}")
     public ApiResponse<ImageResponseDTO> getImage(
             @Parameter(description = "图源ID", required = true)
-            @PathVariable("sourceId") Long sourceId,
+            @PathVariable("sourceUuid") String sourceUuid,
             @Parameter(description = "图片哈希值", required = true)
             @PathVariable("imageHash") String imageHash
     ) {
-        ImageResponseDTO imageResponseDTO = imageService.getImage(sourceId, imageHash);
+        ImageResponseDTO imageResponseDTO = imageService.getImage(sourceUuid, imageHash);
         return ApiResponse.success(imageResponseDTO);
     }
 
@@ -80,14 +79,14 @@ public class ImageController {
             summary = "获取所有图片",
             description = "获取该图集的所有图片"
     )
-    @GetMapping("/source/{sourceId}/atlas/{atlasUuid}/image")
+    @GetMapping("/source/{sourceUuid}/atlas/{atlasUuid}/image")
     public ApiResponse<List<ImageResponseDTO>> getAllImages(
             @Parameter(description = "图源ID", required = true)
-            @PathVariable("sourceId") Long sourceId,
+            @PathVariable("sourceUuid") String sourceUuid,
             @Parameter(description = "图集UUID", required = true)
             @PathVariable("atlasUuid") String atlasUuid
     ) {
-        List<ImageResponseDTO> imageResponseDTOList = imageService.getAllImages(sourceId, atlasUuid);
+        List<ImageResponseDTO> imageResponseDTOList = imageService.getAllImages(sourceUuid, atlasUuid);
         return ApiResponse.success(imageResponseDTOList);
     }
 }

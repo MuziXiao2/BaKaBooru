@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { useModal } from 'naive-ui'
-import { useUiStore, useStateStore, useAtlasStore } from '@/stores'
+import { useStateStore, useAtlasStore } from '@/stores'
 import VirtualWaterFall from '@/components/common/VirtualWaterFall.vue'
 import { onMounted } from 'vue'
+import LoadingSpin from '@/components/common/LoadingSpin.vue'
 
-const modal = useModal()
-const uiStore = useUiStore()
 const stateStore = useStateStore()
 const atlasStore = useAtlasStore()
 
-onMounted(async () => await atlasStore.update(stateStore.currentSource.id))
+onMounted(async () => await atlasStore.update(stateStore.currentSource.uuid))
 </script>
 
 <template>
-  <VirtualWaterFall />
+  <VirtualWaterFall v-if="atlasStore.isAtlasesLoaded" :atlases="atlasStore.atlases" />
+  <LoadingSpin v-else />
 </template>
 
 <style scoped></style>

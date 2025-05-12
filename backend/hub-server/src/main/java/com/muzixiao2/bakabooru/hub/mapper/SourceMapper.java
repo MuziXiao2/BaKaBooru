@@ -11,8 +11,8 @@ import org.mapstruct.Mapping;
 public interface SourceMapper {
     SourceMeta toMeta(SourceReferenceDTO sourceSyncDTO);
 
+    @Mapping(source = "sourceMeta.uuid", target = "uuid")
     @Mapping(source = "sourceMeta.name", target = "name", defaultExpression = "java(sourceRemoteDTO.getDefaultName())")
-    @Mapping(source = "sourceMeta.id", target = "id")
     @Mapping(source = "sourceMeta.url", target = "url")
     @Mapping(source = "sourceRemoteDTO.creator", target = "creator")
     @Mapping(source = "sourceRemoteDTO.updatedAt", target = "updatedAt")

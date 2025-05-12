@@ -10,8 +10,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @Schema(description = "图源信息响应体")
 public class SourceResponseDTO {
-    @Schema(description = "ID")
-    private String id;
+    @Schema(description = "UUID")
+    private String uuid;
     @Schema(description = "名称")
     private String name;
     @Schema(description = "服务器地址")

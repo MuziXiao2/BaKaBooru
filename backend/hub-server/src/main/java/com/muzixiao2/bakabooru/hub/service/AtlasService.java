@@ -20,28 +20,31 @@ public class AtlasService {
 
     // 添加图集
     @Transactional
-    public AtlasResponseDTO addAtlas(Long sourceId, AtlasReferenceDTO atlasReferenceDTO) {
+    public AtlasResponseDTO addAtlas(String sourceUuid, AtlasReferenceDTO atlasReferenceDTO) {
         // 获取图源连接
-        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceUuid);
         // 添加图集
         AtlasRemoteDTO atlasRemoteDTO = sourceClient.addAtlas(atlasReferenceDTO).getData();
         // 返回结果
-        return atlasMapper.toResponseDTO(atlasRemoteDTO);
+        return atlasMapper.toResponseDTO(sourceUuid, atlasRemoteDTO);
     }
 
     //获取单个图集
     @Transactional(readOnly = true)
-    public AtlasResponseDTO getAtlas(Long sourceId, String atlasUuid) {
-        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+    public AtlasResponseDTO getAtlas(String sourceUuid, String atlasUuid) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceUuid);
         AtlasRemoteDTO atlasRemoteDTO = sourceClient.getAtlas(atlasUuid).getData();
-        return atlasMapper.toResponseDTO(atlasRemoteDTO);
+        return atlasMapper.toResponseDTO(sourceUuid, atlasRemoteDTO);
     }
 
     //获取所有图集
     @Transactional(readOnly = true)
-    public List<AtlasResponseDTO> getAllAtlases(Long sourceId) {
-        SourceClient sourceClient = sourceClientRegistry.getClient(sourceId);
+    public List<AtlasResponseDTO> getAllAtlases(String sourceUuid) {
+        SourceClient sourceClient = sourceClientRegistry.getClient(sourceUuid);
         List<AtlasRemoteDTO> atlasRemoteDTOList = sourceClient.getAllAtlases().getData();
-        return atlasRemoteDTOList.stream().map(atlasMapper::toResponseDTO).toList();
+        return atlasRemoteDTOList
+                .stream()
+                .map(atlasRemoteDTO -> atlasMapper.toResponseDTO(sourceUuid, atlasRemoteDTO))
+                .toList();
     }
 }

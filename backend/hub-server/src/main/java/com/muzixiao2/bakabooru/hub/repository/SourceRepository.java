@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface SourceRepository extends JpaRepository<SourceMeta, Long> {
-    Optional<SourceMeta> findById(Long id);
+public interface SourceRepository extends JpaRepository<SourceMeta, String> {
+    Optional<SourceMeta> findByUuid(String uuid);
 
     List<SourceMeta> findAllByOrderByAddedAtAsc();
 }

@@ -1,5 +1,6 @@
 export interface Atlas {
   uuid: string
+  sourceUuid: string
   title: string
   coverHash: string
   creator: string
