@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageUploadResponseDTO {
+public class ImageFileResponseDTO {
     private String hash;
-    private String originalFileName;
-    private String extension;
+    private String title;
+    private String url;
     private Long size;
     private Integer width;
     private Integer height;
+    private String originalFileName;
+    private String extension;
 }

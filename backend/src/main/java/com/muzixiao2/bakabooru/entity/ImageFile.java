@@ -1,0 +1,49 @@
+package com.muzixiao2.bakabooru.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "image_file")
+public class ImageFile {
+
+    @Id
+    @Column(length = 64, nullable = false, unique = true, updatable = false)
+    private String hash;
+    //源文件名
+    @Column(name = "original_file_name")
+    private String originalFileName;
+    //源文件后缀名
+    @Column(name = "extension")
+    private String extension;
+    //字节数
+    @Column(name = "size")
+    private Long size;
+    //宽
+    @Column(name = "width")
+    private Integer width;
+    //高
+    @Column(name = "height")
+    private Integer height;
+    //引用数
+    @Column(name = "reference_count")
+    private Long referenceCount = 1L;
+    //上传时间
+    @Column(name = "uploaded_at")
+    @CreationTimestamp
+    private Instant uploadedAt;
+
+
+    @ManyToMany(mappedBy = "imageFiles")
+    private Set<Image> images = new HashSet<>();
+}

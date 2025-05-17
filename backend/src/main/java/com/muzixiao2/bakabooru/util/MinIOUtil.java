@@ -1,7 +1,7 @@
 package com.muzixiao2.bakabooru.util;
 
 import com.muzixiao2.bakabooru.config.MinioProperties;
-import com.muzixiao2.bakabooru.dto.image.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.dto.image.ImageFileUploadResponseDTO;
 import io.minio.*;
 import io.minio.http.Method;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ public class MinIOUtil {
     /**
      * 上传文件到MinIO，objectKey由文件内容hash生成
      */
-    public ImageUploadResponseDTO upload(String hash, MultipartFile file) {
+    public ImageFileUploadResponseDTO upload(String hash, MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("上传文件不能为空");
         }
@@ -71,7 +71,7 @@ public class MinIOUtil {
             extension = originalFilename.substring(idx);
             originalFilename = originalFilename.substring(0, idx);
         }
-        return new ImageUploadResponseDTO(hash, originalFilename, extension, file.getSize(), width, height);
+        return new ImageFileUploadResponseDTO(hash, originalFilename, extension, file.getSize(), width, height);
     }
 
     /**

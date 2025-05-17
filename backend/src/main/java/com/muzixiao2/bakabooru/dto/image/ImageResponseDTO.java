@@ -1,19 +1,20 @@
 package com.muzixiao2.bakabooru.dto.image;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class ImageResponseDTO {
-    private String hash;
+    private String uuid;
+    private String sourceUuid;
     private String title;
-    private String url;
-    private Long size;
-    private Integer width;
-    private Integer height;
-    private String originalFileName;
-    private String extension;
+    private String coverHash;
+    private String creator;
+    private String description;
+    private Instant createdAt;
+    private Instant updatedAt;
+
 }

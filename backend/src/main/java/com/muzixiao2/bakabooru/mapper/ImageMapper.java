@@ -1,8 +1,11 @@
 package com.muzixiao2.bakabooru.mapper;
 
+import com.muzixiao2.bakabooru.dto.image.ImageRequestDTO;
 import com.muzixiao2.bakabooru.dto.image.ImageResponseDTO;
-import com.muzixiao2.bakabooru.dto.image.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.dto.image.ImageFileUploadResponseDTO;
+import com.muzixiao2.bakabooru.dto.image.ImageFileResponseDTO;
 import com.muzixiao2.bakabooru.entity.Image;
+import com.muzixiao2.bakabooru.entity.ImageFile;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -11,11 +14,17 @@ public interface ImageMapper {
 
     @Mapping(target = "referenceCount", ignore = true)
     @Mapping(target = "uploadedAt", ignore = true)
-    Image toEntity(ImageUploadResponseDTO imageUploadResponseDTO);
+    ImageFile toEntity(ImageFileUploadResponseDTO imageFileUploadResponseDTO);
 
     @Mapping(target = "title", ignore = true)
     @Mapping(target = "url", ignore = true)
-    ImageResponseDTO toResponseDTO(Image image);
+    ImageFileResponseDTO toResponseDTO(ImageFile imageFile);
 
-    ImageUploadResponseDTO toUploadResponseDTO(Image image);
+    ImageFileUploadResponseDTO toUploadResponseDTO(ImageFile imageFile);
+
+    ImageResponseDTO toResponseDTO(Image atlas);
+
+    @Mapping(target = "uuid", expression = "java(java.util.UUID.randomUUID().toString())")
+    Image toEntity(ImageRequestDTO imageRequestDTO);
+
 }

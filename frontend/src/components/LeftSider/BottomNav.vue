@@ -29,7 +29,7 @@ const handleSelect = (name: string) => {
 }
 
 const pageData = [
-  { label: '插画库', icon: Picture, path: '/gallery', name: 'Gallery' },
+  { label: '图片库', icon: Picture, path: '/gallery', name: 'Gallery' },
   { label: '视频库', icon: VideoCamera, path: '/videos', name: 'Videos' },
   { label: '音声库', icon: Headset, path: '/voices', name: 'Voices' },
 ]

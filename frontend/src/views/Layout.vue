@@ -44,12 +44,6 @@ const globalUiStore = useGlobalUiStore()
   height: 100%;
 }
 
-.resizer {
-  width: 3px;
-  cursor: ew-resize;
-  background-color: #ccc;
-}
-
 .main {
   display: flex;
   overflow: hidden;
