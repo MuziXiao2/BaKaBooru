@@ -48,7 +48,6 @@ public class ImageController {
         return ApiResponse.success(imageFileResponseDTO);
     }
 
-
     @Operation(
             summary = "添加图片",
             description = "添加新的图片",
@@ -67,12 +66,12 @@ public class ImageController {
     }
 
     @Operation(
-            summary = "获取单个图集",
-            description = "获取该图源下的单个图集"
+            summary = "获取图片",
+            description = "获取图片"
     )
     @GetMapping("/{uuid}")
     public ApiResponse<ImageResponseDTO> getImage(
-            @Parameter(description = "图集UUID", required = true)
+            @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid
     ) {
         ImageResponseDTO imageResponseDTO = imageService.getImage(uuid);
@@ -112,7 +111,7 @@ public class ImageController {
             summary = "获取图片内所有图片文件",
             description = "获取图片内所有图片文件"
     )
-    @GetMapping("/{uuid}")
+    @GetMapping("/{uuid}/file")
     public ApiResponse<List<ImageFileResponseDTO>> getAllImageFiles(
             @Parameter(description = "图集UUID", required = true)
             @PathVariable("uuid") String uuid
