@@ -2,7 +2,7 @@
 import { useUploadStateStore } from '@/stores/upload/upload-state.ts'
 import { useSoucreStore } from '@/stores'
 import { computed, onMounted } from 'vue'
-import SourceSelect from '@/components/common/select/SourceSelect.vue'
+import SourceSelect from '@/LAJI/content/select/SourceSelect.vue'
 import type { Source } from '@/types'
 
 const sourceStore = useSoucreStore()

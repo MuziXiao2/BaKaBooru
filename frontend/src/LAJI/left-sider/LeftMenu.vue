@@ -3,7 +3,7 @@ import { computed, onMounted } from 'vue'
 import { useSoucreStore, useStateStore } from '@/stores'
 import type { Source } from '@/types'
 import { FolderOutline, HomeOutline, InformationCircleOutline } from '@vicons/ionicons5'
-import { createMenuDividerOption, createMenuOption } from '@/utils/createMenuOption.ts'
+import { createMenuDividerOption, createMenuOption } from '@/LAJI/createMenuOption.ts'
 
 const stateStore = useStateStore()
 const sourceStore = useSoucreStore()

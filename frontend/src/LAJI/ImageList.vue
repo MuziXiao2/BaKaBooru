@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Image } from '@/types'
-import LoadingSpin from '@/components/common/LoadingSpin.vue'
+import LoadingSpin from '@/LAJI/content/LoadingSpin.vue'
 import { computed } from 'vue'
 
 const props = defineProps<{

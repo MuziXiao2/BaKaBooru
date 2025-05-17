@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UploadLayout from '@/views/layout/UploadLayout.vue'
+import UploadLayout from '@/layouts/UploadLayout.vue'
 import UploadedList from '@/LAJI/UploadedList.vue'
 import Uploader from '@/LAJI/Uploader.vue'
 </script>

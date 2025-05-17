@@ -1,7 +1,6 @@
 package com.muzixiao2.bakabooru.mapper;
 
 import com.muzixiao2.bakabooru.dto.image.ImageResponseDTO;
-import com.muzixiao2.bakabooru.dto.image.ImageUploadRemoteDTO;
 import com.muzixiao2.bakabooru.dto.image.ImageUploadResponseDTO;
 import com.muzixiao2.bakabooru.entity.Image;
 import org.mapstruct.Mapper;

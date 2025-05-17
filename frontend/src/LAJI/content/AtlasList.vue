@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useStateStore, useAtlasStore } from '@/stores'
-import VirtualWaterFall from '@/components/common/VirtualWaterFall.vue'
+import VirtualWaterFall from '@/LAJI/content/VirtualWaterFall.vue'
 import { onMounted } from 'vue'
-import LoadingSpin from '@/components/common/LoadingSpin.vue'
+import LoadingSpin from '@/LAJI/content/LoadingSpin.vue'
 
 const stateStore = useStateStore()
 const atlasStore = useAtlasStore()

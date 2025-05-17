@@ -1,6 +1,6 @@
 import { h } from 'vue'
-import AddSource from '@/components/modal/view/AddSource.vue'
-import ViewAtlas from '@/components/modal/view/ViewAtlas.vue'
+import AddSource from '@/LAJI/modal/view/AddSource.vue'
+import ViewAtlas from '@/LAJI/modal/view/ViewAtlas.vue'
 import type { ModalProps } from 'naive-ui'
 
 interface ModalConfig extends ModalProps {

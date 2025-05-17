@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Atlas } from '@/types'
-import VirtualWaterFall from '@/utils/VirtualWaterFall.vue'
+import VirtualWaterFall from '@/LAJI/VirtualWaterFall.vue'
 import { computed } from 'vue'
 import { useImageStore } from '@/stores'
 
