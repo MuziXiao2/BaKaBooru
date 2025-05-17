@@ -1,9 +1,7 @@
 package com.muzixiao2.bakabooru.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,15 +9,18 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString(exclude = {"imageFiles"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "image")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Image {
     //UUID
     @Id
     @Column(nullable = false, unique = true, updatable = false)
+    @EqualsAndHashCode.Include
     private String uuid;
     //标题
     @Column(name = "title")

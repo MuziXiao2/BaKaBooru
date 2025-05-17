@@ -1,24 +1,25 @@
 package com.muzixiao2.bakabooru.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@ToString(exclude = {"images"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "image_file")
 public class ImageFile {
 
     @Id
     @Column(length = 64, nullable = false, unique = true, updatable = false)
+    @EqualsAndHashCode.Include
     private String hash;
     //源文件名
     @Column(name = "original_file_name")
