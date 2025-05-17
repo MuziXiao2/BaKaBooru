@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/Home.vue'
-import Layout from '@/layouts/Layout.vue'
+import Layout from '@/views/Layout.vue'
+import Gallery from '@/views/Gallery.vue'
+import Videos from '@/views/Videos.vue'
+import Voices from '@/views/Voices.vue'
 
 export default createRouter({
   history: createWebHistory(),
@@ -9,8 +11,25 @@ export default createRouter({
       path: '/',
       component: Layout,
       children: [
-        { path: '', redirect: '/home' },
-        { path: 'home', component: Home },
+        {
+          path: '',
+          redirect: '/gallery',
+        },
+        {
+          path: '/gallery',
+          name: 'Gallery',
+          component: Gallery,
+        },
+        {
+          path: '/videos',
+          name: 'Videos',
+          component: Videos,
+        },
+        {
+          path: '/voices',
+          name: 'Voices',
+          component: Voices,
+        },
       ],
     },
   ],
