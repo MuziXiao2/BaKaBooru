@@ -1,0 +1,22 @@
+package com.muzixiao2.bakabooru.mapper;
+
+import com.muzixiao2.bakabooru.dto.image.ImageResponseDTO;
+import com.muzixiao2.bakabooru.dto.image.ImageUploadRemoteDTO;
+import com.muzixiao2.bakabooru.dto.image.ImageUploadResponseDTO;
+import com.muzixiao2.bakabooru.entity.Image;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper(componentModel = "spring")
+public interface ImageMapper {
+
+    @Mapping(target = "referenceCount", ignore = true)
+    @Mapping(target = "uploadedAt", ignore = true)
+    Image toEntity(ImageUploadResponseDTO imageUploadResponseDTO);
+
+    @Mapping(target = "title", ignore = true)
+    @Mapping(target = "url", ignore = true)
+    ImageResponseDTO toResponseDTO(Image image);
+
+    ImageUploadResponseDTO toUploadResponseDTO(Image image);
+}

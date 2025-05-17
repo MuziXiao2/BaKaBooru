@@ -1,0 +1,50 @@
+package com.muzixiao2.bakabooru.service;
+
+import com.muzixiao2.bakabooru.dto.atlas.AtlasRequestDTO;
+import com.muzixiao2.bakabooru.dto.atlas.AtlasResponseDTO;
+import com.muzixiao2.bakabooru.entity.Atlas;
+import com.muzixiao2.bakabooru.mapper.AtlasMapper;
+import com.muzixiao2.bakabooru.repository.AtlasRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class AtlasService {
+    private final AtlasMapper atlasMapper;
+    private final AtlasRepository atlasRepository;
+
+    // 添加图集
+    @Transactional
+    public AtlasResponseDTO addAtlas(AtlasRequestDTO atlasReferenceDTO) {
+        // 创建实体
+        Atlas atlas = atlasMapper.toEntity(atlasReferenceDTO);
+        // 保存实体
+        atlas = atlasRepository.save(atlas);
+        // 返回响应DTO
+        return atlasMapper.toResponseDTO(atlas);
+    }
+
+    // 获取单个图集
+    @Transactional(readOnly = true)
+    public AtlasResponseDTO getAtlas(String uuid) {
+        //获取所需实体
+        Atlas atlas = atlasRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图集不存在"));
+        //转换为响应DTO
+        return atlasMapper.toResponseDTO(atlas);
+    }
+
+    // 获取所有图集
+    @Transactional(readOnly = true)
+    public List<AtlasResponseDTO> getAllAtlases() {
+        //获取所需实体
+        List<Atlas> atlasList = atlasRepository.findAll();
+        //转换为响应DTO
+        return atlasList.stream().map(atlasMapper::toResponseDTO).collect(Collectors.toList());
+    }
+}
