@@ -1,12 +1,7 @@
 import api from '@/api/index.ts'
+import type { Image, ImageRequestDTO } from '@/types'
 
 const baseUrl = 'http://localhost:8080/image'
-
-//获取图片文件
-export async function getImageFile(hash: string) {
-  const response = await api.get(baseUrl + `/file/${hash}`)
-  return response.data.data
-}
 
 //添加图片
 export async function addImage(imageRequestDTO: ImageRequestDTO) {
@@ -15,7 +10,7 @@ export async function addImage(imageRequestDTO: ImageRequestDTO) {
 }
 
 //获取图片
-export async function getImage(uuid: string) {
+export async function getImage(uuid: string):Promise<Image> {
   const response = await api.get(baseUrl + `/${uuid}`)
   return response.data.data
 }

@@ -1,6 +1,7 @@
 package com.muzixiao2.bakabooru.controller;
 
 import com.muzixiao2.bakabooru.dto.ApiResponse;
+import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
 import com.muzixiao2.bakabooru.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +24,19 @@ public class ImageController {
     private final ImageService imageService;
 
     @Operation(
+            summary = "获取图片文件临时URL",
+            description = "获取图片文件临时URL"
+    )
+    @GetMapping("/file/{hash}")
+    public ApiResponse<String> getImageFileUrl(
+            @Parameter(description = "图片哈希值", required = true)
+            @PathVariable("hash") String hash
+    ) {
+        String url = imageService.getImageFileUrl(hash);
+        return ApiResponse.success(url);
+    }
+
+    @Operation(
             summary = "添加图片",
             description = "添加新的图片",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -39,33 +53,10 @@ public class ImageController {
         return ApiResponse.success(imageResponseDTO);
     }
 
-    @Operation(
-            summary = "获取图片",
-            description = "获取图片"
-    )
-    @GetMapping("/{uuid}")
-    public ApiResponse<ImageResponseDTO> getImage(
-            @Parameter(description = "图片UUID", required = true)
-            @PathVariable("uuid") String uuid
-    ) {
-        ImageResponseDTO imageResponseDTO = imageService.getImage(uuid);
-        return ApiResponse.success(imageResponseDTO);
-    }
-
-    @Operation(
-            summary = "获取所有图片",
-            description = "获取该图源的所有图集"
-    )
-    @GetMapping
-    public ApiResponse<List<ImageResponseDTO>> getAllImages() {
-        List<ImageResponseDTO> imageResponseDTOList = imageService.getAllImages();
-        return ApiResponse.success(imageResponseDTOList);
-    }
 
     @Operation(
             summary = "为图片添加图片文件",
             description = "为图片添加图片文件"
-
     )
     @PostMapping(path = "/{uuid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ImageFileResponseDTO> addImageFile(
@@ -92,16 +83,34 @@ public class ImageController {
     }
 
     @Operation(
-            summary = "获取图片文件临时URL",
-            description = "获取图片文件临时URL"
+            summary = "获取图片",
+            description = "获取图片"
     )
-    @GetMapping("/file/{hash}")
-    public ApiResponse<String> getImageFileUrl(
-            @Parameter(description = "图片哈希值", required = true)
-            @PathVariable("hash") String hash
+    @GetMapping("/{uuid}")
+    public ApiResponse<ImageResponseDTO> getImage(
+            @Parameter(description = "图片UUID", required = true)
+            @PathVariable("uuid") String uuid
     ) {
-        String url = imageService.getImageFileUrl(hash);
-        return ApiResponse.success(url);
+        ImageResponseDTO imageResponseDTO = imageService.getImage(uuid);
+        return ApiResponse.success(imageResponseDTO);
     }
 
+    @Operation(
+            summary = "筛选查询图片",
+            description = "根据条件筛选查询图片，支持分页"
+    )
+    @GetMapping
+    public ApiResponse<PageResponseDTO<ImageResponseDTO>> queryImages(
+            @Parameter(description = "标题关键字（模糊匹配）", example = "山水")
+            @RequestParam(value = "title", required = false) String title,
+            @Parameter(description = "标签列表，逗号分隔（例如：tag1,tag2）", example = "风景,自然")
+            @RequestParam(value = "tags", required = false) String tags,
+            @Parameter(description = "页码，从 1 开始", example = "1")
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @Parameter(description = "每页记录数", example = "10")
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        PageResponseDTO<ImageResponseDTO> pageResponse = imageService.queryImages(title, tags, page, size);
+        return ApiResponse.success(pageResponse);
+    }
 }

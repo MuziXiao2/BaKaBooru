@@ -32,7 +32,7 @@ const globalUiStore = useGlobalUiStore()
   border-bottom: 2px solid #ccc;
   overflow: hidden;
   align-items: center;
-  height: 60px;
+  height: 5%;
   background-color: #f5f5f5;
 }
 
@@ -41,11 +41,12 @@ const globalUiStore = useGlobalUiStore()
   overflow: hidden;
   background: #f2f2f2;
   flex-direction: column;
-  height: 100%;
+  height: 95%;
 }
 
 .main {
   display: flex;
   overflow: hidden;
+  height: 95%;
 }
 </style>

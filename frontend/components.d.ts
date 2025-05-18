@@ -41,6 +41,7 @@ declare module 'vue' {
     Home: typeof import('./src/views/Home.vue')['default']
     HomePage: typeof import('./src/LAJI/content/HomePage.vue')['default']
     ImageList: typeof import('./src/components/common/ImageList.vue')['default']
+    ImageMasonry: typeof import('./src/components/ImageMasonry.vue')['default']
     Layout: typeof import('./src/views/Layout.vue')['default']
     LeftMenu: typeof import('./src/components/LeftMenu.vue')['default']
     LeftSider: typeof import('./src/components/LeftSider.vue')['default']

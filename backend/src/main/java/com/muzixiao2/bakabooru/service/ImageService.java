@@ -1,5 +1,6 @@
 package com.muzixiao2.bakabooru.service;
 
+import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
@@ -9,13 +10,21 @@ import com.muzixiao2.bakabooru.repository.ImageFileRepository;
 import com.muzixiao2.bakabooru.repository.ImageRepository;
 import com.muzixiao2.bakabooru.util.HashUtil;
 import com.muzixiao2.bakabooru.util.MinIOUtil;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +42,7 @@ public class ImageService {
         // 保存实体
         image = imageRepository.save(image);
         // 获取实体
-        image = imageRepository.findByUuid(image.getUuid())
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        image = imageRepository.findByUuid(image.getUuid()).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         // 返回响应DTO
         return imageMapper.toResponseDTO(image);
     }
@@ -43,20 +51,11 @@ public class ImageService {
     @Transactional(readOnly = true)
     public ImageResponseDTO getImage(String uuid) {
         //获取所需实体
-        Image image = imageRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         //转换为响应DTO
         return imageMapper.toResponseDTO(image);
     }
 
-    // 获取所有图片
-    @Transactional(readOnly = true)
-    public List<ImageResponseDTO> getAllImages() {
-        //获取所需实体
-        List<Image> imageList = imageRepository.findAll();
-        //转换为响应DTO
-        return imageList.stream().map(imageMapper::toResponseDTO).toList();
-    }
 
     // 添加图片文件
     @Transactional
@@ -70,10 +69,8 @@ public class ImageService {
             imageFileRepository.save(imageFile);
         }
         //获取所需实体
-        Image image = imageRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        ImageFile imageFile = imageFileRepository.findByHash(hash)
-                .orElseThrow(() -> new IllegalArgumentException("图片文件不存在"));
+        Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        ImageFile imageFile = imageFileRepository.findByHash(hash).orElseThrow(() -> new IllegalArgumentException("图片文件不存在"));
         //添加图片文件到图片
         ImageImageFile imageImageFile = image.addImageFile(imageFile, file.getOriginalFilename());
         //转换为响应DTO
@@ -83,19 +80,54 @@ public class ImageService {
     // 获取所有图片文件
     @Transactional(readOnly = true)
     public List<ImageFileResponseDTO> getAllImageFiles(String uuid) {
-        Image image = imageRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        return image.getImageImageFiles()
-                .stream()
-                .map(imageMapper::toResponseDTO)
-                .toList();
+        Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        return image.getImageImageFiles().stream().map(imageMapper::toResponseDTO).toList();
     }
 
     // 获取图片文件临时URL
     @Transactional(readOnly = true)
     public String getImageFileUrl(String hash) {
-        ImageFile imageFile = imageFileRepository.findByHash(hash)
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        ImageFile imageFile = imageFileRepository.findByHash(hash).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         return minIOUtil.generatePresignedUrl(imageFile.getHash());
+    }
+
+    // 查询图片
+
+    @Transactional(readOnly = true)
+    public PageResponseDTO<ImageResponseDTO> queryImages(String tags, String title, int page, int size) {
+        // 页码从 1 开始，转换为 0-based 索引
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        // 构建查询条件
+        Specification<Image> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.hasText(tags)) {
+                String[] tagArray = tags.split(",");
+                predicates.add(root.get("tags").in(Arrays.asList(tagArray)));
+            }
+            if (StringUtils.hasText(title)) {
+                predicates.add(cb.like(root.get("title"), "%" + title + "%"));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+//        // 执行分页查询
+//        Page<Image> imagePage = imageRepository.findAll(spec, pageable);
+//
+//        // 转换为 DTO
+//        List<ImageResponseDTO> content = imagePage.getContent().stream()
+//                .map(this::toImageResponseDTO)
+//                .collect(Collectors.toList());
+//
+//        // 构建分页响应
+//        return new PageResponseDTO<>(
+//                content,
+//                imagePage.getTotalElements(),
+//                imagePage.getTotalPages(),
+//                imagePage.getNumber() + 1, // 转换为 1-based 页码
+//                imagePage.getSize()
+//        );
+        //TODO :待完成
+        return null;
     }
 }

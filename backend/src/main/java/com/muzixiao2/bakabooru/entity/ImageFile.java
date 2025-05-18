@@ -2,14 +2,9 @@ package com.muzixiao2.bakabooru.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -36,7 +31,7 @@ public class ImageFile {
 
     @OneToMany(mappedBy = "imageFile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageImageFile> imageImageFiles = new ArrayList<>();
-    
+
     public boolean isOrphaned() {
         return imageImageFiles.isEmpty();
     }

@@ -1,10 +1,17 @@
 export interface Image {
-  uuid:string
-  title:string
-
-
+  uuid: string
+  title: string
+  creator: string
+  description: string
+  createdAt: string
+  updatedAt: string
 }
 
+export interface ImageRequestDTO {
+  title: string
+  creator: string
+  description: string
+}
 
 export interface ImageFile {
   hash: string
@@ -17,10 +24,7 @@ export interface ImageFile {
   extension: string
 }
 
-
 export interface ImageFileRequestDTO {
   title: string
   hash: string
 }
-
-
