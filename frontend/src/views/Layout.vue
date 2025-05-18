@@ -24,29 +24,27 @@ const globalUiStore = useGlobalUiStore()
 
 <style scoped>
 .container {
-  height: 100vh;
+
 }
 
 .header {
   display: flex;
   border-bottom: 2px solid #ccc;
-  overflow: hidden;
   align-items: center;
-  height: 5%;
+  height: 5vh;
   background-color: #f5f5f5;
 }
 
 .aside {
   display: flex;
-  overflow: hidden;
   background: #f2f2f2;
   flex-direction: column;
-  height: 95%;
+
 }
 
 .main {
-  display: flex;
+  padding: 0;
   overflow: hidden;
-  height: 95%;
+  height: 95vh;
 }
 </style>

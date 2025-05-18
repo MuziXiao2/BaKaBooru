@@ -1,24 +1,22 @@
 <template>
-  <div class="container">
-    <el-scrollbar class="scroll-container" :height="height">
-      <masonry-wall
-        :items="images"
-        :column-width="columnWidth"
-        :gap="gap"
-        :ssr-columns="ssrColumns"
-        :min-columns="minColumns"
-        :max-columns="maxColumns"
-      >
-        <template #default="{ item }">
-          <div class="image-card">
-            <img :src="item.url" :alt="item.alt" class="image" loading="lazy" />
-          </div>
-        </template>
-      </masonry-wall>
-      <div v-if="loading" class="loading">加载中...</div>
-      <div v-if="!loading && images.length === 0" class="no-data">暂无图片</div>
-    </el-scrollbar>
-  </div>
+  <el-scrollbar>
+    <masonry-wall
+      :items="images"
+      :column-width="columnWidth"
+      :gap="gap"
+      :ssr-columns="ssrColumns"
+      :min-columns="minColumns"
+      :max-columns="maxColumns"
+    >
+      <template #default="{ item }">
+        <div class="image-card">
+          <img :src="item.url" :alt="item.alt" class="image" loading="lazy" />
+        </div>
+      </template>
+    </masonry-wall>
+    <div v-if="loading" class="loading">加载中...</div>
+    <div v-if="!loading && images.length === 0" class="no-data">暂无图片</div>
+  </el-scrollbar>
 </template>
 
 <script setup lang="ts">
@@ -36,7 +34,6 @@ interface ImageItem {
 defineProps<{
   images: ImageItem[]
   loading: boolean
-  height: string
   columnWidth: number
   gap: number
   ssrColumns: number
@@ -46,18 +43,6 @@ defineProps<{
 </script>
 
 <style scoped>
-/* 容器样式 */
-.container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* 滚动容器 */
-.scroll-container {
-  width: 100%;
-}
-
 /* 图片卡片 */
 .image-card {
   width: 100%;
