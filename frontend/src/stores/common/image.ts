@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import { getAllImages, getImage } from '@/api'
-import type { Atlas, Image, Source } from '@/types'
+import type { Image} from '@/types'
 
 export const useImageStore = defineStore('image', {
   state: () => ({
@@ -9,14 +8,6 @@ export const useImageStore = defineStore('image', {
   }),
   getters: {},
   actions: {
-    async update(source: Source, atlas: Atlas) {
-      this.isImagesLoaded = false
-      if (!atlas) return
-      this.images = await getAllImages(source.uuid, atlas.uuid)
-      this.isImagesLoaded = true
-    },
-    async getImage(sourceUuid: string, imageHash: string): Promise<Image> {
-      return await getImage(sourceUuid, imageHash)
-    },
+
   },
 })

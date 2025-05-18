@@ -4,6 +4,7 @@ import com.muzixiao2.bakabooru.config.MinioProperties;
 import com.muzixiao2.bakabooru.dto.image.ImageFileUploadResponseDTO;
 import io.minio.*;
 import io.minio.http.Method;
+import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,23 +56,34 @@ public class MinIOUtil {
         } catch (Exception e) {
             throw new RuntimeException("上传文件到MinIO失败", e);
         }
+
+        //获取图片宽高
         int width, height;
         try {
             BufferedImage image = ImageIO.read(file.getInputStream());
             width = image.getWidth();
             height = image.getHeight();
         } catch (IOException e) {
-            throw new RuntimeException("获取图片信息", e);
+            throw new RuntimeException("获取图片信息失败", e);
         }
+
+        // 获取图片类型
+        String type;
+        try {
+            Tika tika = new Tika();
+            String mimeType = tika.detect(file.getInputStream());
+            type = (mimeType != null && mimeType.startsWith("image/"))
+                    ? mimeType.substring(6)
+                    : "unknown";
+        } catch (IOException e) {
+            throw new RuntimeException("获取图片类型失败", e);
+        }
+
+        // 获取图片大小
+        Long size = file.getSize();
+
         // 返回上传成功后的信息
-        String originalFilename = file.getOriginalFilename();
-        String extension = "";
-        int idx = originalFilename.lastIndexOf('.');
-        if (idx != -1) {
-            extension = originalFilename.substring(idx);
-            originalFilename = originalFilename.substring(0, idx);
-        }
-        return new ImageFileUploadResponseDTO(hash, originalFilename, extension, file.getSize(), width, height);
+        return new ImageFileUploadResponseDTO(hash, type, size, width, height);
     }
 
     /**

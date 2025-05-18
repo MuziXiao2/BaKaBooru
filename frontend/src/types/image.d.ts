@@ -1,5 +1,13 @@
 export interface Image {
-  hash: number
+  uuid:string
+  title:string
+
+
+}
+
+
+export interface ImageFile {
+  hash: string
   title: string
   url: string
   size: number
@@ -9,7 +17,10 @@ export interface Image {
   extension: string
 }
 
-export interface ImageReferenceDTO {
+
+export interface ImageFileRequestDTO {
   title: string
   hash: string
 }
+
+

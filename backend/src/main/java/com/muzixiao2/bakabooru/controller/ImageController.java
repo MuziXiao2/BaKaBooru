@@ -23,32 +23,6 @@ public class ImageController {
     private final ImageService imageService;
 
     @Operation(
-            summary = "上传图片文件",
-            description = "上传一个图片文件，返回图片的哈希、大小等信息"
-    )
-    @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<ImageFileUploadResponseDTO> uploadImageFile(
-            @Schema(type = "string", format = "binary")
-            @RequestParam("file") MultipartFile file
-    ) {
-        ImageFileUploadResponseDTO imageFileUploadResponseDTO = imageService.uploadImageFile(file);
-        return ApiResponse.success(imageFileUploadResponseDTO);
-    }
-
-    @Operation(
-            summary = "获取图片文件",
-            description = "获取图片信息"
-    )
-    @GetMapping("/file/{hash}")
-    public ApiResponse<ImageFileResponseDTO> getImageFile(
-            @Parameter(description = "图片哈希值", required = true)
-            @PathVariable("hash") String hash
-    ) {
-        ImageFileResponseDTO imageFileResponseDTO = imageService.getImageFile(hash);
-        return ApiResponse.success(imageFileResponseDTO);
-    }
-
-    @Operation(
             summary = "添加图片",
             description = "添加新的图片",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -90,21 +64,18 @@ public class ImageController {
 
     @Operation(
             summary = "为图片添加图片文件",
-            description = "为图片添加图片文件",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "图片引用信息",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = ImageFileRequestDTO.class))
-            )
+            description = "为图片添加图片文件"
+
     )
-    @PostMapping("/{uuid}")
-    public ApiResponse<ImageResponseDTO> addImageFile(
+    @PostMapping(path = "/{uuid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<ImageFileResponseDTO> addImageFile(
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid,
-            @RequestBody ImageFileRequestDTO imageFileRequestDTO
+            @Schema(type = "string", format = "binary")
+            @RequestParam("file") MultipartFile file
     ) {
-        ImageResponseDTO imageResponseDTO = imageService.addImageFile(uuid, imageFileRequestDTO);
-        return ApiResponse.success(imageResponseDTO);
+        ImageFileResponseDTO imageFileResponseDTO = imageService.addImageFile(uuid, file);
+        return ApiResponse.success(imageFileResponseDTO);
     }
 
     @Operation(
@@ -119,4 +90,18 @@ public class ImageController {
         List<ImageFileResponseDTO> imageFileResponseDTOList = imageService.getAllImageFiles(uuid);
         return ApiResponse.success(imageFileResponseDTOList);
     }
+
+    @Operation(
+            summary = "获取图片文件临时URL",
+            description = "获取图片文件临时URL"
+    )
+    @GetMapping("/file/{hash}")
+    public ApiResponse<String> getImageFileUrl(
+            @Parameter(description = "图片哈希值", required = true)
+            @PathVariable("hash") String hash
+    ) {
+        String url = imageService.getImageFileUrl(hash);
+        return ApiResponse.success(url);
+    }
+
 }

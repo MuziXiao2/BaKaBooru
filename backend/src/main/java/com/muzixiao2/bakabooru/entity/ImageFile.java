@@ -5,14 +5,14 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString(exclude = {"images"})
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "image_file")
 public class ImageFile {
@@ -21,12 +21,9 @@ public class ImageFile {
     @Column(length = 64, nullable = false, unique = true, updatable = false)
     @EqualsAndHashCode.Include
     private String hash;
-    //源文件名
-    @Column(name = "original_file_name")
-    private String originalFileName;
-    //源文件后缀名
-    @Column(name = "extension")
-    private String extension;
+    //图片类型
+    @Column(name = "type")
+    private String type;
     //字节数
     @Column(name = "size")
     private Long size;
@@ -36,15 +33,11 @@ public class ImageFile {
     //高
     @Column(name = "height")
     private Integer height;
-    //引用数
-    @Column(name = "reference_count")
-    private Long referenceCount = 1L;
-    //上传时间
-    @Column(name = "uploaded_at")
-    @CreationTimestamp
-    private Instant uploadedAt;
 
-
-    @ManyToMany(mappedBy = "imageFiles")
-    private Set<Image> images = new HashSet<>();
+    @OneToMany(mappedBy = "imageFile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageImageFile> imageImageFiles = new ArrayList<>();
+    
+    public boolean isOrphaned() {
+        return imageImageFiles.isEmpty();
+    }
 }

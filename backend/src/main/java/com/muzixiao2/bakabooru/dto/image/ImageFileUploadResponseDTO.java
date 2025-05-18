@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ImageFileUploadResponseDTO {
     private String hash;
-    private String originalFileName;
-    private String extension;
+    private String type;
     private Long size;
     private Integer width;
     private Integer height;

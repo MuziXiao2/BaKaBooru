@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ImageFileResponseDTO {
     private String hash;
-    private String title;
-    private String url;
-    private Long size;
+    private String type;
+    private String fileName;
     private Integer width;
     private Integer height;
-    private String originalFileName;
-    private String extension;
+    private Long size;
 }

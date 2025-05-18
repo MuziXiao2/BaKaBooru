@@ -3,6 +3,7 @@ package com.muzixiao2.bakabooru.service;
 import com.muzixiao2.bakabooru.dto.image.*;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
+import com.muzixiao2.bakabooru.entity.ImageImageFile;
 import com.muzixiao2.bakabooru.mapper.ImageMapper;
 import com.muzixiao2.bakabooru.repository.ImageFileRepository;
 import com.muzixiao2.bakabooru.repository.ImageRepository;
@@ -24,33 +25,6 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final ImageFileRepository imageFileRepository;
 
-    // 上传图片文件
-    @Transactional
-    public ImageFileUploadResponseDTO uploadImageFile(MultipartFile file) {
-        String hash = HashUtil.calculateHash(file);
-        Optional<ImageFile> imageFileOptional = imageFileRepository.findByHash(hash);
-        ImageFileUploadResponseDTO imageFileUploadResponseDTO;
-        if (imageFileOptional.isEmpty()) {
-            imageFileUploadResponseDTO = minIOUtil.upload(hash, file);
-            ImageFile imageFile = imageMapper.toEntity(imageFileUploadResponseDTO);
-            imageFileRepository.save(imageFile);
-        } else {
-            imageFileUploadResponseDTO = imageMapper.toUploadResponseDTO(imageFileOptional.get());
-        }
-        return imageFileUploadResponseDTO;
-    }
-
-    // 获取图片文件
-    @Transactional(readOnly = true)
-    public ImageFileResponseDTO getImageFile(String hash) {
-        ImageFile imageFile = imageFileRepository.findByHash(hash)
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        ImageFileResponseDTO imageFileResponseDTO = imageMapper.toResponseDTO(imageFile);
-        //获取图片文件临时URL
-        imageFileResponseDTO.setUrl(minIOUtil.generatePresignedUrl(imageFile.getHash()));
-        return imageFileResponseDTO;
-    }
-
     // 添加图片
     @Transactional
     public ImageResponseDTO addImage(ImageRequestDTO imageRequestDTO) {
@@ -58,6 +32,9 @@ public class ImageService {
         Image image = imageMapper.toEntity(imageRequestDTO);
         // 保存实体
         image = imageRepository.save(image);
+        // 获取实体
+        image = imageRepository.findByUuid(image.getUuid())
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         // 返回响应DTO
         return imageMapper.toResponseDTO(image);
     }
@@ -83,22 +60,24 @@ public class ImageService {
 
     // 添加图片文件
     @Transactional
-    public ImageResponseDTO addImageFile(String uuid, ImageFileRequestDTO imageFileRequestDTO) {
+    public ImageFileResponseDTO addImageFile(String uuid, MultipartFile file) {
+        //计算图片哈希
+        String hash = HashUtil.calculateHash(file);
+        //保存图片文件
+        if (!imageFileRepository.existsByHash(hash)) {
+            ImageFileUploadResponseDTO imageFileUploadResponseDTO = minIOUtil.upload(hash, file);
+            ImageFile imageFile = imageMapper.toEntity(imageFileUploadResponseDTO);
+            imageFileRepository.save(imageFile);
+        }
         //获取所需实体
         Image image = imageRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        ImageFile imageFile = imageFileRepository.findByHash(imageFileRequestDTO.getHash())
+        ImageFile imageFile = imageFileRepository.findByHash(hash)
                 .orElseThrow(() -> new IllegalArgumentException("图片文件不存在"));
-        //图集封面
-        if (image.getImageFiles().isEmpty()) {
-            image.setCoverHash(imageFile.getHash());
-        }
-        //设置图片文件标题
-        image.setTitle(imageFileRequestDTO.getTitle());
         //添加图片文件到图片
-        image.addImageFile(imageFile);
+        ImageImageFile imageImageFile = image.addImageFile(imageFile, file.getOriginalFilename());
         //转换为响应DTO
-        return imageMapper.toResponseDTO(image);
+        return imageMapper.toResponseDTO(imageImageFile);
     }
 
     // 获取所有图片文件
@@ -106,9 +85,17 @@ public class ImageService {
     public List<ImageFileResponseDTO> getAllImageFiles(String uuid) {
         Image image = imageRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        return image.getImageFiles()
+        return image.getImageImageFiles()
                 .stream()
-                .map(imageFile -> getImageFile(imageFile.getHash()))
+                .map(imageMapper::toResponseDTO)
                 .toList();
+    }
+
+    // 获取图片文件临时URL
+    @Transactional(readOnly = true)
+    public String getImageFileUrl(String hash) {
+        ImageFile imageFile = imageFileRepository.findByHash(hash)
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        return minIOUtil.generatePresignedUrl(imageFile.getHash());
     }
 }
