@@ -1,29 +1,50 @@
 <template>
-  <el-form :model="form" @submit.prevent="onSubmit" class="form-container">
-    <!-- 关键词输入 -->
+  <el-form
+    :model="store.form"
+    @submit.prevent="onSubmit"
+    class="form-container"
+    aria-label="图片搜索表单"
+  >
+    <!-- 搜索项 -->
     <div class="form-item">
-      <el-input v-model="form.keyword" placeholder="搜索图片标题" class="input-with-select">
+      <el-input
+        v-model="store.form.keyword"
+        placeholder="搜索图片标题"
+        clearable
+        aria-label="搜索图片标题"
+      >
         <template #append>
-          <el-button :icon="Search" />
+          <el-button
+            :icon="Search"
+            type="primary"
+            @click="onSubmit"
+            aria-label="执行搜索"
+          />
         </template>
       </el-input>
     </div>
 
-    <!-- 创建时间 -->
+    <!-- 时间范围 -->
     <div class="form-item">
       <el-date-picker
-        v-model="form.createTime"
+        v-model="store.form.createTime"
         type="daterange"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
         unlink-panels
         clearable
+        aria-label="选择图片创建日期范围"
       />
     </div>
 
-    <!-- 排序选择 -->
+    <!-- 排序规则 -->
     <div class="form-item sort-select">
-      <el-select v-model="form.sort" placeholder="排序规则">
+      <el-select
+        v-model="store.form.sort"
+        placeholder="排序规则"
+        clearable
+        aria-label="选择排序规则"
+      >
         <el-option label="更新日期" value="updateDate" />
         <el-option label="上传日期" value="uploadDate" />
         <el-option label="标题匹配度" value="titleMatch" />
@@ -32,51 +53,33 @@
 
     <!-- 操作按钮 -->
     <div class="form-actions">
-      <el-button type="primary" @click="onSubmit">搜索</el-button>
-      <el-button @click="onReset">重置</el-button>
+      <el-button type="primary" @click="onSubmit" aria-label="提交搜索">
+        搜索
+      </el-button>
+      <el-button @click="onReset" aria-label="重置搜索条件">
+        重置
+      </el-button>
     </div>
   </el-form>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import { useImageSearchStore } from '@/stores/useImageSearchStore'
+import { debounce } from 'lodash-es'
 
-const form = ref({
-  keyword: '',
-  color: '',
-  tag: '',
-  grade: '',
-  width: '',
-  height: '',
-  createTime: [],
-  sort: '', // 排序字段
-})
+const store = useImageSearchStore()
 
-const fetchKeywordSuggestions = async (queryString: string, cb: Function) => {
-  if (!queryString) return cb([])
-  const res = await fetch(`/api/keyword-suggest?q=${encodeURIComponent(queryString)}`)
-  const data = await res.json()
-  cb(data.map((item: string) => ({ value: item })))
-}
+const onSubmit = debounce(() => {
+  store.goToPage(1) // 设置为第 1 页
+  store.fetchImages() // 触发查询
+}, 300)
 
-const onSubmit = () => {
-  console.log('搜索表单提交', form.value)
-  // emit('search', form.value) 可向父组件传递数据
-}
-
-const onReset = () => {
-  form.value = {
-    keyword: '',
-    color: '',
-    tag: '',
-    grade: '',
-    width: '',
-    height: '',
-    createTime: [],
-    sort: '',
-  }
-}
+const onReset = debounce(() => {
+  store.resetForm() // 重置表单和分页
+  store.goToPage(1) // 设置为第 1 页
+  store.fetchImages() // 触发查询
+}, 300)
 </script>
 
 <style scoped>
@@ -100,16 +103,5 @@ const onReset = () => {
 .form-actions {
   display: flex;
   gap: 12px;
-}
-
-@media (max-width: 640px) {
-  .form-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .form-actions {
-    justify-content: flex-start;
-  }
 }
 </style>

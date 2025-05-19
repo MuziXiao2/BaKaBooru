@@ -28,7 +28,7 @@ const goToSetting = () => {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 60px;
+  height: 5vh;
   padding: 0 16px;
   border-bottom: 1px solid #eee;
 }

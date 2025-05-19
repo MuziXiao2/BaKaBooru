@@ -3,7 +3,7 @@
     <el-aside class="side" width="250px">
       <slot name="side" />
     </el-aside>
-    <el-main>
+    <el-main style="padding: 0">
       <el-container>
         <el-header class="header">
           <slot name="header" />
@@ -27,8 +27,16 @@
 }
 
 .main {
-  padding: 5px;
   overflow: hidden;
-  height: 95vh;
+  padding: 0;
+  height: 92vh;
+}
+
+.header {
+  background: #f2f2f2;
+  border-bottom: 2px solid #ccc;
+  display: flex;
+  align-items: center;
+  height: 3vh
 }
 </style>

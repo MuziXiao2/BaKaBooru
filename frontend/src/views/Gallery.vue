@@ -8,114 +8,106 @@
     </template>
     <template #main>
       <Masonry
-        :images="images"
-        :loading="loading"
+        :images="store.images"
+        :loading="store.loading"
         :column-width="300"
-        :gap="8"
+        :gap="10"
         :ssr-columns="1"
         :min-columns="2"
         :max-columns="5"
       />
-      <div class="pagination">
-        <el-button :disabled="page === 1 || loading" @click="goToPage(page - 1)" type="primary">
-          上一页
-        </el-button>
-        <span class="page-info">第 {{ page }} 页</span>
-        <el-button :disabled="noMoreData || loading" @click="goToPage(page + 1)" type="primary">
-          下一页
-        </el-button>
+      <!-- 分页控件 -->
+      <div class="pagination-wrapper">
+        <el-select
+          v-model="store.pageSize"
+          @change="handlePageSizeChange"
+          class="page-size-select"
+          placeholder="每页数量"
+          aria-label="选择每页图片数量"
+        >
+          <el-option label="10 每页" :value="10" />
+          <el-option label="20 每页" :value="20" />
+          <el-option label="50 每页" :value="50" />
+        </el-select>
+
+        <div class="pagination-center">
+          <el-button
+            :disabled="store.page === 1 || store.loading"
+            @click="handlePageChange(store.page - 1)"
+            type="primary"
+            aria-label="上一页"
+          >
+            上一页
+          </el-button>
+          <span class="page-info">第 {{ store.page }} 页</span>
+          <el-button
+            :disabled="store.noMoreData || store.loading"
+            @click="handlePageChange(store.page + 1)"
+            type="primary"
+            aria-label="下一页"
+          >
+            下一页
+          </el-button>
+        </div>
       </div>
     </template>
   </GalleryLayout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { ElButton } from 'element-plus'
-import { getImageFileUrl, queryImages } from '@/api'
-
+import { onMounted } from 'vue'
+import { debounce } from 'lodash-es'
 import Masonry from '@/components/Masonry.vue'
 import Filter from '@/components/Filter.vue'
 import GalleryLayout from '@/views/layouts/GalleryLayout.vue'
 import AdvancedSearchBar from '@/components/AdvancedSearchBar.vue'
+import { useImageSearchStore } from '@/stores/useImageSearchStore'
 
-// 图片数据接口
-interface ImageItem {
-  uuid: string
-  title: string
-  url: string
-}
+const store = useImageSearchStore()
 
-// 分页状态
-const images = ref<ImageItem[]>([])
-const page = ref(1)
-const pageSize = 10
-const loading = ref(false)
-const noMoreData = ref(false)
+// 处理分页变化，包含防抖
+const handlePageChange = debounce((targetPage: number) => {
+  store.goToPage(targetPage)
+  store.fetchImages()
+}, 300)
 
-// 加载指定页的图片
-const fetchImages = async (pageNum: number) => {
-  try {
-    loading.value = true
+// 处理每页数量变化，包含防抖
+const handlePageSizeChange = debounce(() => {
+  store.setPageSize(store.pageSize)
+  store.fetchImages()
+}, 300)
 
-    // 模拟无更多数据的场景
-    if (pageNum >= 3) {
-      noMoreData.value = true
-      images.value = []
-      return
-    }
-
-    // 更新图片数据
-    const imageQueryPage = await queryImages({
-      page: page.value,
-      size: pageSize,
-    })
-
-    const promises = imageQueryPage.content.map(async (imageQuery) => {
-      const url = await getImageFileUrl(imageQuery.coverHash)
-      return {
-        uuid: imageQuery.uuid,
-        title: imageQuery.title,
-        url: url,
-      }
-    })
-
-    // 等待所有异步完成
-    images.value = await Promise.all(promises)
-
-    noMoreData.value = imageQueryPage.content.length < pageSize
-  } catch (error) {
-    console.error('加载图片失败:', error)
-    images.value = []
-  } finally {
-    loading.value = false
-  }
-}
-
-// 切换到指定页
-const goToPage = (newPage: number) => {
-  if (newPage < 1 || loading.value) return
-  page.value = newPage
-  fetchImages(page.value)
-}
-
-// 初始化加载第一页
-fetchImages(page.value)
+onMounted(() => {
+  store.goToPage(1) // 设置初始页码
+  store.fetchImages() // 触发查询
+})
 </script>
 
 <style scoped>
-/* 分页控件 */
-.pagination {
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px; /* 上下内边距12px，左右20px */
+  border-top: 1px solid #ebeef5;
+  background-color: #fff;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  gap: 20px;
+}
+
+/* 每页数量选择框靠左 */
+.page-size-select {
+  width: 120px;
+}
+
+/* 中间部分弹性占满剩余空间，内容居中 */
+.pagination-center {
+  flex: 1; /* 占满剩余宽度 */
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 16px;
-  padding: 20px 0;
-  position: sticky;
-  bottom: 0;
-  background-color: #fff;
-  z-index: 10;
-  border-top: 1px solid #ebeef5;
 }
 
 .page-info {
