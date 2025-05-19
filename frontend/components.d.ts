@@ -88,6 +88,7 @@ declare module 'vue' {
     NUpload: typeof import('naive-ui')['NUpload']
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     NWatermark: typeof import('naive-ui')['NWatermark']
+    PaginationControl: typeof import('./src/components/PaginationControl.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('./src/LAJI/Search.vue')['default']

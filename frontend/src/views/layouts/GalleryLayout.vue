@@ -29,7 +29,7 @@
 .main {
   overflow: hidden;
   padding: 0;
-  height: 92vh;
+  height: 91vh;
 }
 
 .header {
@@ -37,6 +37,6 @@
   border-bottom: 2px solid #ccc;
   display: flex;
   align-items: center;
-  height: 3vh
+  height: 4vh;
 }
 </style>
