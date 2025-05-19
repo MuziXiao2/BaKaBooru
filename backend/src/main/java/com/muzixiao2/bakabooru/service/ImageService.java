@@ -93,7 +93,7 @@ public class ImageService {
 
     // 查询图片
     @Transactional(readOnly = true)
-    public PageResponseDTO<ImageQueryResponseDTO> queryImages(String title, String tags, Integer page, Integer size) {
+    public PageResponseDTO<ImageQueryResponseDTO> queryImages(String keyword, String tags, Integer page, Integer size) {
         // 页码从 1 开始，转换为 0-based 索引
         Pageable pageable = PageRequest.of(page - 1, size);
 
@@ -104,8 +104,8 @@ public class ImageService {
                 String[] tagArray = tags.split(",");
                 predicates.add(root.get("tags").in(Arrays.asList(tagArray)));
             }
-            if (StringUtils.hasText(title)) {
-                predicates.add(cb.like(root.get("title"), "%" + title + "%"));
+            if (StringUtils.hasText(keyword)) {
+                predicates.add(cb.like(root.get("title"), "%" + keyword + "%"));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };

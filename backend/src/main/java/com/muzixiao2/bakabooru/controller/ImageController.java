@@ -89,7 +89,7 @@ public class ImageController {
     @GetMapping
     public ApiResponse<PageResponseDTO<ImageQueryResponseDTO>> queryImages(
             @Parameter(description = "标题关键字（模糊匹配）", example = "山水")
-            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "keyword", required = false) String keyword,
             @Parameter(description = "标签列表，逗号分隔（例如：tag1,tag2）")
             @RequestParam(value = "tags", required = false) String tags,
             @Parameter(description = "页码，从 1 开始", example = "1")
@@ -97,7 +97,7 @@ public class ImageController {
             @Parameter(description = "每页记录数", example = "10")
             @RequestParam(value = "size", defaultValue = "10") Integer size
     ) {
-        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(title, tags, page, size);
+        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(keyword, tags, page, size);
         return ApiResponse.success(pageResponse);
     }
 }

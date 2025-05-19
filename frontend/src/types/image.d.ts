@@ -24,7 +24,7 @@ export interface ImageFile {
 }
 
 export interface ImageQueryParams {
-  title?: string
+  keyword?: string
   tags?: string
   page?: number
   size?: number

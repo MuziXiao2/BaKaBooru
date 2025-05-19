@@ -25,7 +25,7 @@ export const useImageSearchStore = defineStore('imageSearch', {
       tag: '',
       grade: '',
       createTime: [] as [string, string] | [],
-      sort: '',
+      sort: 'titleMatch',
     } as SearchForm,
     page: 1,
     pageSize: 20,
