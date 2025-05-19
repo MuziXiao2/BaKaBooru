@@ -1,38 +1,45 @@
 <template>
-  <el-button
-    class="toggle"
-    text
-    :icon="globalUiStore.isLeftMenutoggle ? Fold : Expand"
-    @click="globalUiStore.toggleLeftMenu"
-  />
-  <el-breadcrumb :separator-icon="ArrowRight">
-    <el-breadcrumb-item :to="{ path: '/' }">BaKaBooru</el-breadcrumb-item>
-    <el-breadcrumb-item>{{ globalUiStore.activePage }}</el-breadcrumb-item>
-  </el-breadcrumb>
+  <div class="top-bar">
+    <div class="left">
+      <el-breadcrumb :separator-icon="ArrowRight" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">BaKaBooru</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ route.meta.title }}</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <el-button :icon="Setting" text size="large" class="setting-btn" @click="goToSetting" />
+  </div>
 </template>
 
 <script setup>
-import { Fold, Expand } from '@element-plus/icons-vue'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { useGlobalUiStore } from '@/stores/index.js'
+import { ArrowRight, Setting } from '@element-plus/icons-vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const globalUiStore = useGlobalUiStore()
+const route = useRoute()
+const router = useRouter()
+
+const goToSetting = () => {
+  router.push({ name: 'setting' })
+}
 </script>
 
 <style scoped>
 .top-bar {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
+  width: 100%;
+  height: 60px;
+  padding: 0 16px;
+  border-bottom: 1px solid #eee;
 }
 
-.title {
+.breadcrumb {
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
 }
 
-.toggle {
-  font-size: 24px;
-  padding: 12px;
+.setting-btn {
+  font-size: 20px;
+  padding: 8px;
 }
 </style>

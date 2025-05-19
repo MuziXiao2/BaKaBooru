@@ -1,29 +1,43 @@
 <template>
-  <ImageMasonry
-    :images="images"
-    :loading="loading"
-    :column-width="300"
-    :gap="8"
-    :ssr-columns="1"
-    :min-columns="2"
-    :max-columns="5"
-  />
-  <div class="pagination">
-    <el-button :disabled="page === 1 || loading" @click="goToPage(page - 1)" type="primary">
-      上一页
-    </el-button>
-    <span class="page-info">第 {{ page }} 页</span>
-    <el-button :disabled="noMoreData || loading" @click="goToPage(page + 1)" type="primary">
-      下一页
-    </el-button>
-  </div>
+  <GalleryLayout>
+    <template #side>
+      <Filter />
+    </template>
+    <template #header>
+      <AdvancedSearchBar />
+    </template>
+    <template #main>
+      <Masonry
+        :images="images"
+        :loading="loading"
+        :column-width="300"
+        :gap="8"
+        :ssr-columns="1"
+        :min-columns="2"
+        :max-columns="5"
+      />
+      <div class="pagination">
+        <el-button :disabled="page === 1 || loading" @click="goToPage(page - 1)" type="primary">
+          上一页
+        </el-button>
+        <span class="page-info">第 {{ page }} 页</span>
+        <el-button :disabled="noMoreData || loading" @click="goToPage(page + 1)" type="primary">
+          下一页
+        </el-button>
+      </div>
+    </template>
+  </GalleryLayout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ElButton } from 'element-plus'
-import ImageMasonry from '@/components/ImageMasonry.vue'
 import { getImageFileUrl, queryImages } from '@/api'
+
+import Masonry from '@/components/Masonry.vue'
+import Filter from '@/components/Filter.vue'
+import GalleryLayout from '@/views/layouts/GalleryLayout.vue'
+import AdvancedSearchBar from '@/components/AdvancedSearchBar.vue'
 
 // 图片数据接口
 interface ImageItem {
@@ -35,7 +49,7 @@ interface ImageItem {
 // 分页状态
 const images = ref<ImageItem[]>([])
 const page = ref(1)
-const pageSize = 5
+const pageSize = 10
 const loading = ref(false)
 const noMoreData = ref(false)
 

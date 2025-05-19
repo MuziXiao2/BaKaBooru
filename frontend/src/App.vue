@@ -1,8 +1,16 @@
 <template>
-  <RouterView />
+  <AppLayout>
+    <template #header>
+      <TopBar />
+    </template>
+    <RouterView />
+  </AppLayout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppLayout from '@/views/layouts/AppLayout.vue'
+import TopBar from '@/components/TopBar.vue'
+</script>
 
 <style scoped></style>
 
