@@ -1,9 +1,6 @@
 package com.muzixiao2.bakabooru.mapper;
 
-import com.muzixiao2.bakabooru.dto.image.ImageRequestDTO;
-import com.muzixiao2.bakabooru.dto.image.ImageResponseDTO;
-import com.muzixiao2.bakabooru.dto.image.ImageFileUploadResponseDTO;
-import com.muzixiao2.bakabooru.dto.image.ImageFileResponseDTO;
+import com.muzixiao2.bakabooru.dto.image.*;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
 import com.muzixiao2.bakabooru.entity.ImageImageFile;
@@ -27,7 +24,9 @@ public interface ImageMapper {
     @Mapping(target = "size", source = "imageFile.size")
     ImageFileResponseDTO toResponseDTO(ImageImageFile imageImageFile);
 
-    ImageResponseDTO toResponseDTO(Image atlas);
+    @Mapping(target = "files", ignore = true)
+    ImageResponseDTO toResponseDTO(Image image);
 
-
+    @Mapping(target = "coverHash", ignore = true)
+    ImageQueryResponseDTO toQueryResponseDTO(Image image);
 }

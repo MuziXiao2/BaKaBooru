@@ -5,6 +5,7 @@ export interface Image {
   description: string
   createdAt: string
   updatedAt: string
+  files: ImageFile[]
 }
 
 export interface ImageRequestDTO {
@@ -15,16 +16,22 @@ export interface ImageRequestDTO {
 
 export interface ImageFile {
   hash: string
-  title: string
-  url: string
-  size: number
+  type: string
+  fileName: string
   width: number
   height: number
-  originalFileName: string
-  extension: string
+  size: number
 }
 
-export interface ImageFileRequestDTO {
+export interface ImageQueryParams {
+  title?: string
+  tags?: string
+  page?: number
+  size?: number
+}
+
+export interface ImageQuery {
+  uuid: string
   title: string
-  hash: string
+  coverHash: string
 }

@@ -53,7 +53,14 @@ public class ImageService {
         //获取所需实体
         Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         //转换为响应DTO
-        return imageMapper.toResponseDTO(image);
+        ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
+        imageResponseDTO.setFiles(image
+                .getImageImageFiles()
+                .stream()
+                .map(imageMapper::toResponseDTO)
+                .toList()
+        );
+        return imageResponseDTO;
     }
 
 
@@ -77,13 +84,6 @@ public class ImageService {
         return imageMapper.toResponseDTO(imageImageFile);
     }
 
-    // 获取所有图片文件
-    @Transactional(readOnly = true)
-    public List<ImageFileResponseDTO> getAllImageFiles(String uuid) {
-        Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        return image.getImageImageFiles().stream().map(imageMapper::toResponseDTO).toList();
-    }
-
     // 获取图片文件临时URL
     @Transactional(readOnly = true)
     public String getImageFileUrl(String hash) {
@@ -92,9 +92,8 @@ public class ImageService {
     }
 
     // 查询图片
-
     @Transactional(readOnly = true)
-    public PageResponseDTO<ImageResponseDTO> queryImages(String tags, String title, int page, int size) {
+    public PageResponseDTO<ImageQueryResponseDTO> queryImages(String title, String tags, Integer page, Integer size) {
         // 页码从 1 开始，转换为 0-based 索引
         Pageable pageable = PageRequest.of(page - 1, size);
 
@@ -111,23 +110,34 @@ public class ImageService {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
-//        // 执行分页查询
-//        Page<Image> imagePage = imageRepository.findAll(spec, pageable);
-//
-//        // 转换为 DTO
-//        List<ImageResponseDTO> content = imagePage.getContent().stream()
-//                .map(this::toImageResponseDTO)
-//                .collect(Collectors.toList());
-//
-//        // 构建分页响应
-//        return new PageResponseDTO<>(
-//                content,
-//                imagePage.getTotalElements(),
-//                imagePage.getTotalPages(),
-//                imagePage.getNumber() + 1, // 转换为 1-based 页码
-//                imagePage.getSize()
-//        );
-        //TODO :待完成
-        return null;
+        // 执行分页查询
+        Page<Image> imagePage = imageRepository.findAll(spec, pageable);
+
+        // 转换为 DTO
+        List<ImageQueryResponseDTO> content = imagePage
+                .getContent()
+                .stream()
+                .map(image -> {
+                    ImageQueryResponseDTO imageQueryResponseDTO = imageMapper.toQueryResponseDTO(image);
+                    List<ImageImageFile> imageImageFiles = image.getImageImageFiles();
+                    if (!imageImageFiles.isEmpty())
+                        imageQueryResponseDTO
+                                .setCoverHash(imageImageFiles
+                                        .getFirst()
+                                        .getImageFile()
+                                        .getHash()
+                                );
+                    return imageQueryResponseDTO;
+                }).toList();
+
+        // 构建分页响应
+        return new PageResponseDTO<>(
+                content,
+                imagePage.getTotalElements(),
+                imagePage.getTotalPages(),
+                imagePage.getNumber() + 1, // 转换为 1-based 页码
+                imagePage.getSize()
+        );
+
     }
 }

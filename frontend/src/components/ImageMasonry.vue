@@ -10,7 +10,7 @@
     >
       <template #default="{ item }">
         <div class="image-card">
-          <img :src="item.url" :alt="item.alt" class="image" loading="lazy" />
+          <img :src="item.url" class="image" loading="lazy" />
         </div>
       </template>
     </masonry-wall>
@@ -25,9 +25,9 @@ import { ElScrollbar } from 'element-plus'
 
 // 图片数据接口
 interface ImageItem {
-  id: string
+  uuid: string
+  title: string
   url: string
-  alt: string
 }
 
 // Props 定义

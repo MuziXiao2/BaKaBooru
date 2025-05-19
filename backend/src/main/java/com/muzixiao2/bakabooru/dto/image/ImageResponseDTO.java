@@ -3,6 +3,7 @@ package com.muzixiao2.bakabooru.dto.image;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.time.Instant;
 
 @Data
@@ -14,5 +15,5 @@ public class ImageResponseDTO {
     private String description;
     private Instant createdAt;
     private Instant updatedAt;
-
+    private List<ImageFileResponseDTO> files;
 }

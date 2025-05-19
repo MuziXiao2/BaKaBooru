@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useGlobalUiStore } from '@/stores'
-import { Headset, Picture, VideoCamera } from '@element-plus/icons-vue'
+import { Picture } from '@element-plus/icons-vue'
 
 const globalUiStore = useGlobalUiStore()
 
@@ -28,11 +28,7 @@ const handleSelect = (name: string) => {
   router.push({ name })
 }
 
-const pageData = [
-  { label: '图片库', icon: Picture, path: '/gallery', name: 'Gallery' },
-  { label: '视频库', icon: VideoCamera, path: '/videos', name: 'Videos' },
-  { label: '音声库', icon: Headset, path: '/voices', name: 'Voices' },
-]
+const pageData = [{ label: '图片库', icon: Picture, path: '/gallery', name: 'Gallery' }]
 </script>
 
 <style scoped>

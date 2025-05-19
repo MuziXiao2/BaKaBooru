@@ -23,18 +23,19 @@
 import { ref } from 'vue'
 import { ElButton } from 'element-plus'
 import ImageMasonry from '@/components/ImageMasonry.vue'
+import { getImageFileUrl, queryImages } from '@/api'
 
 // 图片数据接口
 interface ImageItem {
-  id: number
+  uuid: string
+  title: string
   url: string
-  alt: string
 }
 
 // 分页状态
 const images = ref<ImageItem[]>([])
 const page = ref(1)
-const pageSize = 50 // 每页固定 10 张图片
+const pageSize = 5
 const loading = ref(false)
 const noMoreData = ref(false)
 
@@ -42,28 +43,33 @@ const noMoreData = ref(false)
 const fetchImages = async (pageNum: number) => {
   try {
     loading.value = true
-    // 模拟后端 API，实际应替换为真实请求
-    const response = await new Promise<ImageItem[]>((resolve) => {
-      setTimeout(() => {
-        const newImages: ImageItem[] = Array.from({ length: pageSize }, (_, i) => ({
-          id: (pageNum - 1) * pageSize + i,
-          url: `https://picsum.photos/300/${200 + (i % 50)}?random=${(pageNum - 1) * pageSize + i}`,
-          alt: `Image ${(pageNum - 1) * pageSize + i + 1}`,
-        }))
-        resolve(newImages)
-      }, 1000)
-    })
 
-    // 模拟无更多数据的场景（例如第 5 页后无数据）
-    if (pageNum >= 5) {
+    // 模拟无更多数据的场景
+    if (pageNum >= 3) {
       noMoreData.value = true
       images.value = []
       return
     }
 
     // 更新图片数据
-    images.value = response
-    noMoreData.value = response.length < pageSize
+    const imageQueryPage = await queryImages({
+      page: page.value,
+      size: pageSize,
+    })
+
+    const promises = imageQueryPage.content.map(async (imageQuery) => {
+      const url = await getImageFileUrl(imageQuery.coverHash)
+      return {
+        uuid: imageQuery.uuid,
+        title: imageQuery.title,
+        url: url,
+      }
+    })
+
+    // 等待所有异步完成
+    images.value = await Promise.all(promises)
+
+    noMoreData.value = imageQueryPage.content.length < pageSize
   } catch (error) {
     console.error('加载图片失败:', error)
     images.value = []

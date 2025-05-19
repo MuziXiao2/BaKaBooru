@@ -70,21 +70,8 @@ public class ImageController {
     }
 
     @Operation(
-            summary = "获取图片内所有图片文件",
-            description = "获取图片内所有图片文件"
-    )
-    @GetMapping("/{uuid}/file")
-    public ApiResponse<List<ImageFileResponseDTO>> getAllImageFiles(
-            @Parameter(description = "图集UUID", required = true)
-            @PathVariable("uuid") String uuid
-    ) {
-        List<ImageFileResponseDTO> imageFileResponseDTOList = imageService.getAllImageFiles(uuid);
-        return ApiResponse.success(imageFileResponseDTOList);
-    }
-
-    @Operation(
             summary = "获取图片",
-            description = "获取图片"
+            description = "获取图片详细信息"
     )
     @GetMapping("/{uuid}")
     public ApiResponse<ImageResponseDTO> getImage(
@@ -100,17 +87,17 @@ public class ImageController {
             description = "根据条件筛选查询图片，支持分页"
     )
     @GetMapping
-    public ApiResponse<PageResponseDTO<ImageResponseDTO>> queryImages(
+    public ApiResponse<PageResponseDTO<ImageQueryResponseDTO>> queryImages(
             @Parameter(description = "标题关键字（模糊匹配）", example = "山水")
             @RequestParam(value = "title", required = false) String title,
             @Parameter(description = "标签列表，逗号分隔（例如：tag1,tag2）", example = "风景,自然")
             @RequestParam(value = "tags", required = false) String tags,
             @Parameter(description = "页码，从 1 开始", example = "1")
-            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
             @Parameter(description = "每页记录数", example = "10")
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") Integer size
     ) {
-        PageResponseDTO<ImageResponseDTO> pageResponse = imageService.queryImages(title, tags, page, size);
+        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(title, tags, page, size);
         return ApiResponse.success(pageResponse);
     }
 }
