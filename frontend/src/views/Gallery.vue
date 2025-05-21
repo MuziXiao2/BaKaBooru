@@ -1,7 +1,8 @@
+<!-- Gallery.vue -->
 <template>
   <GalleryLayout>
     <template #side>
-      <Filter />
+      <TagFilter />
     </template>
     <template #header>
       <AdvancedSearchBar />
@@ -15,25 +16,45 @@
         :ssr-columns="1"
         :min-columns="minColumns"
         :max-columns="maxColumns"
+        @image-click="handleImageClick"
       />
       <PaginationControl />
     </template>
   </GalleryLayout>
+
+  <ImageViewer
+    v-if="store.selectedImage"
+    :image="store.selectedImage"
+    :image-details="store.selectedImageDetails"
+    @close="() => store.setSelectedImage(null)"
+    @update="handleImageUpdate"
+  />
 </template>
 
 <script setup lang="ts">
 import Masonry from '@/components/Masonry.vue'
-import Filter from '@/components/Filter.vue'
+import TagFilter from '@/components/TagFilter.vue'
 import GalleryLayout from '@/views/layouts/GalleryLayout.vue'
 import AdvancedSearchBar from '@/components/AdvancedSearchBar.vue'
-import { useImageSearchStore } from '@/stores/useImageSearchStore'
+import { useImageStore } from '@/stores/useImageStore.ts'
 import PaginationControl from '@/components/PaginationControl.vue'
+import ImageViewer from '@/components/ImageViewer.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
+import type { ImageItem } from '@/types'
+
+const store = useImageStore()
+
+const handleImageClick = async (image: ImageItem) => {
+  await store.setSelectedImage(image)
+}
+
+const handleImageUpdate = (updated: { uuid: string; title: string }) => {
+  store.updateImageTitle(updated.uuid, updated.title)
+}
 
 const minColumns = ref(5)
 const maxColumns = ref(10)
 
-// 监听窗口大小变化，动态设置列数
 const updateColumns = () => {
   const width = window.innerWidth
   if (width >= 1600) {
@@ -50,13 +71,12 @@ const updateColumns = () => {
     maxColumns.value = 3
   }
 }
-const store = useImageSearchStore()
 
 onMounted(() => {
   updateColumns()
   window.addEventListener('resize', updateColumns)
-  store.goToPage(1) // 设置初始页码
-  store.fetchImages() // 触发查询
+  store.goToPage(1)
+  store.fetchImages()
 })
 
 onUnmounted(() => {

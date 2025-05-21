@@ -88,16 +88,20 @@ public class ImageController {
     )
     @GetMapping
     public ApiResponse<PageResponseDTO<ImageQueryResponseDTO>> queryImages(
-            @Parameter(description = "标题关键字（模糊匹配）", example = "山水")
+            @Parameter(description = "标题关键字（模糊匹配）", example = "A")
             @RequestParam(value = "keyword", required = false) String keyword,
             @Parameter(description = "标签列表，逗号分隔（例如：tag1,tag2）")
             @RequestParam(value = "tags", required = false) String tags,
             @Parameter(description = "页码，从 1 开始", example = "1")
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @Parameter(description = "每页记录数", example = "10")
-            @RequestParam(value = "size", defaultValue = "10") Integer size
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @Parameter(description = "排序字段", example = "title")
+            @RequestParam(value = "sortBy", defaultValue = "10") String sortBy,
+            @Parameter(description = "顺序方向", example = "ASC")
+            @RequestParam(value = "sortDirection", defaultValue = "10") String sortDirection
     ) {
-        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(keyword, tags, page, size);
+        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(keyword, tags, page, size, sortBy, sortDirection);
         return ApiResponse.success(pageResponse);
     }
 }

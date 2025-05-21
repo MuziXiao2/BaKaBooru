@@ -9,9 +9,9 @@
       allow-create
       aria-label="选择每页图片数量"
     >
-      <el-option label="10 每页" :value="10" />
       <el-option label="20 每页" :value="20" />
       <el-option label="50 每页" :value="50" />
+      <el-option label="100 每页" :value="100" />
     </el-select>
 
     <div class="pagination-center">
@@ -38,9 +38,9 @@
 
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
-import { useImageSearchStore } from '@/stores/useImageSearchStore'
+import { useImageStore } from '@/stores/useImageStore.ts'
 
-const store = useImageSearchStore()
+const store = useImageStore()
 
 const handlePageChange = debounce((targetPage: number) => {
   store.goToPage(targetPage)

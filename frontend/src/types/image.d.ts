@@ -1,4 +1,4 @@
-export interface Image {
+export interface ImageDetail {
   uuid: string
   title: string
   creator: string
@@ -26,6 +26,8 @@ export interface ImageFile {
 export interface ImageQueryParams {
   keyword?: string
   tags?: string
+  sortBy?: 'title' | 'createdAt' | 'updatedAt'
+  sortDirection?: 'asc' | 'desc'
   page?: number
   size?: number
 }
@@ -34,4 +36,10 @@ export interface ImageQuery {
   uuid: string
   title: string
   coverHash: string
+}
+
+export interface ImageItem {
+  uuid: string
+  title: string
+  url: string
 }

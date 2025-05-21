@@ -10,7 +10,7 @@
       :max-columns="maxColumns"
     >
       <template #default="{ item }">
-        <div class="image-card">
+        <div class="image-card" @click="handleClick(item)">
           <img :src="item.url" :alt="item.title" class="image" loading="lazy" />
           <div class="image-title">{{ item.title }}</div>
         </div>
@@ -24,15 +24,12 @@
 <script setup lang="ts">
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { ElScrollbar } from 'element-plus'
+import type { ImageItem } from '@/types'
 
-// 图片数据接口
-interface ImageItem {
-  uuid: string
-  title: string
-  url: string
-}
+const emit = defineEmits<{
+  (e: 'image-click', image: ImageItem): void
+}>()
 
-// Props 定义
 defineProps<{
   images: ImageItem[]
   loading: boolean
@@ -42,6 +39,10 @@ defineProps<{
   minColumns: number
   maxColumns: number
 }>()
+
+const handleClick = (image: ImageItem) => {
+  emit('image-click', image)
+}
 </script>
 
 <style scoped>
@@ -53,50 +54,48 @@ defineProps<{
 .image-card {
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative; /* 为标题定位提供上下文 */
-  overflow: hidden; /* 防止标题溢出 */
-  transition: transform 0.3s ease; /* 添加卡片缩放过渡 */
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .image {
   width: 100%;
   height: auto;
   display: block;
-  transition: filter 0.1s ease; /* 图片亮度过渡 */
+  transition: filter 0.1s ease;
 }
 
 .image-card:hover .image {
-  filter: brightness(90%); /* 悬停时图片变暗，突出标题 */
+  filter: brightness(90%);
 }
 
-/* 标题样式 */
 .image-title {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 50%); /* 半透明黑色背景 */
+  background: rgba(0, 0, 0, 50%);
   color: #fff;
   font-size: 14px;
   font-weight: 500;
   text-align: center;
-  opacity: 0; /* 默认隐藏 */
-  transform: translateY(100%); /* 默认移出底部 */
+  opacity: 0;
+  transform: translateY(100%);
   transition:
     opacity 0.3s ease,
-    transform 0.3s ease; /* 平滑过渡 */
+    transform 0.3s ease;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* 防止标题换行 */
+  white-space: nowrap;
 }
 
-/* 悬停时显示标题 */
 .image-card:hover .image-title {
   opacity: 1;
-  transform: translateY(0); /* 滑入显示 */
+  transform: translateY(0);
 }
 
-/* 状态提示 */
 .loading,
 .no-data {
   text-align: center;

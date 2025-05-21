@@ -1,31 +1,27 @@
 import { defineStore } from 'pinia'
-import { getImageFileUrl, queryImages } from '@/api'
+import { getImage, getImageFileUrl, queryImages } from '@/api'
 import pLimit from 'p-limit'
-
-// 图片数据接口
-export interface ImageItem {
-  uuid: string
-  title: string
-  url: string
-}
+import type { ImageDetail, ImageItem } from '@/types'
 
 // 搜索表单接口
 interface SearchForm {
   keyword: string
   tag: string
-  grade: string
-  createTime: [string, string] | [] // 明确为日期范围或空数组
-  sort: string
+  createdAt: [string, string] | []
+  updatedAt: [string, string] | []
+  sortBy: 'title' | 'createdAt' | 'updatedAt'
+  sortDirection: 'asc' | 'desc'
 }
 
-export const useImageSearchStore = defineStore('imageSearch', {
+export const useImageStore = defineStore('imageSearch', {
   state: () => ({
     form: {
       keyword: '',
       tag: '',
-      grade: '',
-      createTime: [] as [string, string] | [],
-      sort: 'titleMatch',
+      createdAt: [] as [string, string] | [],
+      updatedAt: [] as [string, string] | [],
+      sortBy: 'title',
+      sortDirection: 'asc',
     } as SearchForm,
     page: 1,
     pageSize: 20,
@@ -33,19 +29,21 @@ export const useImageSearchStore = defineStore('imageSearch', {
     error: null as string | null,
     noMoreData: false,
     images: [] as ImageItem[],
+    selectedImage: null as ImageItem | null,
+    selectedImageDetails: null as ImageDetail | null,
   }),
 
   actions: {
-    /**
-     * 获取当前页的图片数据
-     */
     async fetchImages() {
       this.loading = true
       this.error = null
 
       try {
         const res = await queryImages({
-          ...this.form,
+          keyword: this.form.keyword,
+          tags: this.form.tag,
+          sortBy: this.form.sortBy,
+          sortDirection: this.form.sortDirection,
           page: this.page,
           size: this.pageSize,
         })
@@ -100,14 +98,40 @@ export const useImageSearchStore = defineStore('imageSearch', {
       this.form = {
         keyword: '',
         tag: '',
-        grade: '',
-        createTime: [],
-        sort: '',
+        createdAt: [],
+        updatedAt: [],
+        sortBy: 'title',
+        sortDirection: 'asc',
       }
       this.page = 1
       this.pageSize = 20 // 重置到默认值
       this.noMoreData = false
       this.images = []
+    },
+
+    async setSelectedImage(image: ImageItem | null) {
+      this.loading = true
+      this.error = null
+      this.selectedImage = image
+      if (image) {
+        try {
+          this.selectedImageDetails = await getImage(image.uuid)
+        } catch (e) {
+          this.error = e instanceof Error ? e.message : '加载图片详情失败'
+          this.selectedImageDetails = null
+          console.error('加载图片详情失败:', e)
+        } finally {
+          this.loading = false
+        }
+      } else this.selectedImageDetails = null
+    },
+
+    updateImageTitle(uuid: string, title: string) {
+      const img = this.images.find((i) => i.uuid === uuid)
+      if (img) img.title = title
+      if (this.selectedImageDetails && this.selectedImageDetails.uuid === uuid) {
+        this.selectedImageDetails.title = title
+      }
     },
 
     /**

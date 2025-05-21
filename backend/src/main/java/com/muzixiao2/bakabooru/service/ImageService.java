@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,22 +37,16 @@ public class ImageService {
     // 添加图片
     @Transactional
     public ImageResponseDTO addImage(ImageRequestDTO imageRequestDTO) {
-        // 创建实体
         Image image = imageMapper.toEntity(imageRequestDTO);
-        // 保存实体
         image = imageRepository.save(image);
-        // 获取实体
         image = imageRepository.findByUuid(image.getUuid()).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        // 返回响应DTO
         return imageMapper.toResponseDTO(image);
     }
 
     // 获取单个图片
     @Transactional(readOnly = true)
     public ImageResponseDTO getImage(String uuid) {
-        //获取所需实体
         Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        //转换为响应DTO
         ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
         imageResponseDTO.setFiles(image
                 .getImageImageFiles()
@@ -63,24 +57,18 @@ public class ImageService {
         return imageResponseDTO;
     }
 
-
     // 添加图片文件
     @Transactional
     public ImageFileResponseDTO addImageFile(String uuid, MultipartFile file) {
-        //计算图片哈希
         String hash = HashUtil.calculateHash(file);
-        //保存图片文件
         if (!imageFileRepository.existsByHash(hash)) {
             ImageFileUploadResponseDTO imageFileUploadResponseDTO = minIOUtil.upload(hash, file);
             ImageFile imageFile = imageMapper.toEntity(imageFileUploadResponseDTO);
             imageFileRepository.save(imageFile);
         }
-        //获取所需实体
         Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         ImageFile imageFile = imageFileRepository.findByHash(hash).orElseThrow(() -> new IllegalArgumentException("图片文件不存在"));
-        //添加图片文件到图片
         ImageImageFile imageImageFile = image.addImageFile(imageFile, file.getOriginalFilename());
-        //转换为响应DTO
         return imageMapper.toResponseDTO(imageImageFile);
     }
 
@@ -93,19 +81,25 @@ public class ImageService {
 
     // 查询图片
     @Transactional(readOnly = true)
-    public PageResponseDTO<ImageQueryResponseDTO> queryImages(String keyword, String tags, Integer page, Integer size) {
-        // 页码从 1 开始，转换为 0-based 索引
-        Pageable pageable = PageRequest.of(page - 1, size);
+    public PageResponseDTO<ImageQueryResponseDTO> queryImages(String keyword, String tags, Integer page, Integer size, String sortBy, String sortDirection) {
+        // 输入验证
+        if (page < 1 || size < 1) {
+            throw new IllegalArgumentException("Page and size must be positive");
+        }
+
+        // 构建 Pageable
+        Pageable pageable = buildPageable(page, size, sortBy, sortDirection);
 
         // 构建查询条件
         Specification<Image> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+            // 注意：Image 实体中无 tags 字段，若不需要 tags 过滤，请移除以下逻辑
             if (StringUtils.hasText(tags)) {
                 String[] tagArray = tags.split(",");
                 predicates.add(root.get("tags").in(Arrays.asList(tagArray)));
             }
             if (StringUtils.hasText(keyword)) {
-                predicates.add(cb.like(root.get("title"), "%" + keyword + "%"));
+                predicates.add(cb.like(cb.lower(root.get("title")), "%" + keyword.toLowerCase() + "%"));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
@@ -120,13 +114,9 @@ public class ImageService {
                 .map(image -> {
                     ImageQueryResponseDTO imageQueryResponseDTO = imageMapper.toQueryResponseDTO(image);
                     List<ImageImageFile> imageImageFiles = image.getImageImageFiles();
-                    if (!imageImageFiles.isEmpty())
-                        imageQueryResponseDTO
-                                .setCoverHash(imageImageFiles
-                                        .getFirst()
-                                        .getImageFile()
-                                        .getHash()
-                                );
+                    if (!imageImageFiles.isEmpty()) {
+                        imageQueryResponseDTO.setCoverHash(imageImageFiles.getFirst().getImageFile().getHash());
+                    }
                     return imageQueryResponseDTO;
                 }).toList();
 
@@ -138,6 +128,31 @@ public class ImageService {
                 imagePage.getNumber() + 1, // 转换为 1-based 页码
                 imagePage.getSize()
         );
+    }
 
+    private Pageable buildPageable(Integer page, Integer size, String sortBy, String sortDirection) {
+        // 默认排序字段和方向
+        String sortField = "updatedat";
+        Sort.Direction direction = Sort.Direction.DESC;
+
+        // 处理排序字段
+        if (StringUtils.hasText(sortBy)) {
+            sortField = switch (sortBy) {
+                case "title", "createdAt", "updatedAt" -> sortBy;
+                default -> throw new IllegalArgumentException("Invalid sortBy value: " + sortBy);
+            };
+        }
+
+        // 处理排序方向
+        if (StringUtils.hasText(sortDirection)) {
+            try {
+                direction = Sort.Direction.fromString(sortDirection);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid sortDirection value: " + sortDirection);
+            }
+        }
+
+        // 构建 Pageable
+        return PageRequest.of(page - 1, size, Sort.by(direction, sortField));
     }
 }

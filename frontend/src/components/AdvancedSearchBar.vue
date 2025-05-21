@@ -12,29 +12,39 @@
       clearable
       class="search-keyword"
       aria-label="搜索图片标题"
+      @input="onSubmit"
+      @change="onSubmit"
     >
-      <template #append>
-        <el-button :icon="Search" type="primary" @click="onSubmit" aria-label="执行搜索" />
-      </template>
     </el-input>
 
     <!-- 创建时间范围 -->
     <el-date-picker
-      v-model="store.form.createTime"
+      v-model="store.form.createdAt"
       type="daterange"
-      start-placeholder="开始日期"
+      start-placeholder="起始日期"
       end-placeholder="结束日期"
       unlink-panels
       clearable
       class="search-date"
       aria-label="选择图片创建日期范围"
+    />
+
+    <!-- 更新时间范围 -->
+    <el-date-picker
+      v-model="store.form.updatedAt"
+      type="daterange"
+      start-placeholder="起始日期"
+      end-placeholder="结束日期"
+      unlink-panels
+      clearable
+      class="search-date"
+      aria-label="选择图片更新日期范围"
       @change="onSubmit"
     />
 
-    <!-- 排序选择 -->
+    <!-- 排序字段 -->
     <el-select
-      v-model="store.form.sort"
-      clearable
+      v-model="store.form.sortBy"
       class="search-sort"
       aria-label="选择排序规则"
       :default-first-option="true"
@@ -43,10 +53,18 @@
       <template #prefix>
         <span class="sort-prefix">排序方式</span>
       </template>
-      <el-option label="最佳匹配" value="titleMatch" />
-      <el-option label="更新日期" value="updateDate" />
-      <el-option label="上传日期" value="uploadDate" />
+      <el-option label="最佳匹配" value="title" />
+      <el-option label="创建日期" value="createdAt" />
+      <el-option label="更新日期" value="updatedAt" />
     </el-select>
+
+    <!-- 排序方向按钮 -->
+    <el-button
+      :icon="store.form.sortDirection === 'asc' ? ArrowUp : ArrowDown"
+      class="sort-direction"
+      aria-label="切换排序方向"
+      @click="toggleSortDirection"
+    />
 
     <!-- 重置按钮 -->
     <div class="search-actions">
@@ -54,12 +72,13 @@
     </div>
   </el-form>
 </template>
-<script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
-import { debounce } from 'lodash-es'
-import { useImageSearchStore } from '@/stores/useImageSearchStore'
 
-const store = useImageSearchStore()
+<script setup lang="ts">
+import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { debounce } from 'lodash-es'
+import { useImageStore } from '@/stores/useImageStore.ts'
+
+const store = useImageStore()
 
 const onSubmit = debounce(() => {
   store.goToPage(1)
@@ -71,41 +90,59 @@ const onReset = debounce(() => {
   store.goToPage(1)
   store.fetchImages()
 }, 300)
+
+const toggleSortDirection = () => {
+  store.form.sortDirection = store.form.sortDirection === 'asc' ? 'desc' : 'asc'
+  onSubmit()
+}
 </script>
+
 <style scoped>
 .form-container {
   display: flex;
-  gap: 16px 20px;
-  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  gap: 0 32px;
+  align-items: center;
+  box-sizing: border-box;
 }
 
+/* 关键词搜索框 */
 .search-keyword {
-  width: 400px;
-  flex: 1 1 200px;
+  flex: 1 1 300px; /* 优先显示更大宽度 */
+  min-width: 240px;
+  max-width: 480px;
 }
 
+/* 创建/更新时间选择器 */
 .search-date {
-  max-width: 320px;
-  flex: 1 1 240px;
+  flex: 1 1 260px;
+  min-width: 220px;
+  max-width: 360px;
 }
 
+/* 排序选择器 */
 .search-sort {
-  max-width: 200px;
-  flex: 1 1 160px;
+  flex: 0 0 200px; /* 固定宽度 */
 }
 
-.sort-prefix {
-  color: #606266;
-  font-size: 14px;
-  padding-right: 6px;
-  white-space: nowrap;
-  display: inline-block;
+/* 排序方向按钮 */
+.sort-direction {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* 重置按钮区域，独占一行 */
 .search-actions {
   display: flex;
+  justify-content: flex-end;
+  flex: 1 1 100%;
   gap: 12px;
-  flex: 1 1 auto;
-  min-width: 100px;
+  margin-top: 8px;
 }
 </style>
