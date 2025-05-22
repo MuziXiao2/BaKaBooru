@@ -1,4 +1,3 @@
-<!-- ImageViewer.vue -->
 <template>
   <teleport to="body">
     <div class="image-viewer-overlay">
@@ -6,63 +5,85 @@
         <!-- 左侧预览 -->
         <el-main class="image-viewer-main">
           <el-image
+            v-if="previewUrl"
+            :key="previewUrl"
             class="image-viewer-preview"
-            :src="image.url"
-            :alt="image.title"
+            :src="previewUrl"
+            :alt="selectedImageDetails?.title"
             fit="contain"
-            :preview-src-list="[image.url]"
+            :preview-src-list="[previewUrl]"
             :initial-index="0"
             hide-on-click-modal
             preview-teleported
+            @error="handleImageError"
           />
+          <div v-else class="no-image">无法加载图片</div>
         </el-main>
 
         <!-- 右侧信息 -->
         <el-aside class="image-viewer-aside">
           <div class="image-viewer-info">
-            <h2>图片信息</h2>
+            <h2 class="info-item">
+              {{ selectedImageDetails?.title }}
+            </h2>
 
-            <div v-if="imageDetails" class="info-item">
-              <label>UUID：</label>
-              <div>{{ imageDetails.uuid }}</div>
+            <!-- 文件列表 -->
+            <div v-if="selectedImageDetails?.files?.length" class="info-item">
+              <el-table
+                :data="selectedImageDetails.files"
+                highlight-current-row
+                style="width: 100%"
+                @current-change="handleFileRowClick"
+                :row-key="(row) => row.hash"
+                :current-row="currentFile"
+              >
+                <el-table-column prop="fileName" label="文件名" />
+                <el-table-column prop="type" label="类型" />
+                <el-table-column label="尺寸">
+                  <template #default="{ row }"> {{ row.width }}x{{ row.height }}</template>
+                </el-table-column>
+                <el-table-column label="大小">
+                  <template #default="{ row }">
+                    {{ row.size }}
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+            <div v-else-if="selectedImageDetails" class="info-item">
+              <label>文件列表：</label>
+              <div>无关联文件</div>
             </div>
 
-            <div class="info-item">
-              <label>标题：</label>
-              <div v-if="!editing">{{ image.title }}</div>
-              <el-input v-else v-model="editableTitle" placeholder="输入标题" class="info-input" />
-            </div>
-
-            <div v-if="imageDetails" class="info-item">
+            <div v-if="selectedImageDetails" class="info-item">
               <label>创建者：</label>
-              <div>{{ imageDetails.creator }}</div>
+              <div>{{ selectedImageDetails.creator }}</div>
             </div>
 
-            <div v-if="imageDetails" class="info-item">
+            <div v-if="selectedImageDetails" class="info-item">
               <label>描述：</label>
-              <div>{{ imageDetails.description }}</div>
+              <div>{{ selectedImageDetails.description }}</div>
             </div>
 
-            <div v-if="imageDetails" class="info-item">
+            <div v-if="selectedImageDetails" class="info-item">
               <label>创建时间：</label>
-              <div>{{ imageDetails.createdAt }}</div>
+              <div>{{ selectedImageDetails.createdAt }}</div>
             </div>
-            <div v-if="imageDetails" class="info-item">
+            <div v-if="selectedImageDetails" class="info-item">
               <label>更新时间：</label>
-              <div>{{ imageDetails.updatedAt }}</div>
+              <div>{{ selectedImageDetails.updatedAt }}</div>
             </div>
-            <!--            <div v-if="imageDetails" class="info-item">-->
-            <!--              <label>标签：</label>-->
-            <!--              <div>{{ imageDetails.tags?.join(', ') || '无' }}</div>-->
-            <!--            </div>-->
-            <div v-if="!imageDetails" class="info-item">
+
+            <div v-if="selectedImageDetails" class="info-item">
+              <label>UUID：</label>
+              <div>{{ selectedImageDetails.uuid }}</div>
+            </div>
+
+            <div v-if="!selectedImageDetails" class="info-item">
               <div>加载详细信息中...</div>
             </div>
 
             <div class="info-actions">
-              <el-button type="primary" @click="toggleEdit">
-                {{ editing ? '保存' : '编辑' }}
-              </el-button>
+              <el-button @click="resetPreview">恢复默认图片</el-button>
               <el-button @click="handleClose">关闭</el-button>
             </div>
           </div>
@@ -74,38 +95,67 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import type { ImageItem, ImageDetail } from '@/types'
+import { ElMessage } from 'element-plus'
+import { useSelectedImageStore } from '@/stores/useSelectedImageStore'
+import type { ImageFile } from '@/types'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps<{
-  image: ImageItem
-  imageDetails: ImageDetail | null
-}>()
+const selectedImageStore = useSelectedImageStore()
+const { selectedImageDetails } = storeToRefs(selectedImageStore)
 
-const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'update', data: { uuid: string; title: string }): void
-}>()
+const previewUrl = ref('')
+const currentFile = ref<ImageFile | null>(null)
+const fileLoading = ref<{ [key: string]: boolean }>({})
 
-const editing = ref(false)
-const editableTitle = ref(props.image.title)
-
-watch(
-  () => props.image,
-  (img) => {
-    editableTitle.value = img.title
-    editing.value = false
-  },
-)
-
-const handleClose = () => {
-  emit('close')
+function setDefaultPreview() {
+  if (selectedImageDetails?.value?.files?.length) {
+    const firstImageFile = selectedImageDetails.value.files[0]
+    if (firstImageFile) {
+      currentFile.value = firstImageFile
+      loadPreviewUrl(firstImageFile)
+      return
+    }
+  }
+  currentFile.value = null
+  previewUrl.value = ''
 }
 
-const toggleEdit = () => {
-  if (editing.value) {
-    emit('update', { uuid: props.image.uuid, title: editableTitle.value })
+async function loadPreviewUrl(file: ImageFile) {
+  try {
+    fileLoading.value[file.hash] = true
+    previewUrl.value = await selectedImageStore.getImageFileUrl(file.hash)
+  } catch {
+    ElMessage.error('无法加载文件')
+    previewUrl.value = ''
+  } finally {
+    fileLoading.value[file.hash] = false
   }
-  editing.value = !editing.value
+}
+
+watch(
+  () => selectedImageDetails.value,
+  () => {
+    setDefaultPreview()
+  },
+  { immediate: true },
+)
+
+const resetPreview = () => {
+  setDefaultPreview()
+}
+
+const handleImageError = () => {
+  ElMessage.error('无法加载图片')
+  previewUrl.value = ''
+}
+
+const handleFileRowClick = async (row: ImageFile | null) => {
+  currentFile.value = row
+  await loadPreviewUrl(row)
+}
+
+const handleClose = () => {
+  selectedImageStore.setSelectedImage(null)
 }
 </script>
 
@@ -137,10 +187,16 @@ const toggleEdit = () => {
   max-height: 100%;
 }
 
+.no-image {
+  color: #fff;
+  font-size: 16px;
+}
+
 .image-viewer-aside {
-  width: 360px;
+  width: 20%;
   background: #fff;
   padding: 24px;
+
   box-shadow: -1px 0 6px rgba(0, 0, 0, 0.1);
   position: relative;
   display: flex;
@@ -174,9 +230,5 @@ const toggleEdit = () => {
 .info-item label {
   font-weight: 600;
   margin-right: 8px;
-}
-
-.info-input {
-  width: 100%;
 }
 </style>

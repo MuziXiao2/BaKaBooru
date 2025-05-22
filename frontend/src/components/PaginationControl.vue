@@ -1,7 +1,8 @@
+```vue
 <template>
   <div class="pagination-wrapper">
     <el-select
-      v-model="store.pageSize"
+      v-model="paginationStore.pageSize"
       @change="handlePageSizeChange"
       class="page-size-select"
       placeholder="每页数量"
@@ -16,17 +17,17 @@
 
     <div class="pagination-center">
       <el-button
-        :disabled="store.page === 1 || store.loading"
-        @click="handlePageChange(store.page - 1)"
+        :disabled="paginationStore.page === 1 || imageStore.loading"
+        @click="handlePageChange(paginationStore.page - 1)"
         type="primary"
         aria-label="上一页"
       >
         上一页
       </el-button>
-      <span class="page-info">第 {{ store.page }} 页</span>
+      <span class="page-info">第 {{ paginationStore.page }} 页</span>
       <el-button
-        :disabled="store.noMoreData || store.loading"
-        @click="handlePageChange(store.page + 1)"
+        :disabled="paginationStore.noMoreData || imageStore.loading"
+        @click="handlePageChange(paginationStore.page + 1)"
         type="primary"
         aria-label="下一页"
       >
@@ -38,18 +39,23 @@
 
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
-import { useImageStore } from '@/stores/useImageStore.ts'
+import { useImageStore } from '@/stores/useImageStore'
+import { usePaginationStore } from '@/stores/usePaginationStore'
+import { storeToRefs } from 'pinia'
 
-const store = useImageStore()
+const imageStore = useImageStore()
+const paginationStore = usePaginationStore()
+const { loading } = storeToRefs(imageStore)
+const { page, pageSize, noMoreData } = storeToRefs(paginationStore)
 
 const handlePageChange = debounce((targetPage: number) => {
-  store.goToPage(targetPage)
-  store.fetchImages()
+  paginationStore.goToPage(targetPage)
+  imageStore.fetchImages()
 }, 300)
 
 const handlePageSizeChange = debounce(() => {
-  store.setPageSize(store.pageSize)
-  store.fetchImages()
+  paginationStore.setPageSize(pageSize.value)
+  imageStore.fetchImages()
 }, 300)
 </script>
 
@@ -83,3 +89,4 @@ const handlePageSizeChange = debounce(() => {
   color: #333;
 }
 </style>
+```

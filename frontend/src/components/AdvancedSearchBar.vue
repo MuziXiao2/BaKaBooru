@@ -1,13 +1,13 @@
 <template>
   <el-form
-    :model="store.form"
+    :model="searchFormStore.form"
     @submit.prevent="onSubmit"
     class="form-container"
     aria-label="图片搜索表单"
   >
     <!-- 关键词搜索 -->
     <el-input
-      v-model="store.form.keyword"
+      v-model="searchFormStore.form.keyword"
       placeholder="搜索图片标题"
       clearable
       class="search-keyword"
@@ -19,7 +19,7 @@
 
     <!-- 创建时间范围 -->
     <el-date-picker
-      v-model="store.form.createdAt"
+      v-model="searchFormStore.form.createdAt"
       type="daterange"
       start-placeholder="起始日期"
       end-placeholder="结束日期"
@@ -31,7 +31,7 @@
 
     <!-- 更新时间范围 -->
     <el-date-picker
-      v-model="store.form.updatedAt"
+      v-model="searchFormStore.form.updatedAt"
       type="daterange"
       start-placeholder="起始日期"
       end-placeholder="结束日期"
@@ -44,7 +44,7 @@
 
     <!-- 排序字段 -->
     <el-select
-      v-model="store.form.sortBy"
+      v-model="searchFormStore.form.sortBy"
       class="search-sort"
       aria-label="选择排序规则"
       :default-first-option="true"
@@ -60,7 +60,7 @@
 
     <!-- 排序方向按钮 -->
     <el-button
-      :icon="store.form.sortDirection === 'asc' ? ArrowUp : ArrowDown"
+      :icon="searchFormStore.form.sortDirection === 'asc' ? ArrowUp : ArrowDown"
       class="sort-direction"
       aria-label="切换排序方向"
       @click="toggleSortDirection"
@@ -76,23 +76,27 @@
 <script setup lang="ts">
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { debounce } from 'lodash-es'
-import { useImageStore } from '@/stores/useImageStore.ts'
+import { useImageStore } from '@/stores/useImageStore'
+import { useSearchFormStore } from '@/stores/useSearchFormStore'
+import { usePaginationStore } from '@/stores/usePaginationStore'
 
-const store = useImageStore()
+const imageStore = useImageStore()
+const searchFormStore = useSearchFormStore()
+const paginationStore = usePaginationStore()
 
 const onSubmit = debounce(() => {
-  store.goToPage(1)
-  store.fetchImages()
+  paginationStore.goToPage(1)
+  imageStore.fetchImages()
 }, 300)
 
 const onReset = debounce(() => {
-  store.resetForm()
-  store.goToPage(1)
-  store.fetchImages()
+  searchFormStore.resetForm()
+  paginationStore.goToPage(1)
+  imageStore.fetchImages()
 }, 300)
 
 const toggleSortDirection = () => {
-  store.form.sortDirection = store.form.sortDirection === 'asc' ? 'desc' : 'asc'
+  searchFormStore.form.sortDirection = searchFormStore.form.sortDirection === 'asc' ? 'desc' : 'asc'
   onSubmit()
 }
 </script>

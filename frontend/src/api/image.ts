@@ -1,5 +1,5 @@
 import api from '@/api/index.ts'
-import type { Image, ImageFile, ImageQuery, ImageQueryParams, ImageRequestDTO, Page } from '@/types'
+import type { ImageDetail, ImageFile, ImageQuery, ImageQueryParams, ImageRequestDTO, Page } from '@/types'
 
 const baseUrl = 'http://localhost:8080/image'
 
@@ -10,7 +10,7 @@ export async function getImageFileUrl(hash: string): Promise<string> {
 }
 
 //添加图片
-export async function addImage(imageRequestDTO: ImageRequestDTO): Promise<Image> {
+export async function addImage(imageRequestDTO: ImageRequestDTO): Promise<ImageDetail> {
   const response = await api.post(baseUrl, imageRequestDTO)
   return response.data.data
 }
@@ -22,7 +22,7 @@ export async function addImageFile(uuid: string, file: File): Promise<ImageFile>
 }
 
 //获取图片
-export async function getImage(uuid: string): Promise<Image> {
+export async function getImage(uuid: string): Promise<ImageDetail> {
   const response = await api.get(baseUrl + `/${uuid}`)
   return response.data.data
 }

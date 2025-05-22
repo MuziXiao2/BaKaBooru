@@ -3,9 +3,9 @@
     <masonry-wall
       class="wall"
       :items="images"
-      :column-width="columnWidth"
-      :gap="gap"
-      :ssr-columns="ssrColumns"
+      :column-width="300"
+      :gap="10"
+      :ssr-columns="1"
       :min-columns="minColumns"
       :max-columns="maxColumns"
     >
@@ -25,17 +25,17 @@
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { ElScrollbar } from 'element-plus'
 import type { ImageItem } from '@/types'
+import { useImageStore } from '@/stores/useImageStore'
+import { storeToRefs } from 'pinia'
 
 const emit = defineEmits<{
   (e: 'image-click', image: ImageItem): void
 }>()
 
+const imageStore = useImageStore()
+const { loading, images } = storeToRefs(imageStore)
+
 defineProps<{
-  images: ImageItem[]
-  loading: boolean
-  columnWidth: number
-  gap: number
-  ssrColumns: number
   minColumns: number
   maxColumns: number
 }>()
