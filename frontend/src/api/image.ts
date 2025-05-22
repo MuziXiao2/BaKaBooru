@@ -17,7 +17,7 @@ export async function addImage(imageRequestDTO: ImageRequestDTO): Promise<ImageD
 
 //为图片添加图片文件
 export async function addImageFile(uuid: string, file: File): Promise<ImageFile> {
-  const response = await api.post(baseUrl + `/${uuid}`, file)
+  const response = await api.post(baseUrl + `/${uuid}/file`, file)
   return response.data.data
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="tag-filter-container">
-    <h3 class="title">标签过滤器</h3>
+    <label class="title">标签过滤器</label>
 
     <el-autocomplete
       class="autocomplete"
@@ -109,7 +109,7 @@ onMounted(() => {
 }
 
 .title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
 }

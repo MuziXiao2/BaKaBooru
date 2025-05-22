@@ -3,6 +3,8 @@ package com.muzixiao2.bakabooru.controller;
 import com.muzixiao2.bakabooru.dto.ApiResponse;
 import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
+import com.muzixiao2.bakabooru.dto.tag.TagRequestDTO;
+import com.muzixiao2.bakabooru.dto.tag.TagResponseDTO;
 import com.muzixiao2.bakabooru.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,19 +26,6 @@ public class ImageController {
     private final ImageService imageService;
 
     @Operation(
-            summary = "获取图片文件临时URL",
-            description = "获取图片文件临时URL"
-    )
-    @GetMapping("/file/{hash}")
-    public ApiResponse<String> getImageFileUrl(
-            @Parameter(description = "图片哈希值", required = true)
-            @PathVariable("hash") String hash
-    ) {
-        String url = imageService.getImageFileUrl(hash);
-        return ApiResponse.success(url);
-    }
-
-    @Operation(
             summary = "添加图片",
             description = "添加新的图片",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -53,12 +42,30 @@ public class ImageController {
         return ApiResponse.success(imageResponseDTO);
     }
 
+    @Operation(
+            summary = "为图片添加标签",
+            description = "为图片添加标签",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "标签信息",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = TagRequestDTO.class))
+            )
+    )
+    @PostMapping(path = "/{uuid}/tag")
+    public ApiResponse<TagResponseDTO> addTag(
+            @Parameter(description = "图片UUID", required = true)
+            @PathVariable("uuid") String uuid,
+            @RequestBody Long tagId
+    ) {
+        TagResponseDTO tagResponseDTO = imageService.addTag(uuid, tagId);
+        return ApiResponse.success(tagResponseDTO);
+    }
 
     @Operation(
             summary = "为图片添加图片文件",
             description = "为图片添加图片文件"
     )
-    @PostMapping(path = "/{uuid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/{uuid}/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ImageFileResponseDTO> addImageFile(
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid,

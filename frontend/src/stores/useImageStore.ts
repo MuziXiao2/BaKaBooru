@@ -13,7 +13,7 @@ export const useImageStore = defineStore('image', {
   }),
 
   actions: {
-    async fetchImages() {
+    async queryImages() {
       const searchFormStore = useSearchFormStore()
       const paginationStore = usePaginationStore()
 
@@ -30,7 +30,9 @@ export const useImageStore = defineStore('image', {
           size: paginationStore.pageSize,
         })
 
-        paginationStore.setNoMoreData(res.content.length === 0 || paginationStore.page >= res.totalPages)
+        paginationStore.setNoMoreData(
+          res.content.length === 0 || paginationStore.page >= res.totalPages,
+        )
 
         const limit = pLimit(5)
         this.images = await Promise.all(

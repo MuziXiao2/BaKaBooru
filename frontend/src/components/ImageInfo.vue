@@ -8,9 +8,9 @@
 
     <!-- 标签区域 -->
     <div class="tags-section info-item">
-      <label>标签：</label>
+      <h3>标签</h3>
       <div class="tags-container">
-        <span class="no-tags">暂无标签</span>
+
       </div>
     </div>
 
@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import type { ImageFile, ImageDetail } from '@/types'
 
-const props = defineProps<{
+defineProps<{
   selectedImageDetails: ImageDetail | null
   currentFile: ImageFile | null
 }>()
@@ -107,7 +107,17 @@ function formatFileSize(size: number | undefined): string {
 }
 
 .tags-section {
-  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f8f8f8;
+  margin: 16px auto;
+}
+
+.tags-section h3 {
+  font-size: 18px;
+  color: #333;
+  margin: 0 0 16px 0;
+  font-weight: 600;
 }
 
 .tags-container {
@@ -115,6 +125,7 @@ function formatFileSize(size: number | undefined): string {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+
 }
 
 .no-tags {
@@ -123,10 +134,10 @@ function formatFileSize(size: number | undefined): string {
 }
 
 .image-info-module {
-  background: #f8f8f8;
   padding: 16px;
   border-radius: 8px;
-  margin-bottom: 24px;
+  background: #f8f8f8;
+  margin: 0 auto;
 }
 
 .image-info-module h3 {

@@ -2,12 +2,17 @@ package com.muzixiao2.bakabooru.service;
 
 import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
+import com.muzixiao2.bakabooru.dto.tag.TagRequestDTO;
+import com.muzixiao2.bakabooru.dto.tag.TagResponseDTO;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
 import com.muzixiao2.bakabooru.entity.ImageImageFile;
+import com.muzixiao2.bakabooru.entity.Tag;
 import com.muzixiao2.bakabooru.mapper.ImageMapper;
+import com.muzixiao2.bakabooru.mapper.TagMapper;
 import com.muzixiao2.bakabooru.repository.ImageFileRepository;
 import com.muzixiao2.bakabooru.repository.ImageRepository;
+import com.muzixiao2.bakabooru.repository.TagRepository;
 import com.muzixiao2.bakabooru.util.HashUtil;
 import com.muzixiao2.bakabooru.util.MinIOUtil;
 import jakarta.persistence.criteria.Predicate;
@@ -31,8 +36,10 @@ import java.util.List;
 public class ImageService {
     private final MinIOUtil minIOUtil;
     private final ImageMapper imageMapper;
+    private final TagMapper tagMapper;
     private final ImageRepository imageRepository;
     private final ImageFileRepository imageFileRepository;
+    private final TagRepository tagRepository;
 
     // 添加图片
     @Transactional
@@ -70,13 +77,6 @@ public class ImageService {
         ImageFile imageFile = imageFileRepository.findByHash(hash).orElseThrow(() -> new IllegalArgumentException("图片文件不存在"));
         ImageImageFile imageImageFile = image.addImageFile(imageFile, file.getOriginalFilename());
         return imageMapper.toResponseDTO(imageImageFile);
-    }
-
-    // 获取图片文件临时URL
-    @Transactional(readOnly = true)
-    public String getImageFileUrl(String hash) {
-        ImageFile imageFile = imageFileRepository.findByHash(hash).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        return minIOUtil.generatePresignedUrl(imageFile.getHash());
     }
 
     // 查询图片
@@ -154,5 +154,16 @@ public class ImageService {
 
         // 构建 Pageable
         return PageRequest.of(page - 1, size, Sort.by(direction, sortField));
+    }
+
+    // 添加标签
+    @Transactional
+    public TagResponseDTO addTag(String uuid, Long tagId) {
+        Image image = imageRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        Tag tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new IllegalArgumentException("标签不存在"));
+        image.addTag(tag);
+        return tagMapper.toResponseDTO(tag);
     }
 }

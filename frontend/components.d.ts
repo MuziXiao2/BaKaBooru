@@ -10,7 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddSource: typeof import('./src/LAJI/modal/view/AddSource.vue')['default']
     AdvancedSearchBar: typeof import('./src/components/AdvancedSearchBar.vue')['default']
-    AppLayout: typeof import('./src/views/layouts/AppLayout.vue')['default']
+    AppLayout: typeof import('./src/layouts/AppLayout.vue')['default']
     AtlasCard: typeof import('./src/LAJI/content/container/AtlasesContainer/AtlasCard.vue')['default']
     AtlasCardList: typeof import('./src/LAJI/content/container/AtlasesContainer/AtlasCardList.vue')['default']
     Atlases: typeof import('./src/LAJI/content/Atlases.vue')['default']
@@ -61,7 +61,6 @@ declare module 'vue' {
     LeftMenu: typeof import('./src/components/LeftMenu.vue')['default']
     LeftSider: typeof import('./src/components/LeftSider.vue')['default']
     LoadingSpin: typeof import('./src/LAJI/content/LoadingSpin.vue')['default']
-    Masonry: typeof import('./src/components/Masonry.vue')['default']
     MessageBox: typeof import('./src/components/common/MessageBox.vue')['default']
     Navbar: typeof import('./src/components/app/Navbar.vue')['default']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']

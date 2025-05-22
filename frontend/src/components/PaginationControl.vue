@@ -45,17 +45,16 @@ import { storeToRefs } from 'pinia'
 
 const imageStore = useImageStore()
 const paginationStore = usePaginationStore()
-const { loading } = storeToRefs(imageStore)
-const { page, pageSize, noMoreData } = storeToRefs(paginationStore)
+const { pageSize } = storeToRefs(paginationStore)
 
 const handlePageChange = debounce((targetPage: number) => {
   paginationStore.goToPage(targetPage)
-  imageStore.fetchImages()
+  imageStore.queryImages()
 }, 300)
 
 const handlePageSizeChange = debounce(() => {
   paginationStore.setPageSize(pageSize.value)
-  imageStore.fetchImages()
+  imageStore.queryImages()
 }, 300)
 </script>
 

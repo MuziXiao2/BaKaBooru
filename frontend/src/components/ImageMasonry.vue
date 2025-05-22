@@ -10,7 +10,7 @@
       :max-columns="maxColumns"
     >
       <template #default="{ item }">
-        <div class="image-card" @click="handleClick(item)">
+        <div class="image-card" @click="handleImageClick(item)">
           <img :src="item.url" :alt="item.title" class="image" loading="lazy" />
           <div class="image-title">{{ item.title }}</div>
         </div>
@@ -27,22 +27,45 @@ import { ElScrollbar } from 'element-plus'
 import type { ImageItem } from '@/types'
 import { useImageStore } from '@/stores/useImageStore'
 import { storeToRefs } from 'pinia'
-
-const emit = defineEmits<{
-  (e: 'image-click', image: ImageItem): void
-}>()
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useSelectedImageStore } from '@/stores/useSelectedImageStore.ts'
 
 const imageStore = useImageStore()
+const selectedImageStore = useSelectedImageStore()
 const { loading, images } = storeToRefs(imageStore)
 
-defineProps<{
-  minColumns: number
-  maxColumns: number
-}>()
-
-const handleClick = (image: ImageItem) => {
-  emit('image-click', image)
+const handleImageClick = async (image: ImageItem) => {
+  await selectedImageStore.setSelectedImage(image)
 }
+
+const minColumns = ref(5)
+const maxColumns = ref(10)
+
+const updateColumns = () => {
+  const width = window.innerWidth
+  if (width >= 1600) {
+    minColumns.value = 6
+    maxColumns.value = 10
+  } else if (width >= 1200) {
+    minColumns.value = 4
+    maxColumns.value = 8
+  } else if (width >= 768) {
+    minColumns.value = 3
+    maxColumns.value = 6
+  } else {
+    minColumns.value = 1
+    maxColumns.value = 3
+  }
+}
+
+onMounted(() => {
+  updateColumns()
+  window.addEventListener('resize', updateColumns)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateColumns)
+})
 </script>
 
 <style scoped>
@@ -53,7 +76,8 @@ const handleClick = (image: ImageItem) => {
 /* 图片卡片 */
 .image-card {
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: #b7b7b7 solid 1px;
+  border-radius: 5px;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;

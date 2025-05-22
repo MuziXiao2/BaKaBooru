@@ -40,6 +40,14 @@ public class Image {
     @OrderColumn(name = "order_index")
     private List<ImageImageFile> imageImageFiles = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "image_tag",
+            joinColumns = @JoinColumn(name = "image_uuid"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
+
     public ImageImageFile addImageFile(ImageFile imageFile, String fileName) {
         ImageImageFile link = new ImageImageFile();
         link.setImage(this);
@@ -77,4 +85,13 @@ public class Image {
         list.add(toIndex, item);
     }
 
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getImages().add(this);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+        tag.getImages().remove(this);
+    }
 }

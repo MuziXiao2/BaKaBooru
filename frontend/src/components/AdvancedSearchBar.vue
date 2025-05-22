@@ -86,13 +86,13 @@ const paginationStore = usePaginationStore()
 
 const onSubmit = debounce(() => {
   paginationStore.goToPage(1)
-  imageStore.fetchImages()
+  imageStore.queryImages()
 }, 300)
 
 const onReset = debounce(() => {
   searchFormStore.resetForm()
   paginationStore.goToPage(1)
-  imageStore.fetchImages()
+  imageStore.queryImages()
 }, 300)
 
 const toggleSortDirection = () => {

@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import AppLayout from '@/views/layouts/AppLayout.vue'
+import AppLayout from '@/layouts/AppLayout.vue'
 import TopBar from '@/components/TopBar.vue'
 </script>
 
