@@ -53,8 +53,10 @@ declare module 'vue' {
     Filter: typeof import('./src/components/Filter.vue')['default']
     Home: typeof import('./src/views/Home.vue')['default']
     HomePage: typeof import('./src/LAJI/content/HomePage.vue')['default']
+    ImageInfo: typeof import('./src/components/ImageInfo.vue')['default']
     ImageList: typeof import('./src/components/common/ImageList.vue')['default']
     ImageMasonry: typeof import('./src/components/ImageMasonry.vue')['default']
+    ImagePreview: typeof import('./src/components/ImagePreview.vue')['default']
     ImageViewer: typeof import('./src/components/ImageViewer.vue')['default']
     LeftMenu: typeof import('./src/components/LeftMenu.vue')['default']
     LeftSider: typeof import('./src/components/LeftSider.vue')['default']
@@ -110,5 +112,8 @@ declare module 'vue' {
     Uploader: typeof import('./src/components/upload/Uploader.vue')['default']
     ViewAtlas: typeof import('./src/LAJI/modal/view/ViewAtlas.vue')['default']
     VirtualWaterFall: typeof import('./src/LAJI/content/VirtualWaterFall.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

@@ -16,9 +16,7 @@
     </template>
   </GalleryLayout>
 
-  <ImageViewer
-    v-if="selectedImageStore.selectedImageDetails"
-  />
+  <ImageViewer v-if="selectedImageStore.selectedImageDetails" />
 </template>
 
 <script setup lang="ts">
@@ -41,8 +39,6 @@ const paginationStore = usePaginationStore()
 const handleImageClick = async (image: ImageItem) => {
   await selectedImageStore.setSelectedImage(image)
 }
-
-
 
 const minColumns = ref(5)
 const maxColumns = ref(10)
