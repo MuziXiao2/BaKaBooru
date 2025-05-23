@@ -1,6 +1,5 @@
 package com.muzixiao2.bakabooru.enums;
 
-
 public enum TagType {
     ARTIST("artist", "#E91E63"),
     SOURCE("source", "#9C27B0"),
@@ -27,12 +26,12 @@ public enum TagType {
         return color;
     }
 
-    public static TagType fromName(String code) {
+    public static TagType fromName(String name) {
         for (TagType type : values()) {
-            if (type.name.equalsIgnoreCase(code)) {
+            if (type.name.equalsIgnoreCase(name)) {
                 return type;
             }
         }
-        throw new IllegalArgumentException("未知的标签类型: " + code);
+        throw new IllegalArgumentException("未知的标签类型: " + name);
     }
 }

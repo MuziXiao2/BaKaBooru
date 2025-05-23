@@ -1,5 +1,6 @@
 package com.muzixiao2.bakabooru.dto.image;
 
+import com.muzixiao2.bakabooru.repository.TagRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,7 @@ import java.time.Instant;
 
 @Data
 @NoArgsConstructor
-public class ImageResponseDTO {
+public class ImageDetailResponseDTO {
     private String uuid;
     private String title;
     private String creator;
@@ -16,4 +17,5 @@ public class ImageResponseDTO {
     private Instant createdAt;
     private Instant updatedAt;
     private List<ImageFileResponseDTO> files;
+    private List<TagRepository> tags;
 }

@@ -2,8 +2,7 @@ package com.muzixiao2.bakabooru.service;
 
 import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
-import com.muzixiao2.bakabooru.dto.tag.TagRequestDTO;
-import com.muzixiao2.bakabooru.dto.tag.TagResponseDTO;
+import com.muzixiao2.bakabooru.dto.tag.TagDetailResponseDTO;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
 import com.muzixiao2.bakabooru.entity.ImageImageFile;
@@ -43,7 +42,7 @@ public class ImageService {
 
     // 添加图片
     @Transactional
-    public ImageResponseDTO addImage(ImageRequestDTO imageRequestDTO) {
+    public ImageDetailResponseDTO addImage(ImageRequestDTO imageRequestDTO) {
         Image image = imageMapper.toEntity(imageRequestDTO);
         image = imageRepository.save(image);
         image = imageRepository.findByUuid(image.getUuid()).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
@@ -52,16 +51,16 @@ public class ImageService {
 
     // 获取单个图片
     @Transactional(readOnly = true)
-    public ImageResponseDTO getImage(String uuid) {
+    public ImageDetailResponseDTO getImage(String uuid) {
         Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        ImageResponseDTO imageResponseDTO = imageMapper.toResponseDTO(image);
-        imageResponseDTO.setFiles(image
+        ImageDetailResponseDTO imageDetailResponseDTO = imageMapper.toResponseDTO(image);
+        imageDetailResponseDTO.setFiles(image
                 .getImageImageFiles()
                 .stream()
                 .map(imageMapper::toResponseDTO)
                 .toList()
         );
-        return imageResponseDTO;
+        return imageDetailResponseDTO;
     }
 
     // 添加图片文件
@@ -158,7 +157,7 @@ public class ImageService {
 
     // 添加标签
     @Transactional
-    public TagResponseDTO addTag(String uuid, Long tagId) {
+    public TagDetailResponseDTO addTag(String uuid, Long tagId) {
         Image image = imageRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         Tag tag = tagRepository.findById(tagId)

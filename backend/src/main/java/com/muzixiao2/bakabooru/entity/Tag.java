@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tag", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name", "type", "variant"})
+        @UniqueConstraint(columnNames = {"name", "type"})
 })
 @Data
 @NoArgsConstructor
@@ -27,13 +27,13 @@ public class Tag {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private String variant;
-
     @Column(length = 500)
     private String description;
 
     @ManyToMany(mappedBy = "tags")
     private Set<Image> images = new HashSet<>();
 
+    public int getReferencedCount() {
+        return images != null ? images.size() : 0;
+    }
 }

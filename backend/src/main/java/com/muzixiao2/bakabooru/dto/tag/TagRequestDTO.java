@@ -8,8 +8,8 @@ import lombok.Data;
 public class TagRequestDTO {
     @Schema(description = "标签id")
     private String name;
-    @Schema(description = "标签标识")
-    private String variant;
     @Schema(description = "标签类型")
     private String type;
+    @Schema(description = "标签解释")
+    private String description;
 }

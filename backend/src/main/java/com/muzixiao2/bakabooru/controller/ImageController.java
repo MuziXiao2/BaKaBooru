@@ -4,7 +4,7 @@ import com.muzixiao2.bakabooru.dto.ApiResponse;
 import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
 import com.muzixiao2.bakabooru.dto.tag.TagRequestDTO;
-import com.muzixiao2.bakabooru.dto.tag.TagResponseDTO;
+import com.muzixiao2.bakabooru.dto.tag.TagDetailResponseDTO;
 import com.muzixiao2.bakabooru.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/image")
@@ -35,11 +33,11 @@ public class ImageController {
             )
     )
     @PostMapping
-    public ApiResponse<ImageResponseDTO> addImage(
+    public ApiResponse<ImageDetailResponseDTO> addImage(
             @RequestBody ImageRequestDTO imageRequestDTO
     ) {
-        ImageResponseDTO imageResponseDTO = imageService.addImage(imageRequestDTO);
-        return ApiResponse.success(imageResponseDTO);
+        ImageDetailResponseDTO imageDetailResponseDTO = imageService.addImage(imageRequestDTO);
+        return ApiResponse.success(imageDetailResponseDTO);
     }
 
     @Operation(
@@ -52,13 +50,13 @@ public class ImageController {
             )
     )
     @PostMapping(path = "/{uuid}/tag")
-    public ApiResponse<TagResponseDTO> addTag(
+    public ApiResponse<TagDetailResponseDTO> addTag(
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid,
             @RequestBody Long tagId
     ) {
-        TagResponseDTO tagResponseDTO = imageService.addTag(uuid, tagId);
-        return ApiResponse.success(tagResponseDTO);
+        TagDetailResponseDTO tagDetailResponseDTO = imageService.addTag(uuid, tagId);
+        return ApiResponse.success(tagDetailResponseDTO);
     }
 
     @Operation(
@@ -81,12 +79,12 @@ public class ImageController {
             description = "获取图片详细信息"
     )
     @GetMapping("/{uuid}")
-    public ApiResponse<ImageResponseDTO> getImage(
+    public ApiResponse<ImageDetailResponseDTO> getImage(
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid
     ) {
-        ImageResponseDTO imageResponseDTO = imageService.getImage(uuid);
-        return ApiResponse.success(imageResponseDTO);
+        ImageDetailResponseDTO imageDetailResponseDTO = imageService.getImage(uuid);
+        return ApiResponse.success(imageDetailResponseDTO);
     }
 
     @Operation(

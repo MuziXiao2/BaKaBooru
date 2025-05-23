@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 
-public class TagResponseDTO {
+public class TagDetailResponseDTO {
     private Long id;
-    private String typeName;
-    private String variant;
+    private String name;
+    private String type;
     private String description;
+    private String count;
 }

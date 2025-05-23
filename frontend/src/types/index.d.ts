@@ -6,6 +6,7 @@ export interface ImageDetail {
   createdAt: string
   updatedAt: string
   files: ImageFile[]
+  tag: Tag[]
 }
 
 export interface ImageRequestDTO {
@@ -25,7 +26,7 @@ export interface ImageFile {
 
 export interface ImageQueryParams {
   keyword?: string
-  tags?: string
+  tags?: number[]
   sortBy?: 'title' | 'createdAt' | 'updatedAt'
   sortDirection?: 'asc' | 'desc'
   page?: number
@@ -42,6 +43,13 @@ export interface ImageItem {
   uuid: string
   title: string
   url: string
+}
+
+export interface Tag {
+  id: number
+  name: string
+  type: string
+  count:number
 }
 
 export interface Page<T> {

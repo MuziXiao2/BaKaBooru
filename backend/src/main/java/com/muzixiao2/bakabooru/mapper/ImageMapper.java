@@ -25,7 +25,8 @@ public interface ImageMapper {
     ImageFileResponseDTO toResponseDTO(ImageImageFile imageImageFile);
 
     @Mapping(target = "files", ignore = true)
-    ImageResponseDTO toResponseDTO(Image image);
+    @Mapping(target = "tags", ignore = true)
+    ImageDetailResponseDTO toResponseDTO(Image image);
 
     @Mapping(target = "coverHash", ignore = true)
     ImageQueryResponseDTO toQueryResponseDTO(Image image);
