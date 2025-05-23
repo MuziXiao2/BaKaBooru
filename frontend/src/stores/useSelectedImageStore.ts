@@ -1,32 +1,36 @@
 import { defineStore } from 'pinia'
-import { getImage, getImageFileUrl } from '@/api'
-import type { ImageItem, ImageDetail } from '@/types'
+import { getFileDetails, getImage, getImageFileUrl } from '@/api'
+import type { ImageItem, ImageDetail, FileDetail } from '@/types'
 
-export const useSelectedImageStore = defineStore('selectedImage', {
+export const useCurrentImageStore = defineStore(' currentImage', {
   state: () => ({
-    selectedImageItem: null as ImageItem | null,
-    selectedImageDetails: null as ImageDetail | null,
+    currentImageItem: null as ImageItem | null,
+    currentImageDetail: null as ImageDetail | null,
+    currentFileDetails: [] as FileDetail[],
+    currentFileDetail: null as FileDetail | null,
     loading: false,
     error: null as string | null,
   }),
 
   actions: {
-    async setSelectedImage(imageItem: ImageItem | null) {
+    async setCurrentImage(imageItem: ImageItem | null) {
       this.loading = true
       this.error = null
-      this.selectedImageItem = imageItem
+      this.currentImageItem = imageItem
       if (imageItem) {
         try {
-          this.selectedImageDetails = await getImage(imageItem.uuid)
+          this.currentImageDetail = await getImage(imageItem.uuid)
+          this.currentFileDetails = await getFileDetails(imageItem.uuid)
+          this.currentFileDetail = this.currentFileDetails[0]
         } catch (e) {
           this.error = e instanceof Error ? e.message : '加载图片详情失败'
-          this.selectedImageDetails = null
+          this.currentImageDetail = null
           console.error('加载图片详情失败:', e)
         } finally {
           this.loading = false
         }
       } else {
-        this.selectedImageDetails = null
+        this.currentImageDetail = null
       }
     },
 
@@ -35,12 +39,6 @@ export const useSelectedImageStore = defineStore('selectedImage', {
         return await getImageFileUrl(hash)
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : '无法获取文件 URL')
-      }
-    },
-
-    updateImageTitle(uuid: string, title: string) {
-      if (this.selectedImageDetails && this.selectedImageDetails.uuid === uuid) {
-        this.selectedImageDetails.title = title
       }
     },
   },

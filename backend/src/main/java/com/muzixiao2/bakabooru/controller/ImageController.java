@@ -3,8 +3,6 @@ package com.muzixiao2.bakabooru.controller;
 import com.muzixiao2.bakabooru.dto.ApiResponse;
 import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
-import com.muzixiao2.bakabooru.dto.tag.TagRequestDTO;
-import com.muzixiao2.bakabooru.dto.tag.TagDetailResponseDTO;
 import com.muzixiao2.bakabooru.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,12 +10,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/image")
+@RequestMapping
 @RequiredArgsConstructor
 @Tag(name = "图片管理", description = "用于管理图片的接口")
 public class ImageController {
@@ -32,7 +28,7 @@ public class ImageController {
                     content = @Content(schema = @Schema(implementation = ImageRequestDTO.class))
             )
     )
-    @PostMapping
+    @PostMapping("/image")
     public ApiResponse<ImageDetailResponseDTO> addImage(
             @RequestBody ImageRequestDTO imageRequestDTO
     ) {
@@ -41,59 +37,25 @@ public class ImageController {
     }
 
     @Operation(
-            summary = "为图片添加标签",
-            description = "为图片添加标签",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "标签信息",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = TagRequestDTO.class))
-            )
-    )
-    @PostMapping(path = "/{uuid}/tag")
-    public ApiResponse<TagDetailResponseDTO> addTag(
-            @Parameter(description = "图片UUID", required = true)
-            @PathVariable("uuid") String uuid,
-            @RequestBody Long tagId
-    ) {
-        TagDetailResponseDTO tagDetailResponseDTO = imageService.addTag(uuid, tagId);
-        return ApiResponse.success(tagDetailResponseDTO);
-    }
-
-    @Operation(
-            summary = "为图片添加图片文件",
-            description = "为图片添加图片文件"
-    )
-    @PostMapping(path = "/{uuid}/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<ImageFileResponseDTO> addImageFile(
-            @Parameter(description = "图片UUID", required = true)
-            @PathVariable("uuid") String uuid,
-            @Schema(type = "string", format = "binary")
-            @RequestParam("file") MultipartFile file
-    ) {
-        ImageFileResponseDTO imageFileResponseDTO = imageService.addImageFile(uuid, file);
-        return ApiResponse.success(imageFileResponseDTO);
-    }
-
-    @Operation(
-            summary = "获取图片",
+            summary = "获取图片详细信息",
             description = "获取图片详细信息"
     )
-    @GetMapping("/{uuid}")
-    public ApiResponse<ImageDetailResponseDTO> getImage(
+    @GetMapping("/image/{uuid}")
+    public ApiResponse<ImageDetailResponseDTO> getImageDetail(
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid
     ) {
-        ImageDetailResponseDTO imageDetailResponseDTO = imageService.getImage(uuid);
+        ImageDetailResponseDTO imageDetailResponseDTO = imageService.getImageDetail(uuid);
         return ApiResponse.success(imageDetailResponseDTO);
     }
 
     @Operation(
-            summary = "筛选查询图片",
+            summary = "查询图片",
             description = "根据条件筛选查询图片，支持分页"
     )
-    @GetMapping
+    @GetMapping("/image")
     public ApiResponse<PageResponseDTO<ImageQueryResponseDTO>> queryImages(
-            @Parameter(description = "标题关键字（模糊匹配）", example = "A")
+            @Parameter(description = "标题关键字（模糊匹配）")
             @RequestParam(value = "keyword", required = false) String keyword,
             @Parameter(description = "标签列表，逗号分隔（例如：tag1,tag2）")
             @RequestParam(value = "tags", required = false) String tags,

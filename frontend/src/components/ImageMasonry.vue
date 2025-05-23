@@ -28,14 +28,14 @@ import type { ImageItem } from '@/types'
 import { useImageStore } from '@/stores/useImageStore'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useSelectedImageStore } from '@/stores/useSelectedImageStore.ts'
+import { useCurrentImageStore } from '@/stores/useSelectedImageStore.ts'
 
 const imageStore = useImageStore()
-const selectedImageStore = useSelectedImageStore()
+const currentImageStore = useCurrentImageStore()
 const { loading, images } = storeToRefs(imageStore)
 
 const handleImageClick = async (image: ImageItem) => {
-  await selectedImageStore.setSelectedImage(image)
+  await currentImageStore.setCurrentImage(image)
 }
 
 const minColumns = ref(5)

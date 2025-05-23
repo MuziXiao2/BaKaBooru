@@ -2,21 +2,37 @@ package com.muzixiao2.bakabooru.service;
 
 import com.muzixiao2.bakabooru.dto.tag.TagDetailResponseDTO;
 import com.muzixiao2.bakabooru.dto.tag.TagRequestDTO;
+import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.Tag;
 import com.muzixiao2.bakabooru.mapper.TagMapper;
+import com.muzixiao2.bakabooru.repository.ImageRepository;
 import com.muzixiao2.bakabooru.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class TagService {
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
+    private final ImageRepository imageRepository;
 
-    public TagDetailResponseDTO addTag(TagRequestDTO tagRequestDTO) {
+    //创建新标签
+    public TagDetailResponseDTO createTag(TagRequestDTO tagRequestDTO) {
         Tag tag = tagMapper.toEntity(tagRequestDTO);
         tagRepository.save(tag);
+        return tagMapper.toResponseDTO(tag);
+    }
+
+    // 为图片添加标签
+    @Transactional
+    public TagDetailResponseDTO addTag(String uuid, String tagId) {
+        Image image = imageRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        Tag tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new IllegalArgumentException("标签不存在"));
+        image.addTag(tag);
         return tagMapper.toResponseDTO(tag);
     }
 }

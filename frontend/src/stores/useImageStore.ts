@@ -23,7 +23,7 @@ export const useImageStore = defineStore('image', {
       try {
         const res = await queryImages({
           keyword: searchFormStore.form.keyword,
-          tags: searchFormStore.form.tag,
+          tags: searchFormStore.form.tags,
           sortBy: searchFormStore.form.sortBy,
           sortDirection: searchFormStore.form.sortDirection,
           page: paginationStore.page,
@@ -59,11 +59,6 @@ export const useImageStore = defineStore('image', {
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : '无法获取文件 URL')
       }
-    },
-
-    updateImageTitle(uuid: string, title: string) {
-      const img = this.images.find((i) => i.uuid === uuid)
-      if (img) img.title = title
     },
 
     clearError() {

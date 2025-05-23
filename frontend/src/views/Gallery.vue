@@ -11,7 +11,7 @@
       <PaginationControl />
     </template>
   </GalleryLayout>
-  <ImageViewer v-if="selectedImageStore.selectedImageDetails" />
+  <ImageViewer v-if="selectedImageStore.currentImageDetail" />
 </template>
 
 <script setup lang="ts">
@@ -22,13 +22,13 @@ import AdvancedSearchBar from '@/components/AdvancedSearchBar.vue'
 import PaginationControl from '@/components/PaginationControl.vue'
 import ImageViewer from '@/components/ImageViewer.vue'
 import { useImageStore } from '@/stores/useImageStore'
-import { useSelectedImageStore } from '@/stores/useSelectedImageStore'
+import { useCurrentImageStore } from '@/stores/useSelectedImageStore'
 import { usePaginationStore } from '@/stores/usePaginationStore'
 import { onMounted } from 'vue'
 
 const imageStore = useImageStore()
 const paginationStore = usePaginationStore()
-const selectedImageStore = useSelectedImageStore()
+const selectedImageStore = useCurrentImageStore()
 
 onMounted(() => {
   paginationStore.goToPage(1)

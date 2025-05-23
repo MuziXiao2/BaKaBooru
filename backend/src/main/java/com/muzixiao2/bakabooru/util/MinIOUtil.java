@@ -1,7 +1,7 @@
 package com.muzixiao2.bakabooru.util;
 
 import com.muzixiao2.bakabooru.config.MinioProperties;
-import com.muzixiao2.bakabooru.dto.image.ImageFileUploadResponseDTO;
+import com.muzixiao2.bakabooru.dto.file.FileUploadResponseDTO;
 import io.minio.*;
 import io.minio.http.Method;
 import org.apache.tika.Tika;
@@ -40,7 +40,7 @@ public class MinIOUtil {
     /**
      * 上传文件到MinIO，objectKey由文件内容hash生成
      */
-    public ImageFileUploadResponseDTO upload(String hash, MultipartFile file) {
+    public FileUploadResponseDTO upload(String hash, MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("上传文件不能为空");
         }
@@ -72,9 +72,7 @@ public class MinIOUtil {
         try {
             Tika tika = new Tika();
             String mimeType = tika.detect(file.getInputStream());
-            type = (mimeType != null && mimeType.startsWith("image/"))
-                    ? mimeType.substring(6)
-                    : "unknown";
+            type = (mimeType != null) ? mimeType : "unknown";
         } catch (IOException e) {
             throw new RuntimeException("获取图片类型失败", e);
         }
@@ -83,7 +81,7 @@ public class MinIOUtil {
         Long size = file.getSize();
 
         // 返回上传成功后的信息
-        return new ImageFileUploadResponseDTO(hash, type, size, width, height);
+        return new FileUploadResponseDTO(hash, type, size, width, height);
     }
 
     /**

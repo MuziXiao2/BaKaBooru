@@ -1,6 +1,5 @@
 package com.muzixiao2.bakabooru.entity;
 
-import com.muzixiao2.bakabooru.enums.TagType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,21 +7,21 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "tag", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name", "type"})
-})
 @Data
 @NoArgsConstructor
+@Entity
+@Table(name = "tag", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"type", "name"})
+})
 public class Tag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(length = 500)
+    private String id;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TagType type;
+    private String type;
+    //artist source character rating action scene clothing general
 
     @Column(nullable = false)
     private String name;
@@ -32,6 +31,13 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private Set<Image> images = new HashSet<>();
+
+    @PrePersist
+    public void prePersist() {
+        if (id == null && type != null && name != null) {
+            this.id = type + ":" + name;
+        }
+    }
 
     public int getReferencedCount() {
         return images != null ? images.size() : 0;

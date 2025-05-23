@@ -38,7 +38,7 @@ public class Image {
 
     @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderColumn(name = "order_index")
-    private List<ImageImageFile> imageImageFiles = new ArrayList<>();
+    private List<ImageFile> imageFiles = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -48,27 +48,28 @@ public class Image {
     )
     private Set<Tag> tags = new HashSet<>();
 
-    public ImageImageFile addImageFile(ImageFile imageFile, String fileName) {
-        ImageImageFile link = new ImageImageFile();
+    public ImageFile addImageFile(File file, String fileName) {
+        ImageFile link = new ImageFile();
         link.setImage(this);
-        link.setImageFile(imageFile);
+        link.setFile(file);
         link.setFileName(fileName);
-        this.imageImageFiles.add(link);
+        this.imageFiles.add(link);
         return link;
     }
 
-    public void removeImageFile(ImageFile imageFile) {
-        imageImageFiles.removeIf(link -> {
-            if (link.getImageFile().equals(imageFile)) {
-                imageFile.getImageImageFiles().remove(link);
+    //删除文件
+    public void removeFile(File file) {
+        imageFiles.removeIf(link -> {
+            if (link.getFile().equals(file)) {
+                file.getImageFiles().remove(link);
                 return true;
             }
             return false;
         });
     }
 
-    public void moveImageFile(int fromIndex, int toIndex) {
-        List<ImageImageFile> list = this.getImageImageFiles();
+    public void moveFile(int fromIndex, int toIndex) {
+        List<ImageFile> list = this.getImageFiles();
         int size = list.size();
 
         if (fromIndex < 0 || fromIndex >= size) {
@@ -81,7 +82,7 @@ public class Image {
             return;
         }
 
-        ImageImageFile item = list.remove(fromIndex);
+        ImageFile item = list.remove(fromIndex);
         list.add(toIndex, item);
     }
 

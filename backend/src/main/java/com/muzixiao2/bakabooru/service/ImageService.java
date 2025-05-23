@@ -2,18 +2,11 @@ package com.muzixiao2.bakabooru.service;
 
 import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
-import com.muzixiao2.bakabooru.dto.tag.TagDetailResponseDTO;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
-import com.muzixiao2.bakabooru.entity.ImageImageFile;
 import com.muzixiao2.bakabooru.entity.Tag;
 import com.muzixiao2.bakabooru.mapper.ImageMapper;
-import com.muzixiao2.bakabooru.mapper.TagMapper;
-import com.muzixiao2.bakabooru.repository.ImageFileRepository;
 import com.muzixiao2.bakabooru.repository.ImageRepository;
-import com.muzixiao2.bakabooru.repository.TagRepository;
-import com.muzixiao2.bakabooru.util.HashUtil;
-import com.muzixiao2.bakabooru.util.MinIOUtil;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +17,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,12 +25,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    private final MinIOUtil minIOUtil;
     private final ImageMapper imageMapper;
-    private final TagMapper tagMapper;
     private final ImageRepository imageRepository;
-    private final ImageFileRepository imageFileRepository;
-    private final TagRepository tagRepository;
 
     // 添加图片
     @Transactional
@@ -49,33 +37,12 @@ public class ImageService {
         return imageMapper.toResponseDTO(image);
     }
 
-    // 获取单个图片
+    // 获取图片详细信息
     @Transactional(readOnly = true)
-    public ImageDetailResponseDTO getImage(String uuid) {
+    public ImageDetailResponseDTO getImageDetail(String uuid) {
         Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         ImageDetailResponseDTO imageDetailResponseDTO = imageMapper.toResponseDTO(image);
-        imageDetailResponseDTO.setFiles(image
-                .getImageImageFiles()
-                .stream()
-                .map(imageMapper::toResponseDTO)
-                .toList()
-        );
         return imageDetailResponseDTO;
-    }
-
-    // 添加图片文件
-    @Transactional
-    public ImageFileResponseDTO addImageFile(String uuid, MultipartFile file) {
-        String hash = HashUtil.calculateHash(file);
-        if (!imageFileRepository.existsByHash(hash)) {
-            ImageFileUploadResponseDTO imageFileUploadResponseDTO = minIOUtil.upload(hash, file);
-            ImageFile imageFile = imageMapper.toEntity(imageFileUploadResponseDTO);
-            imageFileRepository.save(imageFile);
-        }
-        Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        ImageFile imageFile = imageFileRepository.findByHash(hash).orElseThrow(() -> new IllegalArgumentException("图片文件不存在"));
-        ImageImageFile imageImageFile = image.addImageFile(imageFile, file.getOriginalFilename());
-        return imageMapper.toResponseDTO(imageImageFile);
     }
 
     // 查询图片
@@ -112,9 +79,9 @@ public class ImageService {
                 .stream()
                 .map(image -> {
                     ImageQueryResponseDTO imageQueryResponseDTO = imageMapper.toQueryResponseDTO(image);
-                    List<ImageImageFile> imageImageFiles = image.getImageImageFiles();
-                    if (!imageImageFiles.isEmpty()) {
-                        imageQueryResponseDTO.setCoverHash(imageImageFiles.getFirst().getImageFile().getHash());
+                    List<ImageFile> imageFiles = image.getImageFiles();
+                    if (!imageFiles.isEmpty()) {
+                        imageQueryResponseDTO.setCoverHash(imageFiles.getFirst().getFile().getHash());
                     }
                     return imageQueryResponseDTO;
                 }).toList();
@@ -153,16 +120,5 @@ public class ImageService {
 
         // 构建 Pageable
         return PageRequest.of(page - 1, size, Sort.by(direction, sortField));
-    }
-
-    // 添加标签
-    @Transactional
-    public TagDetailResponseDTO addTag(String uuid, Long tagId) {
-        Image image = imageRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        Tag tag = tagRepository.findById(tagId)
-                .orElseThrow(() -> new IllegalArgumentException("标签不存在"));
-        image.addTag(tag);
-        return tagMapper.toResponseDTO(tag);
     }
 }

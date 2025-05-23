@@ -2,45 +2,43 @@
   <div class="image-viewer-info">
     <!-- 标题和创建者 -->
     <div class="header-section">
-      <h2 class="image-title">{{ selectedImageDetails?.title || '未命名图片' }}</h2>
-      <div class="creator">创建者: {{ selectedImageDetails?.creator || '未知' }}</div>
+      <h2 class="image-title">{{ currentImageDetail?.title || '未命名图片' }}</h2>
+      <div class="creator">创建者: {{ currentImageDetail?.creator || '未知' }}</div>
     </div>
 
     <!-- 标签区域 -->
     <div class="tags-section info-item">
       <h3>标签</h3>
-      <div class="tags-container">
-
-      </div>
+      <div class="tags-container"></div>
     </div>
 
     <!-- 图片信息模块 -->
-    <div v-if="selectedImageDetails && currentFile" class="info-item image-info-module">
+    <div v-if="currentImageDetail && currentFileDetail" class="info-item image-info-module">
       <h3>图片信息</h3>
       <div class="info-grid">
         <div class="info-row">
           <label>文件名：</label>
-          <span>{{ currentFile.fileName || '未知' }}</span>
+          <span>{{ currentFileDetail.fileName || '未知' }}</span>
         </div>
         <div class="info-row">
           <label>文件类型：</label>
-          <span>{{ currentFile.type || '未知' }}</span>
+          <span>{{ currentFileDetail.type || '未知' }}</span>
         </div>
         <div class="info-row">
           <label>尺寸：</label>
-          <span>{{ currentFile.width }} x {{ currentFile.height }} 像素</span>
+          <span>{{ currentFileDetail.width }} x {{ currentFileDetail.height }} 像素</span>
         </div>
         <div class="info-row">
           <label>文件大小：</label>
-          <span>{{ formatFileSize(currentFile.size) }}</span>
+          <span>{{ formatFileSize(currentFileDetail.size) }}</span>
         </div>
         <div class="info-row">
           <label>创建时间：</label>
-          <span>{{ selectedImageDetails.createdAt || '未知' }}</span>
+          <span>{{ currentImageDetail.createdAt || '未知' }}</span>
         </div>
         <div class="info-row">
           <label>更新时间：</label>
-          <span>{{ selectedImageDetails.updatedAt || '未知' }}</span>
+          <span>{{ currentImageDetail.updatedAt || '未知' }}</span>
         </div>
       </div>
     </div>
@@ -56,12 +54,11 @@
 </template>
 
 <script setup lang="ts">
-import type { ImageFile, ImageDetail } from '@/types'
+import { storeToRefs } from 'pinia'
+import { useCurrentImageStore } from '@/stores/useSelectedImageStore.ts'
 
-defineProps<{
-  selectedImageDetails: ImageDetail | null
-  currentFile: ImageFile | null
-}>()
+const currentImageStore = useCurrentImageStore()
+const { currentImageDetail, currentFileDetail } = storeToRefs(currentImageStore)
 
 function formatFileSize(size: number | undefined): string {
   if (!size) return '未知'
@@ -125,7 +122,6 @@ function formatFileSize(size: number | undefined): string {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-
 }
 
 .no-tags {

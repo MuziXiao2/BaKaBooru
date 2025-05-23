@@ -58,63 +58,65 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { ElMessage } from 'element-plus'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { useSelectedImageStore } from '@/stores/useSelectedImageStore'
-import type { ImageFile } from '@/types'
+import { useCurrentImageStore } from '@/stores/useSelectedImageStore'
+import type { FileDetail } from '@/types'
 
 const props = defineProps<{
-  files: ImageFile[]
   currentIndex: number
 }>()
 
 const emit = defineEmits<{
   (e: 'update:current-index', index: number): void
   (e: 'update:preview-url', url: string): void
-  (e: 'update:current-file', file: ImageFile | null): void
+  (e: 'update:current-file', file: FileDetail | null): void
 }>()
 
-const selectedImageStore = useSelectedImageStore()
+const currentImageStore = useCurrentImageStore()
+const { currentFileDetails: files, currentImageDetail: file } = storeToRefs(currentImageStore)
+
 const previewUrl = ref('')
 const loading = ref(false)
 const previewUrlCache = ref<{ [key: string]: string }>({})
 const thumbnailLoading = ref<{ [key: string]: boolean }>({})
 
-async function loadPreviewUrl(file: ImageFile) {
-  if (previewUrlCache.value[file.hash]) {
-    previewUrl.value = previewUrlCache.value[file.hash]
+async function loadPreviewUrl() {
+  const hash = file.value?.hash
+  if (previewUrlCache.value[hash]) {
+    previewUrl.value = previewUrlCache.value[hash]
     emit('update:preview-url', previewUrl.value)
     return
   }
   try {
     loading.value = true
-    thumbnailLoading.value[file.hash] = true
-    const url = await selectedImageStore.getImageFileUrl(file.hash)
-    previewUrlCache.value[file.hash] = url
+    thumbnailLoading.value[hash] = true
+    const url = await currentImageStore.getImageFileUrl(hash)
+    previewUrlCache.value[hash] = url
     previewUrl.value = url
     emit('update:preview-url', url)
   } catch {
     ElMessage.error('无法加载图片')
     previewUrl.value = ''
-    previewUrlCache.value[file.hash] = ''
+    previewUrlCache.value[hash] = ''
     emit('update:preview-url', '')
   } finally {
     loading.value = false
-    thumbnailLoading.value[file.hash] = false
+    thumbnailLoading.value[hash] = false
   }
 }
 
 const navigateImage = (direction: number) => {
-  const newIndex = (props.currentIndex + direction + props.files.length) % props.files.length
+  const newIndex = (props.currentIndex + direction + files.value.length) % files.value.length
   emit('update:current-index', newIndex)
-  const newFile = props.files[newIndex]
-  emit('update:current-file', newFile)
-  loadPreviewUrl(newFile)
+  file.value = files.value[newIndex]
+  loadPreviewUrl()
 }
 
 const selectImage = (index: number) => {
   emit('update:current-index', index)
-  const newFile = props.files[index]
+  const newFile = files.value[index]
   emit('update:current-file', newFile)
   loadPreviewUrl(newFile)
 }
@@ -132,13 +134,13 @@ const handleThumbnailError = (hash: string) => {
 
 // 预加载所有图片 URL
 watch(
-  () => props.files,
+  () => files.value,
   async (newFiles) => {
     for (const file of newFiles) {
       if (!previewUrlCache.value[file.hash] && !thumbnailLoading.value[file.hash]) {
         try {
           thumbnailLoading.value[file.hash] = true
-          const url = await selectedImageStore.getImageFileUrl(file.hash)
+          const url = await currentImageStore.getImageFileUrl(file.hash)
           previewUrlCache.value[file.hash] = url
         } catch {
           previewUrlCache.value[file.hash] = ''
@@ -155,8 +157,8 @@ watch(
 watch(
   () => props.currentIndex,
   (newIndex) => {
-    if (props.files[newIndex]) {
-      const file = props.files[newIndex]
+    if (files.value[newIndex]) {
+      const file = files.value[newIndex]
       emit('update:current-file', file)
       loadPreviewUrl(file)
     }

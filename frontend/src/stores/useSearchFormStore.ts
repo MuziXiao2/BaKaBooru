@@ -1,21 +1,13 @@
 import { defineStore } from 'pinia'
-
-interface SearchForm {
-  keyword: string
-  tag: string
-  createdAt: [string, string] | []
-  updatedAt: [string, string] | []
-  sortBy: 'title' | 'createdAt' | 'updatedAt'
-  sortDirection: 'asc' | 'desc'
-}
+import type { SearchForm } from '@/types'
 
 export const useSearchFormStore = defineStore('searchForm', {
   state: () => ({
     form: {
       keyword: '',
-      tag: '',
-      createdAt: [] as [string, string] | [],
-      updatedAt: [] as [string, string] | [],
+      tags: [],
+      createdAt: [],
+      updatedAt: [],
       sortBy: 'title',
       sortDirection: 'asc',
     } as SearchForm,
@@ -25,7 +17,7 @@ export const useSearchFormStore = defineStore('searchForm', {
     resetForm() {
       this.form = {
         keyword: '',
-        tag: '',
+        tags: [],
         createdAt: [],
         updatedAt: [],
         sortBy: 'title',
