@@ -31,4 +31,7 @@ api.interceptors.response.use(
 )
 
 export default api
+export const baseUrl = 'http://localhost:8080'
 export * from './image.ts'
+export * from './file.ts'
+export * from './tag.ts'

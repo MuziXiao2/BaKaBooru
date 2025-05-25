@@ -1,36 +1,37 @@
 <template>
   <GalleryLayout>
     <template #side>
-      <TagFilter />
+      <AdvancedQuery />
     </template>
-    <template #header> </template>
     <template #main>
       <ImageMasonry />
+    </template>
+    <template #footer>
       <PaginationForm />
     </template>
   </GalleryLayout>
-  <ImageViewer v-if="selectedImageStore.currentImageDetail" />
+  <ImageViewer v-if="currentImageDetail" />
 </template>
 
 <script setup lang="ts">
 import ImageMasonry from '@/components/image/ImageMasonry.vue'
-import TagFilter from '@/components/common/TagFilter.vue'
+import AdvancedQuery from '@/components/common/AdvancedQuery.vue'
 import GalleryLayout from '@/components/layout/GalleryLayout.vue'
-import AdvancedQueryForm from '@/components/gallery/AdvancedQueryForm.vue'
-import PaginationForm from '@/components/gallery/PaginationForm.vue'
+import PaginationForm from '@/components/common/PaginationForm.vue'
 import ImageViewer from '@/components/image/ImageViewer.vue'
 import { useImageStore } from '@/stores/useImageStore'
 import { useCurrentImageStore } from '@/stores/useCurrentImageStore.ts'
-import { usePaginationStore } from '@/stores/usePaginationStore'
 import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 
 const imageStore = useImageStore()
-const paginationStore = usePaginationStore()
-const selectedImageStore = useCurrentImageStore()
+const currentImageStore = useCurrentImageStore()
+
+const { currentImageDetail } = storeToRefs(currentImageStore)
 
 onMounted(() => {
-  paginationStore.goToPage(1)
   imageStore.queryImages()
+  imageStore.setPage(1)
 })
 </script>
 

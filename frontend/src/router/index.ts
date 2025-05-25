@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Gallery from '@/views/Gallery.vue'
-import Tags from '@/views/Tags.vue'
-import Setting from '@/views/Setting.vue'
+import GalleryView from '@/views/GalleryView.vue'
+import TagView from '@/views/TagView.vue'
+import SettingView from '@/views/SettingView.vue'
 
 export default createRouter({
   history: createWebHistory(),
@@ -13,7 +13,7 @@ export default createRouter({
     {
       path: '/gallery',
       name: 'gallery',
-      component: Gallery,
+      component: GalleryView,
       meta: {
         title: '主页',
       },
@@ -21,7 +21,7 @@ export default createRouter({
     {
       path: '/tags',
       name: 'tags',
-      component: Tags,
+      component: TagView,
       meta: {
         title: '标签',
       },
@@ -29,7 +29,7 @@ export default createRouter({
     {
       path: '/setting',
       name: 'setting',
-      component: Setting,
+      component: SettingView,
       meta: {
         title: '设置',
       },

@@ -3,20 +3,32 @@ import { getImageFileUrl, queryImages } from '@/api'
 import pLimit from 'p-limit'
 import type { ImageItem } from '@/types'
 import { useSearchFormStore } from '@/stores/useSearchFormStore'
-import { usePaginationStore } from '@/stores/usePaginationStore'
 
 export const useImageStore = defineStore('image', {
   state: () => ({
     images: [] as ImageItem[],
+
+    currentPage: 1,
+    currentPageSize: 20,
+    totalPages: 1,
+    noMoreData: false,
+
     loading: false,
     error: null as string | null,
   }),
 
   actions: {
+    setPage(targetPage: number) {
+      if (targetPage < 1) this.currentPage = 1
+      else if (targetPage >= this.totalPages) this.currentPage = this.totalPages
+      else this.currentPage = targetPage
+    },
+    setPageSize(targetPageSize: number) {
+      this.currentPageSize = targetPageSize
+      this.currentPage = 1
+    },
     async queryImages() {
       const searchFormStore = useSearchFormStore()
-      const paginationStore = usePaginationStore()
-
       this.loading = true
       this.error = null
 
@@ -26,13 +38,12 @@ export const useImageStore = defineStore('image', {
           tags: searchFormStore.form.tags,
           sortBy: searchFormStore.form.sortBy,
           sortDirection: searchFormStore.form.sortDirection,
-          page: paginationStore.page,
-          size: paginationStore.pageSize,
+          page: this.currentPage,
+          size: this.currentPageSize,
         })
 
-        paginationStore.setNoMoreData(
-          res.content.length === 0 || paginationStore.page >= res.totalPages,
-        )
+        this.totalPages = res.totalPages
+        this.noMoreData = this.currentPage >= this.totalPages
 
         const limit = pLimit(5)
         this.images = await Promise.all(

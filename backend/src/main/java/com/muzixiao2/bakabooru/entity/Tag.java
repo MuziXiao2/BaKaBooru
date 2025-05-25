@@ -13,7 +13,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @Entity
 @Table(name = "tag", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"type", "name"})
+        @UniqueConstraint(columnNames = {"name", "type"})
 })
 public class Tag {
 
@@ -38,7 +38,7 @@ public class Tag {
     @PrePersist
     public void prePersist() {
         if (id == null && type != null && name != null) {
-            this.id = type + ":" + name;
+            this.id = name + ":" + type;
         }
     }
 

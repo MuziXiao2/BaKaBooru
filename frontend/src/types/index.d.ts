@@ -15,8 +15,6 @@ export interface Page<T> {
 export interface SearchForm {
   keyword: string
   tags: string[]
-  createdAt: [string, string] | []
-  updatedAt: [string, string] | []
   sortBy: string
   sortDirection: string
 }
