@@ -7,6 +7,8 @@ import com.muzixiao2.bakabooru.entity.ImageFile;
 import com.muzixiao2.bakabooru.entity.Tag;
 import com.muzixiao2.bakabooru.mapper.ImageMapper;
 import com.muzixiao2.bakabooru.repository.ImageRepository;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -47,7 +49,14 @@ public class ImageService {
 
     // 查询图片
     @Transactional(readOnly = true)
-    public PageResponseDTO<ImageQueryResponseDTO> queryImages(String keyword, String tags, Integer page, Integer size, String sortBy, String sortDirection) {
+    public PageResponseDTO<ImageQueryResponseDTO> queryImages(ImageQueryRequestDTO imageQueryRequestDTO) {
+        Integer page = imageQueryRequestDTO.getPage();
+        Integer size = imageQueryRequestDTO.getSize();
+        String sortBy = imageQueryRequestDTO.getSortBy();
+        String sortDirection = imageQueryRequestDTO.getSortDirection();
+        List<String> tags = imageQueryRequestDTO.getTags();
+        String keyword = imageQueryRequestDTO.getKeyword();
+
         // 输入验证
         if (page < 1 || size < 1) {
             throw new IllegalArgumentException("Page and size must be positive");
@@ -59,11 +68,13 @@ public class ImageService {
         // 构建查询条件
         Specification<Image> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
-            // 注意：Image 实体中无 tags 字段，若不需要 tags 过滤，请移除以下逻辑
-            if (StringUtils.hasText(tags)) {
-                String[] tagArray = tags.split(",");
-                predicates.add(root.get("tags").in(Arrays.asList(tagArray)));
+
+            if (tags != null && !tags.isEmpty()) {
+                Join<Image, Tag> tagJoin = root.join("tags", JoinType.INNER);
+                predicates.add(tagJoin.get("id").in(tags));
+                query.distinct(true);
             }
+
             if (StringUtils.hasText(keyword)) {
                 predicates.add(cb.like(cb.lower(root.get("title")), "%" + keyword.toLowerCase() + "%"));
             }

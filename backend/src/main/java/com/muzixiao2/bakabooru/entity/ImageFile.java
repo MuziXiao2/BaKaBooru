@@ -2,10 +2,12 @@ package com.muzixiao2.bakabooru.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "image_file")
 public class ImageFile {
@@ -14,6 +16,7 @@ public class ImageFile {
     private Long id;
 
     // Image 引用
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "image_uuid", nullable = false)
     private Image image;

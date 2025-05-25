@@ -10,13 +10,13 @@ import java.util.*;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "image")
 public class Image {
     //UUID
     @Id
     @Column(nullable = false, unique = true, updatable = false)
-    @EqualsAndHashCode.Include
     private String uuid = UUID.randomUUID().toString();
     //标题
     @Column(name = "title")
@@ -36,6 +36,7 @@ public class Image {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderColumn(name = "order_index")
     private List<ImageFile> imageFiles = new ArrayList<>();

@@ -2,6 +2,7 @@ package com.muzixiao2.bakabooru.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "tag", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"type", "name"})
@@ -21,7 +23,6 @@ public class Tag {
 
     @Column(nullable = false)
     private String type;
-    //artist source character rating action scene clothing general
 
     @Column(nullable = false)
     private String name;
@@ -29,6 +30,8 @@ public class Tag {
     @Column(length = 500)
     private String description;
 
+
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "tags")
     private Set<Image> images = new HashSet<>();
 

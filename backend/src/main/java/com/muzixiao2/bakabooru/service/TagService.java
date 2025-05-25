@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class TagService {
@@ -34,5 +37,17 @@ public class TagService {
                 .orElseThrow(() -> new IllegalArgumentException("标签不存在"));
         image.addTag(tag);
         return tagMapper.toResponseDTO(tag);
+    }
+
+    // 获取图片内所有标签
+    @Transactional(readOnly = true)
+    public List<TagDetailResponseDTO> getTagDetails(String uuid) {
+        Image image = imageRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        return image
+                .getTags()
+                .stream()
+                .map(tagMapper::toResponseDTO)
+                .toList();
     }
 }

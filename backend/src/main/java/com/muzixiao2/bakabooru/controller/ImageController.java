@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -55,20 +56,9 @@ public class ImageController {
     )
     @GetMapping("/image")
     public ApiResponse<PageResponseDTO<ImageQueryResponseDTO>> queryImages(
-            @Parameter(description = "标题关键字（模糊匹配）")
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @Parameter(description = "标签列表，逗号分隔（例如：tag1,tag2）")
-            @RequestParam(value = "tags", required = false) String tags,
-            @Parameter(description = "页码，从 1 开始", example = "1")
-            @RequestParam(value = "page", defaultValue = "1") Integer page,
-            @Parameter(description = "每页记录数", example = "10")
-            @RequestParam(value = "size", defaultValue = "10") Integer size,
-            @Parameter(description = "排序字段", example = "title")
-            @RequestParam(value = "sortBy", defaultValue = "10") String sortBy,
-            @Parameter(description = "顺序方向", example = "ASC")
-            @RequestParam(value = "sortDirection", defaultValue = "10") String sortDirection
+            @ParameterObject @ModelAttribute ImageQueryRequestDTO imageQueryRequestDTO
     ) {
-        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(keyword, tags, page, size, sortBy, sortDirection);
+        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(imageQueryRequestDTO);
         return ApiResponse.success(pageResponse);
     }
 }

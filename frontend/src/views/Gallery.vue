@@ -3,26 +3,24 @@
     <template #side>
       <TagFilter />
     </template>
-    <template #header>
-      <AdvancedSearchBar />
-    </template>
+    <template #header> </template>
     <template #main>
       <ImageMasonry />
-      <PaginationControl />
+      <PaginationForm />
     </template>
   </GalleryLayout>
   <ImageViewer v-if="selectedImageStore.currentImageDetail" />
 </template>
 
 <script setup lang="ts">
-import ImageMasonry from '@/components/ImageMasonry.vue'
-import TagFilter from '@/components/TagFilter.vue'
-import GalleryLayout from '@/layouts/GalleryLayout.vue'
-import AdvancedSearchBar from '@/components/AdvancedSearchBar.vue'
-import PaginationControl from '@/components/PaginationControl.vue'
-import ImageViewer from '@/components/ImageViewer.vue'
+import ImageMasonry from '@/components/image/ImageMasonry.vue'
+import TagFilter from '@/components/common/TagFilter.vue'
+import GalleryLayout from '@/components/layout/GalleryLayout.vue'
+import AdvancedQueryForm from '@/components/gallery/AdvancedQueryForm.vue'
+import PaginationForm from '@/components/gallery/PaginationForm.vue'
+import ImageViewer from '@/components/image/ImageViewer.vue'
 import { useImageStore } from '@/stores/useImageStore'
-import { useCurrentImageStore } from '@/stores/useSelectedImageStore'
+import { useCurrentImageStore } from '@/stores/useCurrentImageStore.ts'
 import { usePaginationStore } from '@/stores/usePaginationStore'
 import { onMounted } from 'vue'
 
