@@ -11,7 +11,13 @@
     >
       <template #default="{ item }">
         <div class="image-card" @click="handleImageClick(item)">
-          <img :src="item.url" :alt="item.title" class="image" loading="lazy" />
+          <el-image
+            :src="item.url"
+            :alt="item.title"
+            class="image"
+            fit="cover"
+            lazy
+          />
           <div class="image-title">{{ item.title }}</div>
         </div>
       </template>

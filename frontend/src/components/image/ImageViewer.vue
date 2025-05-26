@@ -31,7 +31,7 @@ const handleClose = () => {
 .image-viewer-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.85);
   overflow: hidden;
 }

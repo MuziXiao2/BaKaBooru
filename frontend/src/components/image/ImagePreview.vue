@@ -14,6 +14,9 @@
         hide-on-click-modal
         preview-teleported
         @error="handleImageError"
+        lazy
+        show-progress
+        :z-index="1001"
       />
       <div v-else class="no-image">无法加载图片</div>
 
