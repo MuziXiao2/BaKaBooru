@@ -4,28 +4,17 @@
       <el-container class="image-viewer-container">
         <!-- 左侧预览组件 -->
         <el-main class="image-viewer-main">
-          <ImagePreview />
+          <slot name="main" />
         </el-main>
         <!-- 右侧信息组件 -->
         <el-aside class="image-viewer-aside">
-          <ImageInfo @close="handleClose" />
+          <slot name="aside" />
         </el-aside>
       </el-container>
     </div>
   </teleport>
 </template>
-
-<script setup lang="ts">
-import { useCurrentImageStore } from '@/stores/useCurrentImageStore.ts'
-import ImagePreview from './ImagePreview.vue'
-import ImageInfo from './ImageInfo.vue'
-
-const currentImageStore = useCurrentImageStore()
-
-const handleClose = () => {
-  currentImageStore.setCurrentImage(null)
-}
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .image-viewer-overlay {

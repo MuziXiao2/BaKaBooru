@@ -1,7 +1,7 @@
 <template>
   <AppLayout>
     <template #header>
-      <TopForm />
+      <TopBar />
     </template>
     <RouterView />
   </AppLayout>
@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import AppLayout from '@/components/layout/AppLayout.vue'
-import TopForm from '@/components/common/TopForm.vue'
+import TopBar from '@/components/common/TopBar.vue'
 </script>
 
 <style scoped></style>

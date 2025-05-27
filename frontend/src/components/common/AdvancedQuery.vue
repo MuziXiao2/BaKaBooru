@@ -1,6 +1,6 @@
 <template>
   <div class="tag-filter-container">
-    <label class="title">高级搜索</label>
+    <label class="title">搜索</label>
 
     <el-form
       :model="searchFormStore.form"
@@ -89,7 +89,7 @@
               {{ tag }}
             </el-tag>
           </div>
-          <el-button type="text" class="clear-btn" @click="clearTags"> 清空标签 </el-button>
+          <el-button type="text" class="clear-btn" @click="clearTags"> 清空标签</el-button>
         </div>
       </div>
 
@@ -100,7 +100,6 @@
     </el-form>
   </div>
 </template>
-
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
@@ -108,44 +107,23 @@ import { debounce } from 'lodash-es'
 import { useImageStore } from '@/stores/useImageStore'
 import { useSearchFormStore } from '@/stores/useSearchFormStore'
 
-interface TagSuggestion {
-  value: string
-  link: string
-}
-
 const imageStore = useImageStore()
 const searchFormStore = useSearchFormStore()
 
 const state = ref('')
-const restaurants = ref<TagSuggestion[]>([])
 const selectedTags = ref<string[]>([])
 
-const querySearch = (queryString: string, cb: (suggestions: TagSuggestion[]) => void) => {
+// 标签模糊搜索（可根据需要替换为后端接口）
+const allTags = ref<string[]>([])
+
+const querySearch = (queryString: string, cb: (suggestions: { value: string }[]) => void) => {
   const results = queryString
-    ? restaurants.value.filter(createFilter(queryString))
-    : restaurants.value
-  cb(results)
+    ? allTags.value.filter((tag) => tag.toLowerCase().startsWith(queryString.toLowerCase()))
+    : allTags.value
+  cb(results.map((tag) => ({ value: tag })))
 }
 
-const createFilter = (queryString: string) => {
-  return (restaurant: TagSuggestion) => {
-    return restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-  }
-}
-
-const loadAll = (): TagSuggestion[] => {
-  return [
-    { value: 'vue', link: 'https://github.com/vuejs/vue' },
-    { value: 'element', link: 'https://github.com/ElemeFE/element' },
-    { value: 'cooking', link: 'https://github.com/ElemeFE/cooking' },
-    { value: 'mint-ui', link: 'https://github.com/ElemeFE/mint-ui' },
-    { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
-    { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
-    { value: 'babel', link: 'https://github.com/babel/babel' },
-  ]
-}
-
-const handleSelect = (item: TagSuggestion) => {
+const handleSelect = (item: { value: string }) => {
   addTag(item.value)
 }
 
@@ -176,14 +154,12 @@ const clearTags = () => {
 
 const onSubmit = debounce(() => {
   imageStore.queryImages()
-  paginationStore.updateTotalPages()
 }, 300)
 
 const onReset = debounce(() => {
   searchFormStore.resetForm()
   selectedTags.value = []
   imageStore.queryImages()
-  paginationStore.updateTotalPages()
 }, 300)
 
 const toggleSortDirection = () => {
@@ -192,7 +168,8 @@ const toggleSortDirection = () => {
 }
 
 onMounted(() => {
-  restaurants.value = loadAll()
+  // 假数据模拟，可替换为后端请求
+  allTags.value = ['vue', 'element', 'cooking', 'mint-ui', 'vuex', 'vue-router', 'babel']
 })
 </script>
 

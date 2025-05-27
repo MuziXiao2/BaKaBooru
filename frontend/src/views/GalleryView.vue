@@ -10,22 +10,22 @@
       <PaginationForm />
     </template>
   </GalleryLayout>
-  <ImageViewer v-if="currentImageDetail" />
+  <Index v-if="currentImageDetail" />
 </template>
 
 <script setup lang="ts">
-import ImageMasonry from '@/components/image/ImageMasonry.vue'
+import ImageMasonry from '@/components/common/ImageMasonry.vue'
 import AdvancedQuery from '@/components/common/AdvancedQuery.vue'
 import GalleryLayout from '@/components/layout/GalleryLayout.vue'
 import PaginationForm from '@/components/common/PaginationForm.vue'
-import ImageViewer from '@/components/image/ImageViewer.vue'
+import Index from '@/components/ImageViewer/index.vue'
 import { useImageStore } from '@/stores/useImageStore'
-import { useCurrentImageStore } from '@/stores/useCurrentImageStore.ts'
+import { useImageViewerStore } from '@/stores/useImageViewerStore.ts'
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
 const imageStore = useImageStore()
-const currentImageStore = useCurrentImageStore()
+const currentImageStore = useImageViewerStore()
 
 const { currentImageDetail } = storeToRefs(currentImageStore)
 

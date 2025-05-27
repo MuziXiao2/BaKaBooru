@@ -31,17 +31,17 @@
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { ElScrollbar } from 'element-plus'
 import type { ImageItem } from '@/types'
-import { useImageStore } from '@/stores/useImageStore'
+import { useImageStore } from '@/stores/useImageStore.ts'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useCurrentImageStore } from '@/stores/useCurrentImageStore.ts'
+import { useImageViewerStore } from '@/stores/useImageViewerStore.ts'
 
 const imageStore = useImageStore()
-const currentImageStore = useCurrentImageStore()
+const currentImageStore = useImageViewerStore()
 const { loading, images } = storeToRefs(imageStore)
 
 const handleImageClick = async (image: ImageItem) => {
-  await currentImageStore.setCurrentImage(image)
+  await currentImageStore.openImageViewer(image.uuid)
 }
 
 const minColumns = ref(5)
