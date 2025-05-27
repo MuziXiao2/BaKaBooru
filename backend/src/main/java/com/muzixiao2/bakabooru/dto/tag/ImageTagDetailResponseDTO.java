@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 
-public class TagDetailResponseDTO {
-    private String id;
+public class ImageTagDetailResponseDTO {
     private String name;
     private String type;
-    private String description;
-    private String count;
 }

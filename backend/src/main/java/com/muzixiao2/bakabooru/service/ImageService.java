@@ -4,7 +4,7 @@ import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
-import com.muzixiao2.bakabooru.entity.Tag;
+import com.muzixiao2.bakabooru.entity.ImageTag;
 import com.muzixiao2.bakabooru.mapper.ImageMapper;
 import com.muzixiao2.bakabooru.repository.ImageRepository;
 import jakarta.persistence.criteria.Join;
@@ -70,10 +70,11 @@ public class ImageService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (tags != null && !tags.isEmpty()) {
-                Join<Image, Tag> tagJoin = root.join("tags", JoinType.INNER);
-                predicates.add(tagJoin.get("id").in(tags));
+                Join<Image, ImageTag> tagJoin = root.join("tags", JoinType.INNER);
+                predicates.add(tagJoin.get("tagName").in(tags));
                 query.distinct(true);
             }
+
 
             if (StringUtils.hasText(keyword)) {
                 predicates.add(cb.like(cb.lower(root.get("title")), "%" + keyword.toLowerCase() + "%"));

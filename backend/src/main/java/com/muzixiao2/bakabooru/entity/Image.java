@@ -41,21 +41,18 @@ public class Image {
     @OrderColumn(name = "order_index")
     private List<ImageFile> imageFiles = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "image_tag",
-            joinColumns = @JoinColumn(name = "image_uuid"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private Set<Tag> tags = new HashSet<>();
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageTag> imageTags = new ArrayList<>();
 
+    //添加文件
     public ImageFile addImageFile(File file, String fileName) {
-        ImageFile link = new ImageFile();
-        link.setImage(this);
-        link.setFile(file);
-        link.setFileName(fileName);
-        this.imageFiles.add(link);
-        return link;
+        ImageFile imageFile = new ImageFile();
+        imageFile.setFile(file);
+        imageFile.setImage(this);
+        imageFile.setFileName(fileName);
+        this.imageFiles.add(imageFile);
+        file.getImageFiles().add(imageFile);
+        return imageFile;
     }
 
     //删除文件
@@ -87,13 +84,13 @@ public class Image {
         list.add(toIndex, item);
     }
 
-    public void addTag(Tag tag) {
-        tags.add(tag);
-        tag.getImages().add(this);
+    public ImageTag addTag(String tagName, String tagType) {
+        ImageTag imageTag = new ImageTag();
+        imageTag.setName(tagName);
+        imageTag.setType(ImageTag.TagType.valueOf(tagType.toUpperCase()));
+        imageTag.setImage(this);
+        this.imageTags.add(imageTag);
+        return imageTag;
     }
 
-    public void removeTag(Tag tag) {
-        tags.remove(tag);
-        tag.getImages().remove(this);
-    }
 }

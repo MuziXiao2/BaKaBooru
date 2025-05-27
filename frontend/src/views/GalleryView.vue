@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import ImageMasonry from '@/components/common/ImageMasonry.vue'
 import AdvancedQuery from '@/components/common/AdvancedQuery.vue'
-import GalleryLayout from '@/components/layout/GalleryLayout.vue'
+import GalleryLayout from '@/views/layout/GalleryLayout.vue'
 import PaginationForm from '@/components/common/PaginationForm.vue'
 import Index from '@/components/ImageViewer/index.vue'
 import { useImageStore } from '@/stores/useImageStore'

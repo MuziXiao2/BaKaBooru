@@ -3,9 +3,7 @@
     <HeaderInfo />
     <FileInfo />
     <FileList />
-    <InfoCard title="标签">
-      <div class="tags-container"></div>
-    </InfoCard>
+    <TagList/>
 
     <template #actions>
       <el-button @click="handleClose">关闭</el-button>
@@ -16,10 +14,10 @@
 <script setup lang="ts">
 import { useImageViewerStore } from '@/stores/useImageViewerStore.ts'
 import ImageInfoLayout from './ImageInfoLayout.vue'
-import InfoCard from './InfoCard.vue'
 import HeaderInfo from './HeaderInfo.vue'
 import FileInfo from './FileInfo.vue'
 import FileList from './FileList.vue'
+import TagList from '@/components/ImageViewer/ImageInfo/TagList.vue'
 
 defineOptions({
   name: 'ImageInfoPanel',

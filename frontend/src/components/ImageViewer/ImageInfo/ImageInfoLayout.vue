@@ -1,6 +1,7 @@
 <template>
   <div class="info-panel">
     <slot></slot>
+
     <div class="info-actions">
       <slot name="actions"></slot>
     </div>

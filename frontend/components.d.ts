@@ -121,7 +121,7 @@ declare module 'vue' {
     SourceList: typeof import('./src/components/LeftMenu/SourceList.vue')['default']
     SourceSelect: typeof import('./src/LAJI/content/select/SourceSelect.vue')['default']
     TagFilter: typeof import('./src/components/common/TagFilter.vue')['default']
-    TagList: typeof import('./src/LAJI/content/container/tag-container/TagList.vue')['default']
+    TagList: typeof import('./src/components/ImageViewer/ImageInfo/TagList.vue')['default']
     TagTable: typeof import('./src/LAJI/content/container/tag-container/TagTable.vue')['default']
     TopBar: typeof import('./src/components/common/TopBar.vue')['default']
     TopForm: typeof import('./src/components/common/TopForm.vue')['default']
