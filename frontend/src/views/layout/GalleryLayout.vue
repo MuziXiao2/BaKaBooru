@@ -1,9 +1,9 @@
 <template>
-  <el-container>
+  <el-container class="gallery-container">
     <el-aside class="side" width="250px">
       <slot name="side" />
     </el-aside>
-    <el-container>
+    <el-container class="content-container">
       <el-main class="main">
         <slot name="main" />
       </el-main>
@@ -17,27 +17,54 @@
 <script setup lang="ts"></script>
 
 <style scoped>
+.gallery-container {
+  height: calc(100vh - 60px);
+}
+
+.content-container {
+  background-color: var(--background-color);
+}
+
 .side {
   display: flex;
-  border-right: 2px solid #ccc;
-  background: #f2f2f2;
   flex-direction: column;
-  width: 15vw;
+  width: 280px;
+  background: #ffffff;
+  border-right: 1px solid var(--border-color);
+  padding: 0;
+  overflow-y: auto;
 }
 
 .main {
   overflow: hidden;
-  padding: 0;
-  height: 90vh;
+  padding: 24px;
+  height: calc(100vh - 120px);
+  background-color: var(--background-color);
 }
 
 .footer {
   display: flex;
-  height: 5vh;
+  height: 60px;
   overflow: hidden;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid #ebeef5;
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-color);
+  padding: 0 24px;
 }
 
+@media (max-width: 768px) {
+  .side {
+    width: 240px;
+  }
+
+  .main {
+    padding: 16px;
+  }
+
+  .footer {
+    height: 50px;
+    padding: 0 16px;
+  }
+}
 </style>

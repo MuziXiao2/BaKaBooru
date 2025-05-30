@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import App from './App.vue'
 import router from './router'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import MasonryWall from '@yeger/vue-masonry-wall'
 
 //注册App

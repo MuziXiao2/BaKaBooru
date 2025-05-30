@@ -155,9 +155,8 @@ const toggleSortDirection = () => {
 
 <style scoped>
 .tag-filter-container {
-  padding: 14px;
-  background-color: var(--el-bg-color);
-  border-right: 1px solid var(--el-border-color-light);
+  padding: 16px;
+  background-color: #ffffff;
   height: 100%;
   position: relative;
   display: flex;
@@ -167,7 +166,7 @@ const toggleSortDirection = () => {
 .title {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   color: var(--el-text-color-primary);
   display: block;
 }
@@ -175,7 +174,7 @@ const toggleSortDirection = () => {
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
   flex: 1;
   overflow-y: auto;
   padding-bottom: 60px;
@@ -183,9 +182,9 @@ const toggleSortDirection = () => {
 
 .section-label {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--el-text-color-regular);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-weight: 500;
 }
 
@@ -194,11 +193,7 @@ const toggleSortDirection = () => {
 .tag-section {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background-color: var(--el-fill-color-blank);
-  padding: 12px;
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  gap: 8px;
 }
 
 .search-keyword {
@@ -206,7 +201,7 @@ const toggleSortDirection = () => {
 }
 
 .search-keyword :deep(.el-input__inner) {
-  height: 40px;
+  height: 36px;
   font-size: 14px;
 }
 
@@ -214,7 +209,7 @@ const toggleSortDirection = () => {
   display: flex;
   gap: 8px;
   align-items: stretch;
-  height: 40px;
+  height: 36px;
 }
 
 .search-sort {
@@ -222,22 +217,18 @@ const toggleSortDirection = () => {
 }
 
 .search-sort :deep(.el-input__wrapper) {
-  height: 40px;
-  line-height: 40px;
+  height: 36px;
+  line-height: 36px;
 }
 
 .search-sort :deep(.el-input__inner) {
-  height: 40px;
-  line-height: 40px;
-}
-
-.search-sort :deep(.el-select__tags) {
-  height: 100%;
+  height: 36px;
+  line-height: 36px;
 }
 
 .sort-direction {
   min-width: 90px;
-  height: 40px;
+  height: 36px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -265,17 +256,15 @@ const toggleSortDirection = () => {
 }
 
 .tag-input-container :deep(.el-input__inner) {
-  height: 40px;
+  height: 36px;
   font-size: 14px;
 }
 
 .tag-list {
-  min-height: 40px;
+  min-height: 36px;
   max-height: 150px;
   overflow-y: auto;
-  padding: 8px;
-  background-color: var(--el-fill-color-lighter);
-  border-radius: 4px;
+  padding: 8px 0;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -292,20 +281,20 @@ const toggleSortDirection = () => {
 }
 
 .tag-list::-webkit-scrollbar-track {
-  background-color: var(--el-fill-color-lighter);
+  background-color: transparent;
 }
 
 .el-tag {
   margin: 0;
   transition: all 0.2s ease;
-  height: 32px;
-  padding: 0 12px;
-  font-size: 14px;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 13px;
 }
 
 .el-tag :deep(.el-tag__close) {
   right: -2px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .el-tag:hover {
@@ -324,7 +313,7 @@ const toggleSortDirection = () => {
 
 .search-actions .el-button {
   min-width: 90px;
-  height: 40px;
+  height: 36px;
   font-size: 14px;
 }
 </style>

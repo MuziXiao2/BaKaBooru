@@ -6,16 +6,28 @@
         <el-breadcrumb-item>{{ route.meta.title }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
+    <el-button
+      :icon="isDark ? Moon : Sunny"
+      text
+      size="large"
+      class="setting-btn"
+      @click="toggleDark"
+    />
     <el-button :icon="Setting" text size="large" class="setting-btn" @click="goToSetting" />
   </div>
 </template>
 
-<script setup>
-import { ArrowRight, Setting } from '@element-plus/icons-vue'
+<script setup lang="ts">
+import { ArrowRight, Moon, Setting, Sunny } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
+
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 
 const goToSetting = () => {
   router.push({ name: 'setting' })
@@ -28,9 +40,8 @@ const goToSetting = () => {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 5vh;
+  height: 100%;
   padding: 0 16px;
-  border-bottom: 1px solid #eee;
 }
 
 .breadcrumb {
