@@ -2,7 +2,6 @@ package com.muzixiao2.bakabooru.service;
 
 import com.muzixiao2.bakabooru.dto.PageResponseDTO;
 import com.muzixiao2.bakabooru.dto.image.*;
-import com.muzixiao2.bakabooru.dto.tag.ImageTagQueryRequestDTO;
 import com.muzixiao2.bakabooru.entity.Image;
 import com.muzixiao2.bakabooru.entity.ImageFile;
 import com.muzixiao2.bakabooru.entity.ImageTag;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -42,8 +40,7 @@ public class ImageService {
     @Transactional(readOnly = true)
     public ImageDetailResponseDTO getImageDetail(String uuid) {
         Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
-        ImageDetailResponseDTO imageDetailResponseDTO = imageMapper.toResponseDTO(image);
-        return imageDetailResponseDTO;
+        return imageMapper.toResponseDTO(image);
     }
 
     // 查询图片
@@ -53,7 +50,7 @@ public class ImageService {
         Integer size = imageQueryRequestDTO.getSize();
         String sortBy = imageQueryRequestDTO.getSortBy();
         String sortDirection = imageQueryRequestDTO.getSortDirection();
-        ImageTagQueryRequestDTO tags = imageQueryRequestDTO.getTags();
+        List<String> tags = imageQueryRequestDTO.getTags();
         String keyword = imageQueryRequestDTO.getKeyword();
 
         // 输入验证
@@ -73,55 +70,22 @@ public class ImageService {
                 predicates.add(cb.like(cb.lower(root.get("title")), "%" + keyword.toLowerCase() + "%"));
             }
 
-            // 标签筛选
-            if (tags != null && tags.hasAnyTag()) {
-                Subquery<String> subquery = query.subquery(String.class);
-                Root<ImageTag> tagRoot = subquery.from(ImageTag.class);
-                subquery.select(tagRoot.get("uuid"));
+            // 关键词搜索
+            if (StringUtils.hasText(keyword)) {
+                predicates.add(cb.like(cb.lower(root.get("title")), "%" + keyword.toLowerCase() + "%"));
+            }
 
-                List<Predicate> tagConditions = new ArrayList<>();
+            // 标签筛选：图片必须同时包含所有指定标签
+            if (tags != null && !tags.isEmpty()) {
+                // Join Image -> ImageTag
+                Join<Image, ImageTag> tagJoin = root.join("imageTags", JoinType.INNER);
+                // WHERE tag.name IN (:tags)
+                predicates.add(tagJoin.get("name").in(tags));
 
-                if (tags.getGeneral() != null && !tags.getGeneral().isEmpty()) {
-                    tagConditions.add(cb.and(
-                            cb.equal(tagRoot.get("type"), "general"),
-                            tagRoot.get("name").in(tags.getGeneral())
-                    ));
-                }
-                if (tags.getCharacter() != null && !tags.getCharacter().isEmpty()) {
-                    tagConditions.add(cb.and(
-                            cb.equal(tagRoot.get("type"), "character"),
-                            tagRoot.get("name").in(tags.getCharacter())
-                    ));
-                }
-                if (tags.getCopyright() != null && !tags.getCopyright().isEmpty()) {
-                    tagConditions.add(cb.and(
-                            cb.equal(tagRoot.get("type"), "copyright"),
-                            tagRoot.get("name").in(tags.getCopyright())
-                    ));
-                }
-                if (tags.getArtist() != null && !tags.getArtist().isEmpty()) {
-                    tagConditions.add(cb.and(
-                            cb.equal(tagRoot.get("type"), "artist"),
-                            tagRoot.get("name").in(tags.getArtist())
-                    ));
-                }
-                if (tags.getMeta() != null && !tags.getMeta().isEmpty()) {
-                    tagConditions.add(cb.and(
-                            cb.equal(tagRoot.get("type"), "meta"),
-                            tagRoot.get("name").in(tags.getMeta())
-                    ));
-                }
-
-                // 构造 WHERE + HAVING 子查询：必须同时命中所有 tag 条件
-                subquery.where(cb.or(tagConditions.toArray(new Predicate[0])));
-                subquery.groupBy(tagRoot.get("uuid"));
-                subquery.having(cb.equal(cb.countDistinct(tagRoot.get("type")), tagConditions.size()));
-
-                // 主查询 uuid in 子查询结果
-                predicates.add(root.get("uuid").in(subquery));
-
-                // 去重
-                query.distinct(true);
+                // 避免重复图片（因为 JOIN 会产生多行）
+                query.groupBy(root.get("uuid"));
+                // HAVING COUNT(DISTINCT tag.name) = :tagCount
+                query.having(cb.equal(cb.countDistinct(tagJoin.get("name")), tags.size()));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

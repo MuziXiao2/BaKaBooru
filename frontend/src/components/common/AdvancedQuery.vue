@@ -65,139 +65,19 @@
       <!-- 标签过滤器 -->
       <div class="tag-section">
         <label class="section-label">标签筛选</label>
-
-        <!-- 画师标签 -->
-        <div class="tag-category">
-          <div class="category-header">
-            <span class="category-title">画师标签</span>
-            <el-button type="text" size="small" @click="clearTagsByCategory('artist')"
-              >清空
-            </el-button>
-          </div>
+        <div class="tag-input-container">
           <el-input
-            v-model="tagInputs.artist"
-            placeholder="输入画师标签，按回车添加"
-            @keyup.enter="handleTagAdd('artist')"
+            v-model="tagInput"
+            placeholder="输入标签，用空格分隔，按回车提交"
+            @keyup.enter="handleTagsSubmit"
             clearable
           />
-          <div class="tag-list" v-if="searchFormStore.form?.tags?.artist?.length">
+          <div class="tag-list" v-if="searchFormStore.form.tags.length">
             <el-tag
-              v-for="(tag, index) in searchFormStore.form?.tags?.artist || []"
+              v-for="(tag, index) in searchFormStore.form.tags"
               :key="index"
               closable
-              @close="removeTag('artist', index)"
-              size="small"
-              type="warning"
-            >
-              {{ tag }}
-            </el-tag>
-          </div>
-        </div>
-
-        <!-- 角色标签 -->
-        <div class="tag-category">
-          <div class="category-header">
-            <span class="category-title">角色标签</span>
-            <el-button type="text" size="small" @click="clearTagsByCategory('character')"
-              >清空
-            </el-button>
-          </div>
-          <el-input
-            v-model="tagInputs.character"
-            placeholder="输入角色标签，按回车添加"
-            @keyup.enter="handleTagAdd('character')"
-            clearable
-          />
-          <div class="tag-list" v-if="searchFormStore.form?.tags?.character?.length">
-            <el-tag
-              v-for="(tag, index) in searchFormStore.form?.tags?.character || []"
-              :key="index"
-              closable
-              @close="removeTag('character', index)"
-              size="small"
-              type="success"
-            >
-              {{ tag }}
-            </el-tag>
-          </div>
-        </div>
-
-        <!-- 版权标签 -->
-        <div class="tag-category">
-          <div class="category-header">
-            <span class="category-title">版权标签</span>
-            <el-button type="text" size="small" @click="clearTagsByCategory('copyright')"
-              >清空
-            </el-button>
-          </div>
-          <el-input
-            v-model="tagInputs.copyright"
-            placeholder="输入版权标签，按回车添加"
-            @keyup.enter="handleTagAdd('copyright')"
-            clearable
-          />
-          <div class="tag-list" v-if="searchFormStore.form?.tags?.copyright?.length">
-            <el-tag
-              v-for="(tag, index) in searchFormStore.form?.tags?.copyright || []"
-              :key="index"
-              closable
-              @close="removeTag('copyright', index)"
-              size="small"
-              type="danger"
-            >
-              {{ tag }}
-            </el-tag>
-          </div>
-        </div>
-
-        <!-- 元信息标签 -->
-        <div class="tag-category">
-          <div class="category-header">
-            <span class="category-title">元信息标签</span>
-            <el-button type="text" size="small" @click="clearTagsByCategory('meta')"
-              >清空
-            </el-button>
-          </div>
-          <el-input
-            v-model="tagInputs.meta"
-            placeholder="输入元信息标签，按回车添加"
-            @keyup.enter="handleTagAdd('meta')"
-            clearable
-          />
-          <div class="tag-list" v-if="searchFormStore.form?.tags?.meta?.length">
-            <el-tag
-              v-for="(tag, index) in searchFormStore.form?.tags?.meta || []"
-              :key="index"
-              closable
-              @close="removeTag('meta', index)"
-              size="small"
-              type="info"
-            >
-              {{ tag }}
-            </el-tag>
-          </div>
-        </div>
-
-        <!-- 通用标签 -->
-        <div class="tag-category">
-          <div class="category-header">
-            <span class="category-title">通用标签</span>
-            <el-button type="text" size="small" @click="clearTagsByCategory('general')"
-              >清空
-            </el-button>
-          </div>
-          <el-input
-            v-model="tagInputs.general"
-            placeholder="输入通用标签，按回车添加"
-            @keyup.enter="handleTagAdd('general')"
-            clearable
-          />
-          <div class="tag-list" v-if="searchFormStore.form?.tags?.general?.length">
-            <el-tag
-              v-for="(tag, index) in searchFormStore.form?.tags?.general || []"
-              :key="index"
-              closable
-              @close="removeTag('general', index)"
+              @close="removeTag(index)"
               size="small"
             >
               {{ tag }}
@@ -214,62 +94,36 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { debounce } from 'lodash-es'
 import { useImageStore } from '@/stores/useImageStore'
-import { useSearchFormStore } from '@/stores/useSearchFormStore'
-import type { TagCategory } from '@/types'
+import { useQueryFormStore } from '@/stores/useQueryFormStore.ts'
 
 const imageStore = useImageStore()
-const searchFormStore = useSearchFormStore()
-
-// 定义标签类别类型
-
-// 初始化表单中的标签数组
-searchFormStore.form = searchFormStore.form || {}
-searchFormStore.form.tags = searchFormStore.form.tags || {
-  artist: [],
-  character: [],
-  copyright: [],
-  meta: [],
-  general: [],
-}
+const searchFormStore = useQueryFormStore()
 
 // 标签输入状态
-const tagInputs = reactive({
-  artist: '',
-  character: '',
-  copyright: '',
-  meta: '',
-  general: '',
-})
+const tagInput = ref('')
 
-// 处理标签添加
-const handleTagAdd = (category: TagCategory) => {
-  const value = tagInputs[category].trim()
-  const tags = searchFormStore.form.tags[category]
-  if (value && !tags?.includes(value)) {
-    searchFormStore.form.tags[category].push(value)
-    tagInputs[category] = ''
+// 处理标签提交
+const handleTagsSubmit = () => {
+  const newTags = tagInput.value
+    .trim()
+    .split(/\s+/)
+    .filter((tag) => tag && !searchFormStore.form.tags.includes(tag))
+
+  if (newTags.length > 0) {
+    searchFormStore.form.tags.push(...newTags)
+    tagInput.value = ''
     onSubmit()
   }
 }
 
 // 移除标签
-const removeTag = (category: TagCategory, index: number) => {
-  if (searchFormStore.form?.tags?.[category]) {
-    searchFormStore.form.tags[category].splice(index, 1)
-    onSubmit()
-  }
-}
-
-// 清空特定类别的标签
-const clearTagsByCategory = (category: TagCategory) => {
-  if (searchFormStore.form?.tags) {
-    searchFormStore.form.tags[category] = []
-    onSubmit()
-  }
+const removeTag = (index: number) => {
+  searchFormStore.form.tags.splice(index, 1)
+  onSubmit()
 }
 
 const onSubmit = debounce(() => {
@@ -388,23 +242,10 @@ const toggleSortDirection = () => {
   margin-top: 8px;
 }
 
-.tag-category {
-  margin-bottom: 16px;
-  border: 1px solid #ebeef5;
-  border-radius: 4px;
-  padding: 12px;
-}
-
-.category-header {
+.tag-input-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.category-title {
-  font-weight: bold;
-  color: #606266;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .el-tag {

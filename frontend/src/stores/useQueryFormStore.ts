@@ -1,17 +1,11 @@
 import { defineStore } from 'pinia'
 import type { SearchForm } from '@/types'
 
-export const useSearchFormStore = defineStore('searchForm', {
+export const useQueryFormStore = defineStore('searchForm', {
   state: () => ({
     form: {
       keyword: '',
-      tags: {
-        artist: [],
-        character: [],
-        copyright: [],
-        meta: [],
-        general: [],
-      },
+      tags: [],
       sortBy: 'title',
       sortDirection: 'asc',
     } as SearchForm,
@@ -21,13 +15,7 @@ export const useSearchFormStore = defineStore('searchForm', {
     resetForm() {
       this.form = {
         keyword: '',
-        tags: {
-          artist: [],
-          character: [],
-          copyright: [],
-          meta: [],
-          general: [],
-        },
+        tags: [],
         sortBy: 'title',
         sortDirection: 'asc',
       }

@@ -1,4 +1,3 @@
-import type { ImageTagQueryRequest } from '@/types/tag.ts'
 
 export interface ImageItem {
   uuid: string
@@ -16,7 +15,7 @@ export interface Page<T> {
 
 export interface SearchForm {
   keyword: string
-  tags: ImageTagQueryRequest
+  tags: string[]
   sortBy: string
   sortDirection: string
 }

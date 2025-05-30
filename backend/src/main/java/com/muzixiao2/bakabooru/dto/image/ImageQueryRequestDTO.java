@@ -1,10 +1,8 @@
 package com.muzixiao2.bakabooru.dto.image;
 
-import com.muzixiao2.bakabooru.dto.tag.ImageTagQueryRequestDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class ImageQueryRequestDTO {
     private String keyword;
 
     @Schema(description = "标签条件，支持按类型过滤多个标签")
-    private ImageTagQueryRequestDTO tags;
+    private List<String> tags;
 
     @Schema(description = "排序字段，可选：title, createdAt, updatedAt", example = "updatedAt", defaultValue = "updatedAt")
     private String sortBy = "updatedAt";

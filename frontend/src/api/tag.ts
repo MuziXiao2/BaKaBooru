@@ -1,20 +1,20 @@
 import api from '@/api/index.ts'
 import { baseUrl } from '@/api/index.ts'
-import type { ImageTagDetail } from '@/types'
 
 //添加标签
-export async function addTag(uuid: string, name: string, type: string): Promise<ImageTagDetail> {
-  const response = await api.post(baseUrl + `/image/${uuid}/tag`, {
-    params: {
-      name: name,
-      type: type,
-    },
-  })
+export async function addTags(uuid: string, tag: string): Promise<string[]> {
+  const response = await api.post(baseUrl + `/image/${uuid}/tag`, tag)
+  return response.data.data
+}
+
+//更新标签
+export async function updateTags(uuid: string, tags: string[]): Promise<string[]> {
+  const response = await api.put(baseUrl + `/image/${uuid}/tag`, tags)
   return response.data.data
 }
 
 //获取标签
-export async function getTags(uuid: string): Promise<ImageTagDetail> {
+export async function getTags(uuid: string): Promise<string[]> {
   const response = await api.get(baseUrl + `/image/${uuid}/tag`)
   return response.data.data
 }

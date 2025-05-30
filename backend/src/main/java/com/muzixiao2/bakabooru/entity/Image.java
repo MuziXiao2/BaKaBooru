@@ -36,10 +36,37 @@ public class Image {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    //图片文件
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderColumn(name = "order_index")
     private List<ImageFile> imageFiles = new ArrayList<>();
+
+    //图片标签
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("name ASC")
+    private List<ImageTag> imageTags = new ArrayList<>();
+
+    //添加标签
+    public void addTag(String tag) {
+        imageTags.add(new ImageTag(this, tag));
+    }
+
+    //更新标签
+    public void updateTags(List<String> tags) {
+        imageTags.clear();
+        for (String tag : tags)
+            imageTags.add(new ImageTag(this, tag));
+    }
+
+    //获取标签
+    public List<String> getTags() {
+        return imageTags
+                .stream()
+                .map(ImageTag::getName)
+                .toList();
+    }
 
     //添加文件
     public ImageFile addImageFile(File file, String fileName) {

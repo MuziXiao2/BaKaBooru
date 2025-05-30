@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { getImageFileUrl, queryImages } from '@/api'
 import pLimit from 'p-limit'
 import type { ImageItem } from '@/types'
-import { useSearchFormStore } from '@/stores/useSearchFormStore'
+import { useQueryFormStore } from '@/stores/useQueryFormStore.ts'
 
 export const useImageStore = defineStore('image', {
   state: () => ({
@@ -28,7 +28,7 @@ export const useImageStore = defineStore('image', {
       this.currentPage = 1
     },
     async queryImages() {
-      const searchFormStore = useSearchFormStore()
+      const searchFormStore = useQueryFormStore()
       this.loading = true
       this.error = null
 

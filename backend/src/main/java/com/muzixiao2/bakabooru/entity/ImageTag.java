@@ -1,32 +1,22 @@
 package com.muzixiao2.bakabooru.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"image", "name"})
 @Entity
-@Table(name = "image_tag", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"uuid", "name", "type"})
-})
+@Table(name = "image_tag")
 public class ImageTag {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_uuid", nullable = false)
+    private Image image;
 
-    private String uuid;
-
+    @Id
+    @Column(name = "name", nullable = false)
     private String name;
-
-    private String type;
-
-    public static boolean isValidType(String type) {
-        return "general".equals(type) ||
-                "character".equals(type) ||
-                "copyright".equals(type) ||
-                "artist".equals(type) ||
-                "meta".equals(type);
-    }
 }
-
