@@ -5,7 +5,13 @@ export const useSearchFormStore = defineStore('searchForm', {
   state: () => ({
     form: {
       keyword: '',
-      tags: {},
+      tags: {
+        artist: [],
+        character: [],
+        copyright: [],
+        meta: [],
+        general: [],
+      },
       sortBy: 'title',
       sortDirection: 'asc',
     } as SearchForm,
@@ -15,7 +21,13 @@ export const useSearchFormStore = defineStore('searchForm', {
     resetForm() {
       this.form = {
         keyword: '',
-        tags: {},
+        tags: {
+          artist: [],
+          character: [],
+          copyright: [],
+          meta: [],
+          general: [],
+        },
         sortBy: 'title',
         sortDirection: 'asc',
       }

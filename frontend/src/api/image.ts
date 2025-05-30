@@ -1,6 +1,7 @@
 import api from '@/api/index.ts'
 import { baseUrl } from '@/api/index.ts'
 import type { ImageDetail, ImageQuery, ImageQueryParams, ImageRequest, Page } from '@/types'
+import qs from 'qs'
 
 //添加图片
 export async function addImage(imageRequestDTO: ImageRequest): Promise<ImageDetail> {
@@ -16,6 +17,13 @@ export async function getImage(uuid: string): Promise<ImageDetail> {
 
 //查询图片
 export async function queryImages(params: ImageQueryParams): Promise<Page<ImageQuery>> {
-  const response = await api.get(baseUrl + '/image', { params })
+  const response = await api.get(baseUrl + '/image', {
+    params,
+    paramsSerializer: (params) =>
+      qs.stringify(params, {
+        indices: false,
+        allowDots: true,
+      }),
+  })
   return response.data.data
 }

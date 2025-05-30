@@ -65,31 +65,144 @@
       <!-- 标签过滤器 -->
       <div class="tag-section">
         <label class="section-label">标签筛选</label>
-        <el-autocomplete
-          class="autocomplete"
-          v-model="state"
-          clearable
-          :fetch-suggestions="querySearch"
-          :trigger-on-focus="false"
-          placeholder="输入标签名称，按回车添加多个标签"
-          @select="handleSelect"
-          :fit-input-width="true"
-          @keyup.enter="handleEnter"
-        />
 
-        <div v-if="selectedTags.length" class="selected-tags">
-          <div class="tag-list">
+        <!-- 画师标签 -->
+        <div class="tag-category">
+          <div class="category-header">
+            <span class="category-title">画师标签</span>
+            <el-button type="text" size="small" @click="clearTagsByCategory('artist')"
+              >清空
+            </el-button>
+          </div>
+          <el-input
+            v-model="tagInputs.artist"
+            placeholder="输入画师标签，按回车添加"
+            @keyup.enter="handleTagAdd('artist')"
+            clearable
+          />
+          <div class="tag-list" v-if="searchFormStore.form?.tags?.artist?.length">
             <el-tag
-              v-for="(tag, index) in selectedTags"
+              v-for="(tag, index) in searchFormStore.form?.tags?.artist || []"
               :key="index"
               closable
-              @close="removeTag(index)"
+              @close="removeTag('artist', index)"
+              size="small"
+              type="warning"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
+        </div>
+
+        <!-- 角色标签 -->
+        <div class="tag-category">
+          <div class="category-header">
+            <span class="category-title">角色标签</span>
+            <el-button type="text" size="small" @click="clearTagsByCategory('character')"
+              >清空
+            </el-button>
+          </div>
+          <el-input
+            v-model="tagInputs.character"
+            placeholder="输入角色标签，按回车添加"
+            @keyup.enter="handleTagAdd('character')"
+            clearable
+          />
+          <div class="tag-list" v-if="searchFormStore.form?.tags?.character?.length">
+            <el-tag
+              v-for="(tag, index) in searchFormStore.form?.tags?.character || []"
+              :key="index"
+              closable
+              @close="removeTag('character', index)"
+              size="small"
+              type="success"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
+        </div>
+
+        <!-- 版权标签 -->
+        <div class="tag-category">
+          <div class="category-header">
+            <span class="category-title">版权标签</span>
+            <el-button type="text" size="small" @click="clearTagsByCategory('copyright')"
+              >清空
+            </el-button>
+          </div>
+          <el-input
+            v-model="tagInputs.copyright"
+            placeholder="输入版权标签，按回车添加"
+            @keyup.enter="handleTagAdd('copyright')"
+            clearable
+          />
+          <div class="tag-list" v-if="searchFormStore.form?.tags?.copyright?.length">
+            <el-tag
+              v-for="(tag, index) in searchFormStore.form?.tags?.copyright || []"
+              :key="index"
+              closable
+              @close="removeTag('copyright', index)"
+              size="small"
+              type="danger"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
+        </div>
+
+        <!-- 元信息标签 -->
+        <div class="tag-category">
+          <div class="category-header">
+            <span class="category-title">元信息标签</span>
+            <el-button type="text" size="small" @click="clearTagsByCategory('meta')"
+              >清空
+            </el-button>
+          </div>
+          <el-input
+            v-model="tagInputs.meta"
+            placeholder="输入元信息标签，按回车添加"
+            @keyup.enter="handleTagAdd('meta')"
+            clearable
+          />
+          <div class="tag-list" v-if="searchFormStore.form?.tags?.meta?.length">
+            <el-tag
+              v-for="(tag, index) in searchFormStore.form?.tags?.meta || []"
+              :key="index"
+              closable
+              @close="removeTag('meta', index)"
+              size="small"
+              type="info"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
+        </div>
+
+        <!-- 通用标签 -->
+        <div class="tag-category">
+          <div class="category-header">
+            <span class="category-title">通用标签</span>
+            <el-button type="text" size="small" @click="clearTagsByCategory('general')"
+              >清空
+            </el-button>
+          </div>
+          <el-input
+            v-model="tagInputs.general"
+            placeholder="输入通用标签，按回车添加"
+            @keyup.enter="handleTagAdd('general')"
+            clearable
+          />
+          <div class="tag-list" v-if="searchFormStore.form?.tags?.general?.length">
+            <el-tag
+              v-for="(tag, index) in searchFormStore.form?.tags?.general || []"
+              :key="index"
+              closable
+              @close="removeTag('general', index)"
               size="small"
             >
               {{ tag }}
             </el-tag>
           </div>
-          <el-button type="text" class="clear-btn" @click="clearTags"> 清空标签</el-button>
         </div>
       </div>
 
@@ -101,55 +214,62 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { reactive } from 'vue'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { debounce } from 'lodash-es'
 import { useImageStore } from '@/stores/useImageStore'
 import { useSearchFormStore } from '@/stores/useSearchFormStore'
+import type { TagCategory } from '@/types'
 
 const imageStore = useImageStore()
 const searchFormStore = useSearchFormStore()
 
-const state = ref('')
-const selectedTags = ref<string[]>([])
+// 定义标签类别类型
 
-// 标签模糊搜索（可根据需要替换为后端接口）
-const allTags = ref<string[]>([])
-
-const querySearch = (queryString: string, cb: (suggestions: { value: string }[]) => void) => {
-  const results = queryString
-    ? allTags.value.filter((tag) => tag.toLowerCase().startsWith(queryString.toLowerCase()))
-    : allTags.value
-  cb(results.map((tag) => ({ value: tag })))
+// 初始化表单中的标签数组
+searchFormStore.form = searchFormStore.form || {}
+searchFormStore.form.tags = searchFormStore.form.tags || {
+  artist: [],
+  character: [],
+  copyright: [],
+  meta: [],
+  general: [],
 }
 
-const handleSelect = (item: { value: string }) => {
-  addTag(item.value)
-}
+// 标签输入状态
+const tagInputs = reactive({
+  artist: '',
+  character: '',
+  copyright: '',
+  meta: '',
+  general: '',
+})
 
-const handleEnter = () => {
-  const trimmed = state.value.trim()
-  if (trimmed && !selectedTags.value.includes(trimmed)) {
-    addTag(trimmed)
-  }
-}
-
-const addTag = (tag: string) => {
-  if (!selectedTags.value.includes(tag)) {
-    selectedTags.value.push(tag)
+// 处理标签添加
+const handleTagAdd = (category: TagCategory) => {
+  const value = tagInputs[category].trim()
+  const tags = searchFormStore.form.tags[category]
+  if (value && !tags?.includes(value)) {
+    searchFormStore.form.tags[category].push(value)
+    tagInputs[category] = ''
     onSubmit()
   }
-  state.value = ''
 }
 
-const removeTag = (index: number) => {
-  selectedTags.value.splice(index, 1)
-  onSubmit()
+// 移除标签
+const removeTag = (category: TagCategory, index: number) => {
+  if (searchFormStore.form?.tags?.[category]) {
+    searchFormStore.form.tags[category].splice(index, 1)
+    onSubmit()
+  }
 }
 
-const clearTags = () => {
-  selectedTags.value = []
-  onSubmit()
+// 清空特定类别的标签
+const clearTagsByCategory = (category: TagCategory) => {
+  if (searchFormStore.form?.tags) {
+    searchFormStore.form.tags[category] = []
+    onSubmit()
+  }
 }
 
 const onSubmit = debounce(() => {
@@ -158,19 +278,19 @@ const onSubmit = debounce(() => {
 
 const onReset = debounce(() => {
   searchFormStore.resetForm()
-  selectedTags.value = []
   imageStore.queryImages()
 }, 300)
 
 const toggleSortDirection = () => {
-  searchFormStore.form.sortDirection = searchFormStore.form.sortDirection === 'asc' ? 'desc' : 'asc'
-  onSubmit()
+  if (searchFormStore.form?.sortDirection !== undefined) {
+    searchFormStore.form.sortDirection =
+      searchFormStore.form.sortDirection === 'asc' ? 'desc' : 'asc'
+    onSubmit()
+  } else if (searchFormStore.form) {
+    searchFormStore.form.sortDirection = 'desc'
+    onSubmit()
+  }
 }
-
-onMounted(() => {
-  // 假数据模拟，可替换为后端请求
-  allTags.value = ['vue', 'element', 'cooking', 'mint-ui', 'vuex', 'vue-router', 'babel']
-})
 </script>
 
 <style scoped>
@@ -221,10 +341,10 @@ onMounted(() => {
 }
 
 .tag-list {
+  margin-top: 8px;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 8px;
 }
 
 .clear-btn {
@@ -266,5 +386,29 @@ onMounted(() => {
   display: flex;
   justify-content: flex-end;
   margin-top: 8px;
+}
+
+.tag-category {
+  margin-bottom: 16px;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.category-title {
+  font-weight: bold;
+  color: #606266;
+}
+
+.el-tag {
+  margin-right: 6px;
+  margin-bottom: 6px;
 }
 </style>
