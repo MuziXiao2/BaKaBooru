@@ -4,7 +4,7 @@
       <ImagePreview />
     </template>
     <template #aside>
-      <Index />
+      <ImageInfo />
     </template>
   </ImageViewerLayout>
 </template>
@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import ImageViewerLayout from './ImageViewerLayout.vue'
 import ImagePreview from './ImagePreview.vue'
-import Index from './ImageInfo/index.vue'
+import ImageInfo from './ImageInfo/index.vue'
 </script>
 
 <style scoped></style>

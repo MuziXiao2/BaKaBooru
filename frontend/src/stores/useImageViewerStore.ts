@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getFileDetails, getImage, getImageFileUrl } from '@/api'
+import { getFileDetails, getImage, getImageFileUrl, getTags } from '@/api'
 import type { ImageDetail, FileDetail } from '@/types'
 
 export const useImageViewerStore = defineStore('currentImage', {
@@ -12,6 +12,7 @@ export const useImageViewerStore = defineStore('currentImage', {
     currentThumbnailFileUrls: [] as string[],
 
     currentImageDetail: null as ImageDetail | null,
+    currentImageTags: [] as string[],
     currentFileDetails: [] as FileDetail[],
     currentFileDetail: null as FileDetail | null,
   }),
@@ -48,9 +49,14 @@ export const useImageViewerStore = defineStore('currentImage', {
       if (this.isImageViewerOpen || this.currentImageUuid === uuid) return
 
       this.currentImageUuid = uuid
-      const [imageDetail, fileDetails] = await Promise.all([getImage(uuid), getFileDetails(uuid)])
+      const [imageDetail, imageTags, fileDetails] = await Promise.all([
+        getImage(uuid),
+        getTags(uuid),
+        getFileDetails(uuid),
+      ])
 
       this.currentImageDetail = imageDetail
+      this.currentImageTags = imageTags
       this.currentFileDetails = fileDetails
       this.currentFileDetail = fileDetails[0] || null
 

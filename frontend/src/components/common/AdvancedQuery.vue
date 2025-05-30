@@ -111,7 +111,13 @@ const handleTagsSubmit = () => {
   const newTags = tagInput.value
     .trim()
     .split(/\s+/)
-    .filter((tag) => tag && !searchFormStore.form.tags.includes(tag))
+    .filter(Boolean)
+    .reduce((unique: string[], tag: string) => {
+      if (!searchFormStore.form.tags.includes(tag) && !unique.includes(tag)) {
+        unique.push(tag)
+      }
+      return unique
+    }, [])
 
   if (newTags.length > 0) {
     searchFormStore.form.tags.push(...newTags)
@@ -149,29 +155,38 @@ const toggleSortDirection = () => {
 
 <style scoped>
 .tag-filter-container {
-  padding: 16px;
-  background-color: #f9f9f9;
-  border-right: 1px solid #ddd;
+  padding: 14px;
+  background-color: var(--el-bg-color);
+  border-right: 1px solid var(--el-border-color-light);
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+  color: var(--el-text-color-primary);
   display: block;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 60px;
 }
 
 .section-label {
   display: block;
-  font-size: 14px;
-  color: #606266;
-  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--el-text-color-regular);
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
 .search-section,
@@ -179,67 +194,68 @@ const toggleSortDirection = () => {
 .tag-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  background-color: var(--el-fill-color-blank);
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .search-keyword {
   width: 100%;
 }
 
-.autocomplete {
-  width: 100%;
-}
-
-.selected-tags {
-  margin-top: 8px;
-}
-
-.tag-list {
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.clear-btn {
-  color: #f56c6c;
-  font-size: 13px;
-  padding: 0;
+.search-keyword :deep(.el-input__inner) {
+  height: 40px;
+  font-size: 14px;
 }
 
 .sort-container {
   display: flex;
   gap: 8px;
   align-items: stretch;
+  height: 40px;
 }
 
 .search-sort {
   flex: 1;
 }
 
+.search-sort :deep(.el-input__wrapper) {
+  height: 40px;
+  line-height: 40px;
+}
+
+.search-sort :deep(.el-input__inner) {
+  height: 40px;
+  line-height: 40px;
+}
+
+.search-sort :deep(.el-select__tags) {
+  height: 100%;
+}
+
 .sort-direction {
-  min-width: 85px;
-  height: auto;
+  min-width: 90px;
+  height: 40px;
+  line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 8px 15px;
+  padding: 0 15px;
+  font-size: 14px;
+  margin: 0;
 }
 
 .sort-direction :deep(.el-icon) {
   margin: 0;
+  font-size: 16px;
 }
 
 .sort-prefix {
-  color: #909399;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
-}
-
-.search-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
 }
 
 .tag-input-container {
@@ -248,8 +264,67 @@ const toggleSortDirection = () => {
   gap: 8px;
 }
 
+.tag-input-container :deep(.el-input__inner) {
+  height: 40px;
+  font-size: 14px;
+}
+
+.tag-list {
+  min-height: 40px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 8px;
+  background-color: var(--el-fill-color-lighter);
+  border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: flex-start;
+}
+
+.tag-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tag-list::-webkit-scrollbar-thumb {
+  background-color: var(--el-border-color);
+  border-radius: 3px;
+}
+
+.tag-list::-webkit-scrollbar-track {
+  background-color: var(--el-fill-color-lighter);
+}
+
 .el-tag {
-  margin-right: 6px;
-  margin-bottom: 6px;
+  margin: 0;
+  transition: all 0.2s ease;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.el-tag :deep(.el-tag__close) {
+  right: -2px;
+  font-size: 14px;
+}
+
+.el-tag:hover {
+  transform: translateY(-1px);
+}
+
+.search-actions {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1;
+}
+
+.search-actions .el-button {
+  min-width: 90px;
+  height: 40px;
+  font-size: 14px;
 }
 </style>
