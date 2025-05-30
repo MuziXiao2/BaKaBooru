@@ -12,12 +12,16 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class MinIOUtil {
     private final MinioClient minioClient;
     private final String bucketName;
     private final int urlExpirySeconds;
+
+    private static final int MAX_RETRIES = 5;
+    private static final int RETRY_INTERVAL_SECONDS = 5;
 
     public MinIOUtil(MinioProperties properties) {
         this.bucketName = properties.getBucketName();
@@ -27,6 +31,8 @@ public class MinIOUtil {
                 .endpoint(properties.getEndpoint())
                 .credentials(properties.getAccessKey(), properties.getSecretKey())
                 .build();
+
+        waitForMinIO();
 
         try {
             if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())) {
@@ -38,8 +44,26 @@ public class MinIOUtil {
     }
 
     /**
-     * 上传文件到MinIO，objectKey由文件内容hash生成
+     * 等待 MinIO 启动并可用
      */
+    private void waitForMinIO() {
+        int attempts = 0;
+        while (attempts < MAX_RETRIES) {
+            try {
+                minioClient.listBuckets();
+                return; // 成功
+            } catch (Exception e) {
+                attempts++;
+                System.err.printf("等待 MinIO 启动中（第 %d/%d 次）...\n", attempts, MAX_RETRIES);
+                try {
+                    TimeUnit.SECONDS.sleep(RETRY_INTERVAL_SECONDS);
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+        throw new RuntimeException("等待 MinIO 启动失败，已超过最大重试次数");
+    }
+
     public FileUploadResponseDTO upload(String hash, MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("上传文件不能为空");
@@ -57,7 +81,7 @@ public class MinIOUtil {
             throw new RuntimeException("上传文件到MinIO失败", e);
         }
 
-        //获取图片宽高
+        // 获取图片宽高
         int width, height;
         try {
             BufferedImage image = ImageIO.read(file.getInputStream());
@@ -77,19 +101,10 @@ public class MinIOUtil {
             throw new RuntimeException("获取图片类型失败", e);
         }
 
-        // 获取图片大小
         Long size = file.getSize();
-
-        // 返回上传成功后的信息
         return new FileUploadResponseDTO(hash, type, size, width, height);
     }
 
-    /**
-     * 根据图片hash生成带令牌的临时访问URL
-     *
-     * @param objectKey 图片唯一标识（hash）
-     * @return 带令牌的临时访问URL
-     */
     public String generatePresignedUrl(String objectKey) {
         try {
             return minioClient.getPresignedObjectUrl(

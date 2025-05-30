@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ImageTagRepository extends JpaRepository<ImageTag, Long> {
-
+    List<ImageTag> findAllByUuid(String uuid);
 }

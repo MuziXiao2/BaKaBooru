@@ -32,6 +32,7 @@ const formatFileSize = (size: number): string => {
 
 const fileInfoList = computed(() => {
   if (!file.value) return []
+
   return [
     { label: '文件名', value: file.value.fileName || '未知' },
     { label: '文件类型', value: file.value.type || '未知' },

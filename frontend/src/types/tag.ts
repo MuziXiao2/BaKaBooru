@@ -1,14 +1,15 @@
-export interface TagDetail {
-  id: string
-  name: string
-  type: string
-  description: string
-  count: number
+export interface ImageTagDetail {
+  artist: string[]
+  character: string[]
+  copyright: string[]
+  general: string[]
+  meta: string[]
 }
 
-export interface TagView {
-  id: string
-  name: string
-  type: string
-  count: number
+export interface ImageTagQueryRequest {
+  artist?: string[]
+  character?: string[]
+  copyright?: string[]
+  general?: string[]
+  meta?: string[]
 }

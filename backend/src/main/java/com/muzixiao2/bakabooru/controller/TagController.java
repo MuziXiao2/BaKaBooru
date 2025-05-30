@@ -1,7 +1,6 @@
 package com.muzixiao2.bakabooru.controller;
 
 import com.muzixiao2.bakabooru.dto.ApiResponse;
-import com.muzixiao2.bakabooru.dto.tag.ImageTagResponseDTO;
 import com.muzixiao2.bakabooru.dto.tag.ImageTagDetailResponseDTO;
 import com.muzixiao2.bakabooru.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,11 +25,11 @@ public class TagController {
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid,
             @Parameter(description = "标签名", required = true, example = "kana")
-            @RequestParam("tagName") String tagName,
+            @RequestParam("name") String name,
             @Parameter(description = "标签类型", required = true, example = "character")
-            @RequestParam("tagType") String tagType
+            @RequestParam("type") String type
     ) {
-        ImageTagDetailResponseDTO tagDetailResponseDTO = tagService.addTag(uuid, tagName, tagType);
+        ImageTagDetailResponseDTO tagDetailResponseDTO = tagService.addTag(uuid, name, type);
         return ApiResponse.success(tagDetailResponseDTO);
     }
 
@@ -39,11 +38,11 @@ public class TagController {
             description = "获取图片内所有标签"
     )
     @GetMapping("/image/{uuid}/tag")
-    public ApiResponse<ImageTagResponseDTO> getTags(
+    public ApiResponse<ImageTagDetailResponseDTO> getTags(
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid
     ) {
-        ImageTagResponseDTO imageTagResponseDTO = tagService.getTags(uuid);
-        return ApiResponse.success(imageTagResponseDTO);
+        ImageTagDetailResponseDTO imageTagDetailResponseDTO = tagService.getTags(uuid);
+        return ApiResponse.success(imageTagDetailResponseDTO);
     }
 }

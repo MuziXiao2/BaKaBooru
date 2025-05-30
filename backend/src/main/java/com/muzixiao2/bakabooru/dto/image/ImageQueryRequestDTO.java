@@ -1,29 +1,33 @@
 package com.muzixiao2.bakabooru.dto.image;
 
+import com.muzixiao2.bakabooru.dto.tag.ImageTagQueryRequestDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class ImageQueryRequestDTO {
+
     @Schema(description = "标题关键字（模糊匹配）")
     private String keyword;
 
-    @Schema(description = "标签 ID 列表，例如 [\"character:john\", \"scene:beach\"]")
-    private List<String> tags;
+    @Schema(description = "标签条件，支持按类型过滤多个标签")
+    private ImageTagQueryRequestDTO tags;
 
-    @Schema(description = "排序字段", example = "title", defaultValue = "title")
-    private String sortBy = "title";
+    @Schema(description = "排序字段，可选：title, createdAt, updatedAt", example = "updatedAt", defaultValue = "updatedAt")
+    private String sortBy = "updatedAt";
 
-    @Schema(description = "顺序方向", example = "ASC", defaultValue = "ASC")
-    private String sortDirection = "ASC";
+    @Schema(description = "排序方向，可选：ASC 或 DESC", example = "DESC", defaultValue = "DESC")
+    private String sortDirection = "DESC";
 
-    @Schema(description = "页码，从 1 开始", example = "1", defaultValue = "1")
+    @Schema(description = "页码（从 1 开始）", example = "1", defaultValue = "1", minimum = "1")
     private Integer page = 1;
 
-    @Schema(description = "每页记录数", example = "10", defaultValue = "10")
-    private Integer size = 10;
+    @Schema(description = "每页数量", example = "20", defaultValue = "20", minimum = "1")
+    private Integer size = 20;
 }
+

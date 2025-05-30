@@ -1,53 +1,41 @@
 package com.muzixiao2.bakabooru.mapper;
 
 import com.muzixiao2.bakabooru.dto.tag.ImageTagDetailResponseDTO;
-import com.muzixiao2.bakabooru.dto.tag.ImageTagResponseDTO;
 import com.muzixiao2.bakabooru.entity.ImageTag;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ImageTagMapper {
+    default ImageTagDetailResponseDTO toResponseDTO(List<ImageTag> tags) {
+        ImageTagDetailResponseDTO dto = new ImageTagDetailResponseDTO();
 
-    @Mapping(target = "type", source = "type", qualifiedByName = "tagTypeToString")
-    ImageTagDetailResponseDTO toResponseDTO(ImageTag tag);
-
-    @Named("tagTypeToString")
-    static String tagTypeToString(ImageTag.TagType tagType) {
-        return tagType == null ? null : tagType.name().toLowerCase();
-    }
-
-    default ImageTagResponseDTO toResponseDTO(List<ImageTag> tags) {
-        ImageTagResponseDTO imageTagResponseDTO = new ImageTagResponseDTO();
-
-        imageTagResponseDTO.setGeneral(tags.stream()
-                .filter(tag -> tag.getType() == ImageTag.TagType.GENERAL)
+        dto.setArtist(tags.stream()
+                .filter(tag -> "artist".equals(tag.getType()))
                 .map(ImageTag::getName)
                 .toList());
 
-        imageTagResponseDTO.setCharacter(tags.stream()
-                .filter(tag -> tag.getType() == ImageTag.TagType.CHARACTER)
+        dto.setCharacter(tags.stream()
+                .filter(tag -> "character".equals(tag.getType()))
                 .map(ImageTag::getName)
                 .toList());
 
-        imageTagResponseDTO.setCopyright(tags.stream()
-                .filter(tag -> tag.getType() == ImageTag.TagType.COPYRIGHT)
+        dto.setCopyright(tags.stream()
+                .filter(tag -> "copyright".equals(tag.getType()))
                 .map(ImageTag::getName)
                 .toList());
 
-        imageTagResponseDTO.setArtist(tags.stream()
-                .filter(tag -> tag.getType() == ImageTag.TagType.ARTIST)
+        dto.setGeneral(tags.stream()
+                .filter(tag -> "general".equals(tag.getType()))
                 .map(ImageTag::getName)
                 .toList());
 
-        imageTagResponseDTO.setMeta(tags.stream()
-                .filter(tag -> tag.getType() == ImageTag.TagType.META)
+        dto.setMeta(tags.stream()
+                .filter(tag -> "meta".equals(tag.getType()))
                 .map(ImageTag::getName)
                 .toList());
 
-        return imageTagResponseDTO;
+        return dto;
     }
 }

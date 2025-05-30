@@ -8,24 +8,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "image_tag", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"imageUuid", "tagName", "tagType"})
+        @UniqueConstraint(columnNames = {"uuid", "name", "type"})
 })
 public class ImageTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "imageUuid", referencedColumnName = "uuid", insertable = false, updatable = false)
-    private Image image;
+    private String uuid;
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private TagType type;
+    private String type;
 
-    public enum TagType {
-        GENERAL, CHARACTER, COPYRIGHT, ARTIST, META
+    public static boolean isValidType(String type) {
+        return "general".equals(type) ||
+                "character".equals(type) ||
+                "copyright".equals(type) ||
+                "artist".equals(type) ||
+                "meta".equals(type);
     }
 }
 

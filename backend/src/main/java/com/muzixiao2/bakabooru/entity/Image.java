@@ -41,9 +41,6 @@ public class Image {
     @OrderColumn(name = "order_index")
     private List<ImageFile> imageFiles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ImageTag> imageTags = new ArrayList<>();
-
     //添加文件
     public ImageFile addImageFile(File file, String fileName) {
         ImageFile imageFile = new ImageFile();
@@ -82,15 +79,6 @@ public class Image {
 
         ImageFile item = list.remove(fromIndex);
         list.add(toIndex, item);
-    }
-
-    public ImageTag addTag(String tagName, String tagType) {
-        ImageTag imageTag = new ImageTag();
-        imageTag.setName(tagName);
-        imageTag.setType(ImageTag.TagType.valueOf(tagType.toUpperCase()));
-        imageTag.setImage(this);
-        this.imageTags.add(imageTag);
-        return imageTag;
     }
 
 }
