@@ -35,15 +35,6 @@ export const useImageViewerStore = defineStore('currentImage', {
   },
 
   actions: {
-    // 重置状态
-    resetState() {
-      this.currentImageUuid = null
-      this.currentImageDetail = null
-      this.currentFileDetails = []
-      this.currentFileIndex = 0
-      this.currentFileUrl = null
-    },
-
     // 打开图片信息
     async openImageViewer(uuid: string) {
       if (this.isImageViewerOpen || this.currentImageUuid === uuid) return
@@ -71,7 +62,17 @@ export const useImageViewerStore = defineStore('currentImage', {
 
     closeImageViewer() {
       if (!this.isImageViewerOpen) return
-      this.resetState()
+
+      this.currentImageUuid = null
+      this.currentFileIndex = 0
+      this.currentFileUrl = null
+      this.currentThumbnailFileUrls = []
+
+      this.currentImageDetail = null
+      this.currentImageTags = []
+      this.currentFileDetails = []
+      this.currentFileDetail = null
+
       this.isImageViewerOpen = false
     },
 

@@ -1,9 +1,10 @@
 <template>
   <ImageInfoLayout>
     <HeaderInfo />
-    <FileInfo />
-    <FileList />
     <TagList/>
+    <FileList />
+    <FileInfo />
+
 
     <template #actions>
       <el-button @click="handleClose">关闭</el-button>
