@@ -11,13 +11,7 @@
     >
       <template #default="{ item }">
         <div class="image-card" @click="handleImageClick(item)">
-          <el-image
-            :src="item.url"
-            :alt="item.title"
-            class="image"
-            fit="cover"
-            lazy
-          />
+          <el-image :src="item.url" :alt="item.title" class="image" fit="cover" lazy />
           <div class="image-title">{{ item.title }}</div>
         </div>
       </template>
@@ -77,28 +71,37 @@ onUnmounted(() => {
 <style scoped>
 .wall {
   padding: 1%;
+  background-color: var(--el-bg-color);
 }
 
 /* 图片卡片 */
 .image-card {
   width: 100%;
-  border: #b7b7b7 solid 1px;
-  border-radius: 5px;
+  border: 1px solid var(--el-border-color-light);
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition: var(--hover-transition);
   cursor: pointer;
+  background-color: var(--el-bg-color-overlay);
+  box-shadow: var(--el-box-shadow);
+}
+
+.image-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: var(--primary-color);
 }
 
 .image {
   width: 100%;
   height: auto;
   display: block;
-  transition: filter 0.1s ease;
+  transition: all 0.3s ease;
 }
 
 .image-card:hover .image {
-  filter: brightness(90%);
+  filter: brightness(1.1);
 }
 
 .image-title {
@@ -106,16 +109,16 @@ onUnmounted(() => {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 50%);
-  color: #fff;
+  background: var(--el-mask-color);
+  color: var(--el-text-color-primary);
   font-size: 14px;
   font-weight: 500;
   text-align: center;
+  padding: 8px;
   opacity: 0;
   transform: translateY(100%);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -131,6 +134,9 @@ onUnmounted(() => {
   text-align: center;
   padding: 20px;
   font-size: 16px;
-  color: #666;
+  color: var(--el-text-color-secondary);
+  background-color: var(--el-bg-color-overlay);
+  border-radius: 8px;
+  margin: 20px 0;
 }
 </style>

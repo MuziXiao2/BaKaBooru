@@ -78,11 +78,11 @@ const navigateImage = async (direction: number) => {
   align-items: center;
   width: 100%;
   overflow: hidden;
-  background: #f5f7fa; /* 添加背景色 */
+  background-color: var(--el-bg-color-overlay);
 }
 
 .image-viewer-preview {
-  max-width: calc(100% - 120px); /* 为按钮留出空间 */
+  max-width: calc(100% - 120px);
   max-height: 100%;
   width: auto;
   height: auto;
@@ -90,7 +90,7 @@ const navigateImage = async (direction: number) => {
 }
 
 .no-image {
-  color: #fff;
+  color: var(--el-text-color-regular);
   font-size: 16px;
 }
 
@@ -102,47 +102,47 @@ const navigateImage = async (direction: number) => {
   display: flex;
   justify-content: space-between;
   transform: translateY(-50%);
-  padding: 0 32px; /* 增加水平内边距 */
+  padding: 0 32px;
   pointer-events: none;
   z-index: 1000;
 }
 
 .nav-arrow {
-  background: rgba(255, 255, 255, 0.8); /* 增加背景不透明度 */
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: #606266;
-  width: 40px; /* 稍微减小按钮尺寸 */
+  background-color: var(--el-bg-color);
+  border: 1px solid var(--el-border-color-light);
+  color: var(--el-text-color-regular);
+  width: 40px;
   height: 40px;
   border-radius: 50%;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--el-box-shadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.9; /* 默认稍微透明 */
+  opacity: 0.9;
 }
 
 .nav-arrow:hover {
-  background: #ffffff;
-  color: #409eff;
-  border-color: #409eff;
-  box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
+  background-color: var(--el-bg-color);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 16px rgba(var(--primary-color), 0.2);
   transform: scale(1.05) translateX(0);
   opacity: 1;
 }
 
 .nav-arrow.left:hover {
-  transform: scale(1.05) translateX(-4px); /* 悬停时轻微向左移动 */
+  transform: scale(1.05) translateX(-4px);
 }
 
 .nav-arrow.right:hover {
-  transform: scale(1.05) translateX(4px); /* 悬停时轻微向右移动 */
+  transform: scale(1.05) translateX(4px);
 }
 
 .nav-arrow:disabled {
-  background: rgba(255, 255, 255, 0.5);
-  color: #909399;
+  background-color: var(--el-bg-color-overlay);
+  color: var(--el-text-color-secondary);
   border-color: transparent;
   box-shadow: none;
   cursor: not-allowed;

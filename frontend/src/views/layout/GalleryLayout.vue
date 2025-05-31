@@ -22,15 +22,16 @@
 }
 
 .content-container {
-  background-color: var(--background-color);
+  background-color: var(--el-bg-color-page);
 }
 
 .side {
   display: flex;
   flex-direction: column;
   width: 280px;
-  background: #ffffff;
-  border-right: 1px solid var(--border-color);
+  color: var(--el-text-color-primary);
+  border-right: 1px solid var(--el-border-color-light);
+  background-color: var(--el-bg-color);
   padding: 0;
   overflow-y: auto;
 }
@@ -39,7 +40,7 @@
   overflow: hidden;
   padding: 24px;
   height: calc(100vh - 120px);
-  background-color: var(--background-color);
+  background-color: var(--el-bg-color-page);
 }
 
 .footer {
@@ -48,8 +49,8 @@
   overflow: hidden;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
-  border-top: 1px solid var(--border-color);
+  background-color: var(--el-bg-color);
+  border-top: 1px solid var(--el-border-color-light);
   padding: 0 24px;
 }
 

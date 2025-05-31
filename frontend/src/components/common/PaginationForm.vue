@@ -61,13 +61,14 @@ const handlePageSizeChange = debounce(() => {
 .pagination-wrapper {
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--el-bg-color);
   position: sticky;
   bottom: 0;
   z-index: 10;
   gap: 20px;
   height: 100%;
   width: 100%;
+  border-top: 1px solid var(--el-border-color-light);
 }
 
 .page-size-select {
@@ -85,6 +86,6 @@ const handlePageSizeChange = debounce(() => {
 
 .page-info {
   font-size: 16px;
-  color: #333;
+  color: var(--el-text-color-primary);
 }
 </style>

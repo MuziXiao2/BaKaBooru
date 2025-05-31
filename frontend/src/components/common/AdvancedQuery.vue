@@ -156,7 +156,7 @@ const toggleSortDirection = () => {
 <style scoped>
 .tag-filter-container {
   padding: 16px;
-  background-color: #ffffff;
+  background-color: var(--el-bg-color);
   height: 100%;
   position: relative;
   display: flex;

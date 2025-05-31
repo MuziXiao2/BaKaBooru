@@ -37,6 +37,8 @@ function handleClick(index: number) {
   box-sizing: border-box;
   overflow-x: auto;
   overflow-y: hidden;
+  background-color: var(--el-bg-color);
+  border-radius: 4px;
 }
 
 .thumbnail-list :deep(.el-row) {
@@ -59,14 +61,15 @@ function handleClick(index: number) {
   object-fit: cover;
   border: 2px solid transparent;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: var(--hover-transition);
+  background-color: var(--el-bg-color-overlay);
 }
 
 .thumbnail:hover {
-  border-color: #66b1ff;
+  border-color: var(--primary-light);
 }
 
 .thumbnail.selected {
-  border-color: #409eff;
+  border-color: var(--primary-color);
 }
 </style>

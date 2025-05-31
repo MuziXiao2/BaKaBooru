@@ -34,22 +34,30 @@ const { currentImageTags } = storeToRefs(store)
 }
 
 .tag {
-  padding: 4px 12px;
-  background-color: var(--el-color-primary-light-9);
-  color: var(--el-color-primary);
-  border-radius: 4px;
+  padding: 6px 12px;
+  background-color: var(--el-bg-color-overlay);
+  color: var(--el-text-color-regular);
+  border: 1px solid var(--el-border-color-light);
+  border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--hover-transition);
+  user-select: none;
 }
 
 .tag:hover {
-  background-color: var(--el-color-primary-light-8);
-  transform: translateY(-1px);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(58, 123, 213, 0.2);
 }
 
 .tag-count {
   font-size: 14px;
   color: var(--el-text-color-secondary);
+  padding: 4px 0;
+  border-top: 1px solid var(--el-border-color-light);
+  margin-top: 8px;
 }
 </style>

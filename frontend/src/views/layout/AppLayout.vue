@@ -12,7 +12,7 @@
 <style scoped>
 .container {
   min-height: 100vh;
-  background-color: var(--background-color);
+  background-color: var(--el-bg-color-page);
 }
 
 .header {
@@ -20,9 +20,9 @@
   align-items: center;
   height: 60px;
   padding: 0 24px;
-  background-color: #ffffff;
-  border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 2px 4px var(--shadow-color);
+  background-color: var(--el-bg-color);
+  border-bottom: 1px solid var(--el-border-color-light);
+  box-shadow: var(--el-box-shadow);
   position: relative;
   z-index: 1000;
 }

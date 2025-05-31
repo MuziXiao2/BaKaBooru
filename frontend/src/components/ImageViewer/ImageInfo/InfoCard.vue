@@ -17,15 +17,33 @@ defineProps<{
 .info-card {
   padding: 16px;
   border-radius: 8px;
-  background: #f8f8f8;
+  background: var(--el-bg-color-overlay);
   margin-bottom: 16px;
+  border: 1px solid var(--el-border-color-light);
+  transition: var(--hover-transition);
+}
+
+.info-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: var(--el-box-shadow);
 }
 
 .title {
   font-size: 18px;
-  color: #333;
+  color: var(--el-text-color-primary);
   margin: 0 0 16px 0;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
 }
 
 .content {
