@@ -1,6 +1,6 @@
 package com.muzixiao2.bakabooru.util;
 
-import com.muzixiao2.bakabooru.config.MinioProperties;
+import com.muzixiao2.bakabooru.config.MinioConfig;
 import com.muzixiao2.bakabooru.dto.file.FileUploadResponseDTO;
 import io.minio.*;
 import io.minio.http.Method;
@@ -14,22 +14,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
-@Component
 public class MinIOUtil {
     private final MinioClient minioClient;
     private final String bucketName;
-    private final int urlExpirySeconds;
 
+    private static final int urlExpirySeconds = 3600;
     private static final int MAX_RETRIES = 5;
     private static final int RETRY_INTERVAL_SECONDS = 5;
 
-    public MinIOUtil(MinioProperties properties) {
-        this.bucketName = properties.getBucketName();
-        this.urlExpirySeconds = properties.getUrlExpiry() != null ? properties.getUrlExpiry() : 3600;
-        this.minioClient = MinioClient
-                .builder()
-                .endpoint(properties.getEndpoint())
-                .credentials(properties.getAccessKey(), properties.getSecretKey())
+    public MinIOUtil(MinioConfig config) {
+        this.bucketName = config.getBucketName();
+
+        this.minioClient = MinioClient.builder()
+                .endpoint(config.getEndpoint())
+                .credentials(config.getAccessKey(), config.getSecretKey())
                 .build();
 
         waitForMinIO();

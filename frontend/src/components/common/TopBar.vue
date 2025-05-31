@@ -10,9 +10,9 @@
     <div class="right">
       <el-button
         class="action-btn"
-        :class="{ 'is-active': isDark }"
-        :icon="isDark ? Sunny : Moon"
-        @click="toggleDark"
+        :class="{ 'is-active': isGalleryPage }"
+        :icon="HomeFilled"
+        @click="goToGallery"
       />
       <el-button
         class="action-btn"
@@ -20,12 +20,18 @@
         :icon="Setting"
         @click="goToSetting"
       />
+      <el-button
+        class="action-btn"
+        :class="{ 'is-active': isDark }"
+        :icon="isDark ? Sunny : Moon"
+        @click="toggleDark"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ArrowRight, Setting, Moon, Sunny } from '@element-plus/icons-vue'
+import { ArrowRight, Setting, Moon, Sunny, HomeFilled } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
 
@@ -34,6 +40,7 @@ const router = useRouter()
 const isDark = ref(false)
 
 const isSettingPage = computed(() => route.name === 'setting')
+const isGalleryPage = computed(() => route.name === 'gallery')
 
 const toggleDark = () => {
   isDark.value = !isDark.value
@@ -62,6 +69,10 @@ onMounted(() => {
 
 const goToSetting = () => {
   router.push({ name: 'setting' })
+}
+
+const goToGallery = () => {
+  router.push({ name: 'gallery' })
 }
 </script>
 

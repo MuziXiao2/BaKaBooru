@@ -18,7 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-
 @Tag(name = "文件管理", description = "用于管理图片文件的接口")
 public class FileController {
     private final FileService fileService;
