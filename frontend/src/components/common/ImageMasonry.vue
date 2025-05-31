@@ -1,24 +1,28 @@
 <template>
-  <el-scrollbar>
-    <masonry-wall
-      class="wall"
-      :items="images"
-      :column-width="300"
-      :gap="10"
-      :ssr-columns="1"
-      :min-columns="minColumns"
-      :max-columns="maxColumns"
-    >
-      <template #default="{ item }">
-        <div class="image-card" @click="handleImageClick(item)">
-          <el-image :src="item.url" :alt="item.title" class="image" fit="cover" lazy />
-          <div class="image-title">{{ item.title }}</div>
-        </div>
-      </template>
-    </masonry-wall>
-    <div v-if="loading" class="loading">加载中...</div>
-    <div v-if="!loading && images.length === 0" class="no-data">暂无图片</div>
-  </el-scrollbar>
+  <div class="masonry-container">
+    <el-scrollbar class="scrollbar-container">
+      <div class="wall-wrapper">
+        <masonry-wall
+          class="wall"
+          :items="images"
+          :column-width="300"
+          :gap="10"
+          :ssr-columns="1"
+          :min-columns="minColumns"
+          :max-columns="maxColumns"
+        >
+          <template #default="{ item }">
+            <div class="image-card" @click="handleImageClick(item)">
+              <el-image :src="item.url" :alt="item.title" class="image" fit="cover" lazy />
+              <div class="image-title">{{ item.title }}</div>
+            </div>
+          </template>
+        </masonry-wall>
+        <div v-if="loading" class="loading">加载中...</div>
+        <div v-if="!loading && images.length === 0" class="no-data">暂无图片</div>
+      </div>
+    </el-scrollbar>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -69,9 +73,30 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.wall {
-  padding: 1%;
+.masonry-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.scrollbar-container {
+  height: 100%;
+}
+
+.wall-wrapper {
+  min-height: 100vh;
+  height: 100%;
+  padding: 16px;
   background-color: var(--el-bg-color);
+}
+
+.wall {
+  height: 100%;
+}
+
+:deep(.masonry-wall) {
+  height: 100% !important;
+  min-height: inherit !important;
 }
 
 /* 图片卡片 */
@@ -138,5 +163,9 @@ onUnmounted(() => {
   background-color: var(--el-bg-color-overlay);
   border-radius: 8px;
   margin: 20px 0;
+}
+
+:deep(.el-scrollbar__wrap) {
+  overflow-x: hidden;
 }
 </style>

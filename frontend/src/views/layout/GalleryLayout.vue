@@ -19,10 +19,15 @@
 <style scoped>
 .gallery-container {
   height: calc(100vh - 60px);
+  display: flex;
 }
 
 .content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background-color: var(--el-bg-color-page);
+  min-width: 0; /* 防止flex子项溢出 */
 }
 
 .side {
@@ -34,13 +39,15 @@
   background-color: var(--el-bg-color);
   padding: 0;
   overflow-y: auto;
+  flex-shrink: 0; /* 防止侧边栏被压缩 */
 }
 
 .main {
+  flex: 1;
   overflow: hidden;
-  padding: 24px;
-  height: calc(100vh - 120px);
-  background-color: var(--el-bg-color-page);
+  padding: 0;
+  display: flex;
+  min-height: 0; /* 允许内容区域正确滚动 */
 }
 
 .footer {
@@ -52,15 +59,12 @@
   background-color: var(--el-bg-color);
   border-top: 1px solid var(--el-border-color-light);
   padding: 0 24px;
+  flex-shrink: 0; /* 防止footer被压缩 */
 }
 
 @media (max-width: 768px) {
   .side {
     width: 240px;
-  }
-
-  .main {
-    padding: 16px;
   }
 
   .footer {

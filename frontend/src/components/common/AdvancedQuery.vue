@@ -33,32 +33,20 @@
             :default-first-option="true"
             @change="onSubmit"
           >
-            <template #prefix>
-              <span class="sort-prefix">排序方式</span>
-            </template>
             <el-option label="最佳匹配" value="title" />
             <el-option label="创建日期" value="createdAt" />
             <el-option label="更新日期" value="updatedAt" />
           </el-select>
 
-          <el-tooltip
-            :content="
-              searchFormStore.form.sortDirection === 'asc'
-                ? '当前为升序，点击切换为降序'
-                : '当前为降序，点击切换为升序'
-            "
-            placement="top"
+          <el-button
+            :type="searchFormStore.form.sortDirection === 'asc' ? 'primary' : 'default'"
+            :icon="searchFormStore.form.sortDirection === 'asc' ? ArrowUp : ArrowDown"
+            class="sort-direction"
+            aria-label="切换排序方向"
+            @click="toggleSortDirection"
           >
-            <el-button
-              :type="searchFormStore.form.sortDirection === 'asc' ? 'primary' : 'default'"
-              :icon="searchFormStore.form.sortDirection === 'asc' ? ArrowUp : ArrowDown"
-              class="sort-direction"
-              aria-label="切换排序方向"
-              @click="toggleSortDirection"
-            >
-              {{ searchFormStore.form.sortDirection === 'asc' ? '升序' : '降序' }}
-            </el-button>
-          </el-tooltip>
+            {{ searchFormStore.form.sortDirection === 'asc' ? '升序' : '降序' }}
+          </el-button>
         </div>
       </div>
 
@@ -214,6 +202,7 @@ const toggleSortDirection = () => {
 
 .search-sort {
   flex: 1;
+
 }
 
 .search-sort :deep(.el-input__wrapper) {
@@ -228,7 +217,7 @@ const toggleSortDirection = () => {
 
 .sort-direction {
   min-width: 90px;
-  height: 36px;
+  height: 32px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
