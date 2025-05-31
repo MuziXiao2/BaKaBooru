@@ -18,19 +18,28 @@ public class Image {
     @Id
     @Column(nullable = false, unique = true, updatable = false)
     private String uuid = UUID.randomUUID().toString();
+
     //标题
     @Column(name = "title")
     private String title;
+
     //创建者
     @Column(name = "creator")
     private String creator;
+
     //描述
     @Column(name = "description")
     private String description;
+
+    //查看次数
+    @Column(name = "view_count")
+    private Long viewCount = 0L;
+
     //创建时间
     @Column(name = "created_at")
     @CreationTimestamp
     private Instant createdAt;
+
     //更新时间
     @Column(name = "updated_at")
     @UpdateTimestamp
@@ -58,6 +67,11 @@ public class Image {
         imageTags.clear();
         for (String tag : tags)
             imageTags.add(new ImageTag(this, tag));
+    }
+
+    //添加查看次数
+    public void incrementViewCount() {
+        this.viewCount++;
     }
 
     //获取标签

@@ -4,6 +4,7 @@ export interface ImageDetail {
   title: string
   creator: string
   description: string
+  viewCount: number
   createdAt: string
   updatedAt: string
   files: string[]

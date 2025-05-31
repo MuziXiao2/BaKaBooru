@@ -23,6 +23,7 @@ declare module 'vue' {
     ContextMenu: typeof import('./src/components/atlases/ContextMenu.vue')['default']
     CreateMenu: typeof import('./src/LAJI/CreateMenu.vue')['default']
     DefaultPage: typeof import('./src/LAJI/content/DefaultPage.vue')['default']
+    Description: typeof import('./src/components/ImageViewer/ImageInfo/Description.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAutocomplete: typeof import('element-plus/es')['ElAutocomplete']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

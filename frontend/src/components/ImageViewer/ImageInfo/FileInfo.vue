@@ -57,12 +57,22 @@ const fileInfoList = computed(() => {
 
 .info-row label {
   font-weight: 600;
-  color: #555;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .info-row span {
-  color: #333;
+  color: var(--text-primary);
   font-size: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .info-row label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .info-row span {
+    color: rgba(255, 255, 255, 0.9);
+  }
 }
 </style>

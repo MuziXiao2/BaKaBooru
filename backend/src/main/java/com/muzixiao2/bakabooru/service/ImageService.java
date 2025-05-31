@@ -37,9 +37,11 @@ public class ImageService {
     }
 
     // 获取图片详细信息
-    @Transactional(readOnly = true)
+    @Transactional
     public ImageDetailResponseDTO getImageDetail(String uuid) {
-        Image image = imageRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        Image image = imageRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        image.incrementViewCount();
         return imageMapper.toResponseDTO(image);
     }
 

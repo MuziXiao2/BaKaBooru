@@ -13,6 +13,7 @@ public class ImageDetailResponseDTO {
     private String title;
     private String creator;
     private String description;
+    private Long viewCount;
     private Instant createdAt;
     private Instant updatedAt;
 }
