@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useImageViewerStore } from '@/stores/useImageViewerStore'
+import { useImageViewerStore } from '@/stores/useImageViewerStore.ts'
 import { storeToRefs } from 'pinia'
 import InfoCard from './InfoCard.vue'
 

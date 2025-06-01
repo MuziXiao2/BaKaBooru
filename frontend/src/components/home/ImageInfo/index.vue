@@ -16,7 +16,7 @@ import ImageInfoLayout from './ImageInfoLayout.vue'
 import HeaderInfo from './HeaderInfo.vue'
 import FileInfo from './FileInfo.vue'
 import FileList from './FileList.vue'
-import TagList from '@/components/ImageViewer/ImageInfo/TagList.vue'
+import TagList from '@/components/home/ImageInfo/TagList.vue'
 
 defineOptions({
   name: 'ImageInfoPanel',
@@ -30,10 +30,4 @@ const handleClose = () => {
 </script>
 
 <style scoped>
-.tags-container {
-  min-height: 32px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
 </style>

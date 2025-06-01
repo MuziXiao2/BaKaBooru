@@ -27,12 +27,22 @@ public class ImageService {
     private final ImageMapper imageMapper;
     private final ImageRepository imageRepository;
 
+    // 更新图片描述
+    @Transactional
+    public ImageDetailResponseDTO updateImageDescription(String uuid, String description) {
+        Image image = imageRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        image.setDescription(description);
+        return imageMapper.toResponseDTO(image);
+    }
+
     // 添加图片
     @Transactional
     public ImageDetailResponseDTO addImage(ImageRequestDTO imageRequestDTO) {
         Image image = imageMapper.toEntity(imageRequestDTO);
         image = imageRepository.save(image);
-        image = imageRepository.findByUuid(image.getUuid()).orElseThrow(() -> new IllegalArgumentException("图片不存在"));
+        image = imageRepository.findByUuid(image.getUuid())
+                .orElseThrow(() -> new IllegalArgumentException("图片不存在"));
         return imageMapper.toResponseDTO(image);
     }
 

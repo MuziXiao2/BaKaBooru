@@ -15,6 +15,17 @@ export async function getImage(uuid: string): Promise<ImageDetail> {
   return response.data.data
 }
 
+//更新图片详情
+export async function updateImageDescription(
+  uuid: string,
+  description: string,
+): Promise<ImageDetail> {
+  const response = await api.put(baseUrl + `/image/${uuid}/description`, description, {
+    headers: { 'Content-Type': 'text/plain' },
+  })
+  return response.data.data
+}
+
 //查询图片
 export async function queryImages(params: ImageQueryParams): Promise<Page<ImageQuery>> {
   const response = await api.get(baseUrl + '/image', {

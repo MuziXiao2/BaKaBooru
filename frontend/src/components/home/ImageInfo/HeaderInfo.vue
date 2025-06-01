@@ -28,11 +28,32 @@
       </div>
     </div>
     <div class="description-wrapper">
-      <div class="description-content" :class="{ 'collapsed': !isExpanded }">
+      <div class="description-header" v-show="isExpanded">
+        <el-icon
+          v-if="!isEditing"
+          class="edit-button"
+          @click="startEdit"
+        >
+          <Edit />
+        </el-icon>
+      </div>
+      <div v-if="!isEditing" class="description-content" v-show="isExpanded">
         {{ currentImageDetail?.description || '暂无描述' }}
       </div>
-      <div v-if="currentImageDetail?.description" class="expand-button" @click="toggleExpand">
-        {{ isExpanded ? '收起' : '展开' }}
+      <el-input
+        v-else
+        v-model="editingDescription"
+        type="textarea"
+        :rows="4"
+        placeholder="请输入描述"
+        resize="none"
+      />
+      <div v-if="isEditing" class="edit-actions">
+        <el-button type="primary" size="small" @click="saveDescription">保存</el-button>
+        <el-button size="small" @click="cancelEdit">取消</el-button>
+      </div>
+      <div v-if="currentImageDetail?.description && !isEditing" class="expand-button" @click="toggleExpand">
+        <span>{{ isExpanded ? '收起描述' : '展开描述' }}</span>
         <el-icon class="expand-icon" :class="{ 'is-expanded': isExpanded }">
           <ArrowDown />
         </el-icon>
@@ -42,18 +63,47 @@
 </template>
 
 <script setup lang="ts">
-import { Clock, User, View, ArrowDown } from '@element-plus/icons-vue'
+import { Clock, User, View, ArrowDown, Edit } from '@element-plus/icons-vue'
 import InfoCard from './InfoCard.vue'
 import { useImageViewerStore } from '@/stores/useImageViewerStore.ts'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { updateImageDescription } from '@/api/image.ts'
+import { ElMessage } from 'element-plus'
 
 const imageViewerStore = useImageViewerStore()
 const { currentImageDetail } = storeToRefs(imageViewerStore)
 const isExpanded = ref(false)
+const isEditing = ref(false)
+const editingDescription = ref('')
 
 const toggleExpand = () => {
   isExpanded.value = !isExpanded.value
+}
+
+const startEdit = () => {
+  editingDescription.value = currentImageDetail.value?.description || ''
+  isEditing.value = true
+}
+
+const cancelEdit = () => {
+  isEditing.value = false
+  editingDescription.value = ''
+}
+
+const saveDescription = async () => {
+  try {
+    if (!currentImageDetail.value?.uuid) {
+      ElMessage.error('无法获取图片信息')
+      return
+    }
+    await updateImageDescription(currentImageDetail.value.uuid, editingDescription.value)
+    currentImageDetail.value.description = editingDescription.value
+    isEditing.value = false
+    ElMessage.success('描述更新成功')
+  } catch (error) {
+    ElMessage.error('保存失败，请重试')
+  }
 }
 </script>
 
@@ -71,6 +121,13 @@ const toggleExpand = () => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .meta {
+    grid-template-columns: 1fr;
+  }
 }
 
 .meta-item {
@@ -95,14 +152,35 @@ const toggleExpand = () => {
   font-size: 16px;
 }
 
-@media (max-width: 640px) {
-  .meta {
-    grid-template-columns: 1fr;
-  }
-}
-
 .description-wrapper {
   margin-top: 20px;
+  position: relative;
+}
+
+.description-header {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 1;
+}
+
+.edit-button {
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  color: var(--primary-color);
+  font-size: 16px;
+}
+
+.edit-button:hover {
+  opacity: 1;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
 }
 
 .description-content {
@@ -111,17 +189,12 @@ const toggleExpand = () => {
   color: var(--el-text-color-regular);
   white-space: pre-wrap;
   word-break: break-word;
-  transition: max-height 0.3s ease;
-  overflow: hidden;
+  transition: all 0.3s ease;
   padding: 12px 16px;
+  padding-right: 40px;
   background-color: var(--el-bg-color);
   border-radius: 6px;
-}
-
-.description-content.collapsed {
-  max-height: 100px;
-  position: relative;
-  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  margin-bottom: 8px;
 }
 
 .expand-button {

@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
-import { useImageStore } from '@/stores/useImageStore'
+import { useImageStore } from '@/stores/useImageStore.ts'
 import { storeToRefs } from 'pinia'
 
 const imageStore = useImageStore()

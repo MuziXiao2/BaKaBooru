@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import AppLayout from '@/views/layout/AppLayout.vue'
-import TopBar from '@/components/common/TopBar.vue'
+import TopBar from '@/components/home/TopBar.vue'
 </script>
 
 <style>

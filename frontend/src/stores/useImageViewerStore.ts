@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getFileDetails, getImage, getImageFileUrl, getTags } from '@/api'
+import { getFileDetails, getImage, getImageFileUrl, getTags, updateImageDescription } from '@/api'
 import type { ImageDetail, FileDetail } from '@/types'
 
 export const useImageViewerStore = defineStore('currentImage', {

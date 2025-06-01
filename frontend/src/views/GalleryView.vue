@@ -10,15 +10,15 @@
       <PaginationForm />
     </template>
   </GalleryLayout>
-  <Index v-if="currentImageDetail" />
+  <ImageViewer v-if="currentImageDetail" />
 </template>
 
 <script setup lang="ts">
-import ImageMasonry from '@/components/common/ImageMasonry.vue'
-import AdvancedQuery from '@/components/common/AdvancedQuery.vue'
+import ImageMasonry from '@/components/home/ImageMasonry.vue'
+import AdvancedQuery from '@/components/home/AdvancedQuery.vue'
 import GalleryLayout from '@/views/layout/GalleryLayout.vue'
-import PaginationForm from '@/components/common/PaginationForm.vue'
-import Index from '@/components/ImageViewer/index.vue'
+import PaginationForm from '@/components/home/PaginationForm.vue'
+import ImageViewer from '@/components/ImageViewer/index.vue'
 import { useImageStore } from '@/stores/useImageStore'
 import { useImageViewerStore } from '@/stores/useImageViewerStore.ts'
 import { onMounted } from 'vue'

@@ -21,6 +21,18 @@ public class ImageController {
     private final ImageService imageService;
 
     @Operation(
+            summary = "查询图片",
+            description = "根据条件筛选查询图片，支持分页"
+    )
+    @GetMapping("/image")
+    public ApiResponse<PageResponseDTO<ImageQueryResponseDTO>> queryImages(
+            @ParameterObject @ModelAttribute ImageQueryRequestDTO imageQueryRequestDTO
+    ) {
+        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(imageQueryRequestDTO);
+        return ApiResponse.success(pageResponse);
+    }
+
+    @Operation(
             summary = "添加图片",
             description = "添加新的图片",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -51,14 +63,17 @@ public class ImageController {
     }
 
     @Operation(
-            summary = "查询图片",
-            description = "根据条件筛选查询图片，支持分页"
+            summary = "修改图片描述",
+            description = "修改图片描述"
     )
-    @GetMapping("/image")
-    public ApiResponse<PageResponseDTO<ImageQueryResponseDTO>> queryImages(
-            @ParameterObject @ModelAttribute ImageQueryRequestDTO imageQueryRequestDTO
+    @PutMapping("/image/{uuid}/description")
+    public ApiResponse<ImageDetailResponseDTO> updateImageDescription(
+            @Parameter(description = "图片UUID", required = true)
+            @PathVariable("uuid") String uuid,
+            @RequestBody String description
     ) {
-        PageResponseDTO<ImageQueryResponseDTO> pageResponse = imageService.queryImages(imageQueryRequestDTO);
-        return ApiResponse.success(pageResponse);
+        ImageDetailResponseDTO imageDetailResponseDTO = imageService.updateImageDescription(uuid,description);
+        return ApiResponse.success(imageDetailResponseDTO);
     }
+
 }

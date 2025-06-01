@@ -85,7 +85,7 @@
 import { ref } from 'vue'
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { debounce } from 'lodash-es'
-import { useImageStore } from '@/stores/useImageStore'
+import { useImageStore } from '@/stores/useImageStore.ts'
 import { useQueryFormStore } from '@/stores/useQueryFormStore.ts'
 
 const imageStore = useImageStore()
