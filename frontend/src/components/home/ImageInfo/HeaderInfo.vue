@@ -29,11 +29,7 @@
     </div>
     <div class="description-wrapper">
       <div class="description-header" v-show="isExpanded">
-        <el-icon
-          v-if="!isEditing"
-          class="edit-button"
-          @click="startEdit"
-        >
+        <el-icon v-if="!isEditing" class="edit-button" @click="startEdit">
           <Edit />
         </el-icon>
       </div>
@@ -52,7 +48,11 @@
         <el-button type="primary" size="small" @click="saveDescription">保存</el-button>
         <el-button size="small" @click="cancelEdit">取消</el-button>
       </div>
-      <div v-if="currentImageDetail?.description && !isEditing" class="expand-button" @click="toggleExpand">
+      <div
+        v-if="currentImageDetail?.description && !isEditing"
+        class="expand-button"
+        @click="toggleExpand"
+      >
         <span>{{ isExpanded ? '收起描述' : '展开描述' }}</span>
         <el-icon class="expand-icon" :class="{ 'is-expanded': isExpanded }">
           <ArrowDown />
@@ -69,7 +69,6 @@ import { useImageViewerStore } from '@/stores/useImageViewerStore.ts'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { updateImageDescription } from '@/api/image.ts'
-import { ElMessage } from 'element-plus'
 
 const imageViewerStore = useImageViewerStore()
 const { currentImageDetail } = storeToRefs(imageViewerStore)
@@ -92,18 +91,10 @@ const cancelEdit = () => {
 }
 
 const saveDescription = async () => {
-  try {
-    if (!currentImageDetail.value?.uuid) {
-      ElMessage.error('无法获取图片信息')
-      return
-    }
-    await updateImageDescription(currentImageDetail.value.uuid, editingDescription.value)
-    currentImageDetail.value.description = editingDescription.value
-    isEditing.value = false
-    ElMessage.success('描述更新成功')
-  } catch (error) {
-    ElMessage.error('保存失败，请重试')
-  }
+  if (!currentImageDetail.value?.uuid) return
+  await updateImageDescription(currentImageDetail.value.uuid, editingDescription.value)
+  currentImageDetail.value.description = editingDescription.value
+  isEditing.value = false
 }
 </script>
 

@@ -1,14 +1,19 @@
 <template>
   <section class="info-card">
     <div class="header">
-      <el-icon
-        class="collapse-icon"
-        :class="{ 'is-collapsed': isCollapsed }"
-        @click="toggleCollapse"
-      >
-        <ArrowDown />
-      </el-icon>
-      <h3 v-if="title" class="title">{{ title }}</h3>
+      <div class="header-left">
+        <el-icon
+          class="collapse-icon"
+          :class="{ 'is-collapsed': isCollapsed }"
+          @click="toggleCollapse"
+        >
+          <ArrowDown />
+        </el-icon>
+        <h3 v-if="title" class="title">{{ title }}</h3>
+      </div>
+      <div class="header-right">
+        <slot name="extra"></slot>
+      </div>
     </div>
     <div class="content" v-show="!isCollapsed">
       <slot></slot>
@@ -49,8 +54,18 @@ const toggleCollapse = () => {
 .header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
   margin-bottom: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-right {
+  margin-left: auto;
 }
 
 .collapse-icon {

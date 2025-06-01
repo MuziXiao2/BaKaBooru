@@ -3,7 +3,9 @@ import { baseUrl } from '@/api/index.ts'
 
 //添加标签
 export async function addTags(uuid: string, tag: string): Promise<string[]> {
-  const response = await api.post(baseUrl + `/image/${uuid}/tag`, tag)
+  const response = await api.post(baseUrl + `/image/${uuid}/tag`, tag, {
+    headers: { 'Content-Type': 'text/plain' },
+  })
   return response.data.data
 }
 
