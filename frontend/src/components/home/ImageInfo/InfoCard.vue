@@ -1,16 +1,34 @@
 <template>
   <section class="info-card">
-    <h3 v-if="title" class="title">{{ title }}</h3>
-    <div class="content">
+    <div class="header">
+      <el-icon
+        class="collapse-icon"
+        :class="{ 'is-collapsed': isCollapsed }"
+        @click="toggleCollapse"
+      >
+        <ArrowDown />
+      </el-icon>
+      <h3 v-if="title" class="title">{{ title }}</h3>
+    </div>
+    <div class="content" v-show="!isCollapsed">
       <slot></slot>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { ArrowDown } from '@element-plus/icons-vue'
+import { ref } from 'vue'
+
 defineProps<{
   title?: string
 }>()
+
+const isCollapsed = ref(false)
+
+const toggleCollapse = () => {
+  isCollapsed.value = !isCollapsed.value
+}
 </script>
 
 <style scoped>
@@ -28,10 +46,32 @@ defineProps<{
   box-shadow: var(--el-box-shadow);
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.collapse-icon {
+  cursor: pointer;
+  color: var(--el-text-color-secondary);
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.collapse-icon:hover {
+  color: var(--primary-color);
+}
+
+.collapse-icon.is-collapsed {
+  transform: rotate(-90deg);
+}
+
 .title {
   font-size: 18px;
   color: var(--el-text-color-primary);
-  margin: 0 0 16px 0;
+  margin: 0;
   font-weight: 600;
   display: flex;
   align-items: center;
