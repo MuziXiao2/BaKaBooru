@@ -44,7 +44,7 @@ public class FileController {
             @Parameter(description = "图片UUID", required = true)
             @PathVariable("uuid") String uuid,
 
-            @RequestPart("sourceFile")
+            @RequestPart("file")
             @Schema(type = "string", format = "binary")
             MultipartFile sourceFile
     ) {

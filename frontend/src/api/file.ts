@@ -4,7 +4,13 @@ import type { FileDetail } from '@/types'
 
 //为图片添加图片文件
 export async function addFile(uuid: string, file: File): Promise<FileDetail> {
-  const response = await api.post(baseUrl + `/image/${uuid}/file`, file)
+  const formData = new FormData()
+  formData.append('file', file)
+  const response = await api.post(`${baseUrl}/image/${uuid}/file`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
   return response.data.data
 }
 

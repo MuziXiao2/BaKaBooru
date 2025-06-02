@@ -103,5 +103,22 @@ export const useImageViewerStore = defineStore('currentImage', {
     async getImageFileUrl(hash: string): Promise<string> {
       return await getImageFileUrl(hash)
     },
+
+    // 刷新当前图片
+    async refreshCurrentImage() {
+      if (!this.currentImageUuid) return
+
+      const [fileDetails] = await Promise.all([
+        getFileDetails(this.currentImageUuid),
+      ])
+
+      this.currentFileDetails = fileDetails
+      this.currentThumbnailFileUrls = []
+
+      for (const file of this.currentFileDetails) {
+        const fileUrl = await getImageFileUrl(file.hash)
+        this.currentThumbnailFileUrls.push(fileUrl)
+      }
+    },
   },
 })
