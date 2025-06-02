@@ -14,11 +14,10 @@
           </div>
         </el-col>
         <el-col :span="6" class="thumbnail-item">
-          <div
-            class="upload-box"
-            @click="handleUpload"
-          >
-            <el-icon :size="28"><Plus /></el-icon>
+          <div class="upload-box" @click="handleUpload">
+            <el-icon :size="28">
+              <Plus />
+            </el-icon>
           </div>
           <input
             type="file"
@@ -43,8 +42,11 @@ import { addFile } from '@/api/file'
 import { ElMessage } from 'element-plus'
 
 const imageViewerStore = useImageViewerStore()
-const { currentThumbnailFileUrls: urls, currentFileIndex: currentIndex, currentImageUuid } =
-  storeToRefs(imageViewerStore)
+const {
+  currentThumbnailFileUrls: urls,
+  currentFileIndex: currentIndex,
+  currentImageUuid,
+} = storeToRefs(imageViewerStore)
 
 const fileInput = ref<HTMLInputElement | null>(null)
 
@@ -62,14 +64,11 @@ async function onFileSelected(event: Event) {
   if (!input.files?.length || !currentImageUuid.value) return
 
   const file = input.files[0]
-  try {
-    await addFile(currentImageUuid.value, file)
-    ElMessage.success('文件上传成功')
-    // 刷新文件列表
-    await imageViewerStore.refreshCurrentImage()
-  } catch (error) {
-    ElMessage.error('文件上传失败')
-  }
+
+  await addFile(currentImageUuid.value, file)
+  ElMessage.success('文件上传成功')
+
+  await imageViewerStore.refreshCurrentImage()
 
   // 清空input，以便可以重复上传相同文件
   input.value = ''
