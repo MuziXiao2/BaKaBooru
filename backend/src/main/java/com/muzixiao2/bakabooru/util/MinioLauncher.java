@@ -1,6 +1,9 @@
 package com.muzixiao2.bakabooru.util;
 
 import com.muzixiao2.bakabooru.config.MinioConfig;
+import com.muzixiao2.bakabooru.config.MinioProperties;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,27 +11,35 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+@Component
+@RequiredArgsConstructor
 public class MinioLauncher {
+    private final MinioProperties properties;
 
-    public static MinioConfig launchMinio() throws IOException {
-        String exec = "backend/src/main/resources/bin/minio.exe";
-        File minioBin = new File(exec);
-        if (!minioBin.exists()) throw new FileNotFoundException("MinIO binary not found: " + exec);
+    public MinioConfig launchMinio() throws IOException {
+        File minioBin = new File(properties.getExecPath());
+        if (!minioBin.exists()) {
+            throw new FileNotFoundException("MinIO可执行文件未找到: " + properties.getExecPath() + 
+                "\n请下载MinIO可执行文件并在application.yml中配置正确的路径");
+        }
 
-        File dataDir = new File("data/minio");
+        File dataDir = new File(properties.getDataPath());
         dataDir.mkdirs();
 
         int port = getFreePort();
         int consolePort = getFreePort();
 
         ProcessBuilder builder = new ProcessBuilder(
-                minioBin.getAbsolutePath(), "server", dataDir.getAbsolutePath(),
+                minioBin.getAbsolutePath(),
+                "server",
+                dataDir.getAbsolutePath(),
                 "--address=:" + port,
                 "--console-address=:" + consolePort
         );
 
-        builder.environment().put("MINIO_ROOT_USER", "minioadmin");
-        builder.environment().put("MINIO_ROOT_PASSWORD", "minioadmin");
+        builder.environment().put("MINIO_ROOT_USER", properties.getRootUser());
+        builder.environment().put("MINIO_ROOT_PASSWORD", properties.getRootPassword());
 
         builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
@@ -39,11 +50,12 @@ public class MinioLauncher {
         waitForReady(port);
 
         String endpoint = "http://127.0.0.1:" + port;
-        String accessKey = "minioadmin";
-        String secretKey = "minioadmin";
-        String bucketName = "bakabooru";
-
-        return new MinioConfig(endpoint, accessKey, secretKey, bucketName);
+        return new MinioConfig(
+            endpoint,
+            properties.getRootUser(),
+            properties.getRootPassword(),
+            properties.getBucketName()
+        );
     }
 
     private static void waitForReady(int port) throws IOException {
@@ -52,7 +64,10 @@ public class MinioLauncher {
                 socket.connect(new InetSocketAddress("127.0.0.1", port), 300);
                 return;
             } catch (IOException e) {
-                try { Thread.sleep(500); } catch (InterruptedException ignored) {}
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {
+                }
             }
         }
         throw new RuntimeException("MinIO 启动超时");

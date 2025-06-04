@@ -5,7 +5,6 @@ import com.muzixiao2.bakabooru.dto.file.FileUploadResponseDTO;
 import io.minio.*;
 import io.minio.http.Method;
 import org.apache.tika.Tika;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
